@@ -22,10 +22,10 @@ function App() {
           count is {count}
         </button>
         <p>
-          Hello world
+          Hello world      CI/CD works!
         </p>
             <p>
-          CI/CD works!
+     
         </p>
       </div>
       <p className="read-the-docs">
