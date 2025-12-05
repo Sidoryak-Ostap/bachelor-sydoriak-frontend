@@ -5,8 +5,8 @@ function App() {
     <div>
       <>
         <h1>Main</h1>
-        <Link to="/signup">Signup</Link>
-        <Link to="/login">Login</Link>
+        <Link to="auth/signup">Signup</Link>
+        <Link to="auth/login">Login</Link>
         <Link to="/dashboard">Dashboard</Link>
       </>
     </div>

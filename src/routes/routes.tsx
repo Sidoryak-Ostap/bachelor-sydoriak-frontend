@@ -1,9 +1,9 @@
 import { createBrowserRouter } from 'react-router';
 import App from '../App';
-import { GoogleLoginButton } from '../components/GoogleLoginButton';
-import Dashboard from '../pages/Dashboard';
 import { PrivateRoute } from './PrivateRoute';
 import DashboardLayout from '../layouts/DashboardLayout';
+import SignIn from '../pages/SignIn';
+import SignUp from '../pages/SignUp';
 
 export const router = createBrowserRouter([
   {
@@ -11,17 +11,12 @@ export const router = createBrowserRouter([
     element: <App />,
   },
   {
-    path: '/signup',
-    element: <div>Signup</div>,
+    path: 'auth/signup',
+    element: <SignUp />,
   },
   {
-    path: '/login',
-    element: (
-      <div>
-        <div>Login</div>
-        <GoogleLoginButton />
-      </div>
-    ),
+    path: 'auth/login',
+    element: <SignIn />,
   },
   {
     path: '/dashboard',
