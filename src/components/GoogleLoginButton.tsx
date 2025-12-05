@@ -1,6 +1,5 @@
 import { GoogleLogin } from '@react-oauth/google';
 import axios from 'axios';
-import { useContext } from 'react';
 
 export const GoogleLoginButton = () => {
   const handleSuccess = async (response: any) => {
