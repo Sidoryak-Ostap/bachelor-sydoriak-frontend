@@ -7,6 +7,8 @@ import signUpSchema from './validation';
 import type { SignUpInputs } from './types';
 import FormInput from '../../components/FormInput';
 import { ROUTES } from '../../constants/ROUTES';
+import { useAuth } from '../../hooks/useAuth';
+import Loader from '../../components/Loader/Loader';
 
 const SignUp = () => {
   const {
@@ -17,7 +19,13 @@ const SignUp = () => {
     resolver: yupResolver(signUpSchema),
   });
 
-  const onSubmit: SubmitHandler<SignUpInputs> = data => console.log(data);
+  const { mutate, isPending } = useAuth('signup');
+
+  const onSubmit: SubmitHandler<SignUpInputs> = data => {
+    const { email, password } = data;
+
+    mutate({ email, password });
+  };
 
   return (
     <div className="w-full h-screen flex justify-between text-white">
@@ -61,12 +69,16 @@ const SignUp = () => {
             </p>
             <div className="bg-[#B5CBC7] h-0.5" />
           </div>
-          <button
-            type="submit"
-            className="px-16 py-2 border-2 bg-[#1A5E52] rounded-full cursor-pointer hover:scale-105  transition-transform duration-200 hover:bg-[#1c6a5c]"
-          >
-            <p className="text-white text-[22px] font-bold">Sign Up</p>
-          </button>
+          {!isPending && (
+            <button
+              disabled={isPending}
+              type="submit"
+              className="px-16 py-2 border-2 bg-[#1A5E52] rounded-full cursor-pointer hover:scale-105  transition-transform duration-200 hover:bg-[#1c6a5c]"
+            >
+              <p className="text-white text-[22px] font-bold">Sign Up</p>
+            </button>
+          )}
+          {isPending && <Loader />}
         </form>
       </div>
 
