@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { jwtDecode } from 'jwt-decode'; // Used to read the token payload
+import { jwtDecode } from 'jwt-decode';
 import { setUser, clearUser, setAuthLoading } from '../store/reducers/userSlice';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '../constants/ROUTES';
@@ -19,16 +19,11 @@ export const useAuthCheck = () => {
         const decodedUser: any = jwtDecode(token);
         const currentTime = Date.now() / 1000;
 
-        console.log('Decoded user: ', decodedUser);
-
         if (decodedUser.exp < currentTime) {
-          console.log('Access token expired. Logging out user.');
           localStorage.removeItem('accessToken');
           dispatch(clearUser());
           navigate(ROUTES.login, { replace: true });
         } else {
-          console.log('Access token valid. Rehydrating session.');
-
           dispatch(
             setUser({
               name: decodedUser.name,

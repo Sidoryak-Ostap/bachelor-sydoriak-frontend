@@ -9,6 +9,7 @@ import FormInput from '../../components/FormInput';
 import { ROUTES } from '../../constants/ROUTES';
 import { useAuth } from '../../hooks/useAuth';
 import Loader from '../../components/Loader/Loader';
+import GoogleButton from '../../components/GoogleButton';
 
 const SignIn = () => {
   const {
@@ -36,11 +37,12 @@ const SignIn = () => {
             Enter your personal details and start journey with us
           </p>
 
-          <div className="px-16 py-2 border-2 border-white rounded-full cursor-pointer">
-            <NavLink className="text-white text-[22px] font-bold" to={ROUTES.signup}>
-              Sign Up
-            </NavLink>
-          </div>
+          <NavLink
+            className="text-white text-[22px] font-bold px-16 py-2 border-2 border-white rounded-full cursor-pointer"
+            to={ROUTES.signup}
+          >
+            Sign Up
+          </NavLink>
         </div>
       </div>
 
@@ -50,9 +52,7 @@ const SignIn = () => {
           className="flex flex-col items-center justify-center mb-8"
         >
           <h2 className="text-[#1A5E52] text-[44px] font-bold">Sign in to AgroMap</h2>\
-          <div className="cursor-pointer mb-2.5">
-            <img className="w-14 h-14" src={IMG.googleAuthImg} alt="Google Authentication" />
-          </div>
+          <GoogleButton authType="login" />
           <p className="text-lg text-[#B0B0B0] mb-8">or use your email account:</p>
           <div className="flex flex-col justify-center items-center max-w-[350px] w-full gap-2.5 mb-9">
             <FormInput

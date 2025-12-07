@@ -9,6 +9,7 @@ import FormInput from '../../components/FormInput';
 import { ROUTES } from '../../constants/ROUTES';
 import { useAuth } from '../../hooks/useAuth';
 import Loader from '../../components/Loader/Loader';
+import GoogleButton from '../../components/GoogleButton';
 
 const SignUp = () => {
   const {
@@ -35,9 +36,7 @@ const SignUp = () => {
           className="flex flex-col items-center justify-center mb-8"
         >
           <h2 className="text-[#1A5E52] text-[44px] font-bold">Create Account</h2>\
-          <div className="cursor-pointer mb-2.5">
-            <img className="w-14 h-14" src={IMG.googleAuthImg} alt="Google Authentication" />
-          </div>
+          <GoogleButton authType="signup" />
           <p className="text-lg text-[#B0B0B0] mb-8">or use your email for registration:</p>
           <div className="flex flex-col justify-center items-center max-w-[350px] w-full gap-2.5 mb-9">
             <FormInput
@@ -89,11 +88,12 @@ const SignUp = () => {
             To keep connected with us please login with your personal info
           </p>
 
-          <div className="px-16 py-2 border-2 border-white rounded-full cursor-pointer">
-            <NavLink className="text-white text-[22px] font-bold" to={ROUTES.login}>
-              Sign In
-            </NavLink>
-          </div>
+          <NavLink
+            className="text-white text-[22px] font-bold px-16 py-2 border-2 border-white rounded-full cursor-pointer"
+            to={ROUTES.login}
+          >
+            Sign In
+          </NavLink>
         </div>
       </div>
     </div>
