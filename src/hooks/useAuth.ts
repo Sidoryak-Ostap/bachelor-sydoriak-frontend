@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux';
 import { setUser } from '../store/reducers/userSlice';
 import { ROUTES } from '../constants/ROUTES';
 
-export function useAuth(authType: 'login' | 'signup') {
+export const useAuth = (authType: 'login' | 'signup') => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -35,4 +35,4 @@ export function useAuth(authType: 'login' | 'signup') {
       toast.error(`${authType} failed: ${error.message}`);
     },
   });
-}
+};

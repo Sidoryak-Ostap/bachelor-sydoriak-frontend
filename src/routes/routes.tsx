@@ -4,6 +4,7 @@ import { PrivateRoute } from './PrivateRoute';
 import DashboardLayout from '../layouts/DashboardLayout';
 import SignIn from '../pages/SignIn';
 import SignUp from '../pages/SignUp';
+import { PasswordRecovery } from '../pages/PasswordRecovery/PasswordRecovery';
 
 export const router = createBrowserRouter([
   {
@@ -17,6 +18,10 @@ export const router = createBrowserRouter([
       {
         path: 'auth/login',
         element: <SignIn />,
+      },
+      {
+        path: 'auth/password-recovery',
+        element: <PasswordRecovery />,
       },
       {
         path: '/dashboard',
