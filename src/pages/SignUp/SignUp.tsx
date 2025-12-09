@@ -33,12 +33,12 @@ const SignUp = () => {
       <div className="bg-white w-2/3 h-full flex flex-col items-center justify-center">
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="flex flex-col items-center justify-center mb-8"
+          className="flex flex-col items-center justify-center"
         >
-          <h2 className="text-[#1A5E52] text-[44px] font-bold">Create Account</h2>\
+          <h2 className="text-[#1A5E52] text-[44px] font-bold">Create Account</h2>
           <GoogleButton authType="signup" />
-          <p className="text-lg text-[#B0B0B0] mb-8">or use your email for registration:</p>
-          <div className="flex flex-col justify-center items-center max-w-[350px] w-full gap-2.5 mb-9">
+          <p className="text-lg text-[#B0B0B0] mt-2 mb-5">or use your email for registration:</p>
+          <div className="flex flex-col justify-center items-center max-w-[350px] w-full gap-2.5 mb-6">
             <FormInput
               {...register('email')}
               error={errors.email}
@@ -61,12 +61,6 @@ const SignUp = () => {
               placeholder="Confirm Password"
               icon={<img className="w-7 h-7" src={IMG.lockedImg} />}
             />
-          </div>
-          <div className="mb-9">
-            <p className="text-black text-[18px]">
-              <NavLink to="#">Forgot your password?</NavLink>
-            </p>
-            <div className="bg-[#B5CBC7] h-0.5" />
           </div>
           {!isPending && (
             <button

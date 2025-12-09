@@ -1,10 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { set } from 'react-hook-form';
 
 interface IUserState {
   name: string | null;
   email: string | null;
-  token: string | null;
   role: string | null;
   isAuthorized: boolean;
   isAuthLoading: boolean;
@@ -13,7 +11,6 @@ interface IUserState {
 const initialState: IUserState = {
   name: null,
   email: null,
-  token: null,
   role: null,
   isAuthorized: false,
   isAuthLoading: false,
@@ -33,7 +30,6 @@ export const userSlice = createSlice({
     clearUser: state => {
       state.name = null;
       state.email = null;
-      state.token = null;
       state.role = null;
       state.isAuthorized = false;
     },
