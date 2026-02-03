@@ -4,3 +4,16 @@
 * {
   font-family: 'Maven Pro', sans-serif;
 }
+
+@theme {
+  --color-primary: #0f9b6e;
+  --color-grey: #f5f5f5;
+
+  --color-brand-light: #3eb992;
+  --color-brand: #0f9b6e;
+  --color-brand-dark: #0b7a56;
+}
+
+html {
+  scroll-behavior: smooth;
+}
