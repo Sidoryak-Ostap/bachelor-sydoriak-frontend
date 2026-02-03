@@ -24,7 +24,7 @@ const passwordRecoverySteps = [
   },
 ];
 
-export const PasswordRecovery = () => {
+const PasswordRecovery = () => {
   const [step, setStep] = useState<number>(0);
 
   return (
@@ -62,3 +62,5 @@ export const PasswordRecovery = () => {
     </div>
   );
 };
+
+export default PasswordRecovery;
