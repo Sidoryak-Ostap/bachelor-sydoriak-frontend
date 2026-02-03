@@ -14,7 +14,7 @@ type FormInputProps = {
 const FormInput = forwardRef<HTMLInputElement, FormInputProps>(
   ({ label, name, type = 'text', placeholder, icon, error, ...rest }, ref) => {
     return (
-      <div className="w-full max-w-[350px]">
+      <div className="w-full">
         <div
           className={`flex items-center gap-2 bg-[#EAF0EF] rounded-[10px] py-2 px-4 w-full border ${
             error ? 'border-red-500' : 'border-transparent'

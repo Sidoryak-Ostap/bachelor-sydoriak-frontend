@@ -7,6 +7,9 @@ import signUpSchema from './validation';
 import type { SignUpInputs } from './types';
 import FormInput from '../../components/FormInput';
 import { ROUTES } from '../../constants/ROUTES';
+import { useAuth } from '../../hooks/useAuth';
+import Loader from '../../components/Loader/Loader';
+import GoogleButton from '../../components/GoogleButton';
 
 const SignUp = () => {
   const {
@@ -17,21 +20,25 @@ const SignUp = () => {
     resolver: yupResolver(signUpSchema),
   });
 
-  const onSubmit: SubmitHandler<SignUpInputs> = data => console.log(data);
+  const { mutate, isPending } = useAuth('signup');
+
+  const onSubmit: SubmitHandler<SignUpInputs> = data => {
+    const { email, password } = data;
+
+    mutate({ email, password });
+  };
 
   return (
     <div className="w-full h-screen flex justify-between text-white">
       <div className="bg-white w-2/3 h-full flex flex-col items-center justify-center">
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="flex flex-col items-center justify-center mb-8"
+          className="flex flex-col items-center justify-center"
         >
-          <h2 className="text-[#1A5E52] text-[44px] font-bold">Create Account</h2>\
-          <div className="cursor-pointer mb-2.5">
-            <img className="w-14 h-14" src={IMG.googleAuthImg} alt="Google Authentication" />
-          </div>
-          <p className="text-lg text-[#B0B0B0] mb-8">or use your email for registration:</p>
-          <div className="flex flex-col justify-center items-center max-w-[350px] w-full gap-2.5 mb-9">
+          <h2 className="text-[#1A5E52] text-[44px] font-bold">Create Account</h2>
+          <GoogleButton authType="signup" />
+          <p className="text-lg text-[#B0B0B0] mt-2 mb-5">or use your email for registration:</p>
+          <div className="flex flex-col justify-center items-center max-w-[350px] w-full gap-2.5 mb-6">
             <FormInput
               {...register('email')}
               error={errors.email}
@@ -55,18 +62,16 @@ const SignUp = () => {
               icon={<img className="w-7 h-7" src={IMG.lockedImg} />}
             />
           </div>
-          <div className="mb-9">
-            <p className="text-black text-[18px]">
-              <NavLink to="#">Forgot your password?</NavLink>
-            </p>
-            <div className="bg-[#B5CBC7] h-0.5" />
-          </div>
-          <button
-            type="submit"
-            className="px-16 py-2 border-2 bg-[#1A5E52] rounded-full cursor-pointer hover:scale-105  transition-transform duration-200 hover:bg-[#1c6a5c]"
-          >
-            <p className="text-white text-[22px] font-bold">Sign Up</p>
-          </button>
+          {!isPending && (
+            <button
+              disabled={isPending}
+              type="submit"
+              className="px-16 py-2 border-2 bg-[#1A5E52] rounded-full cursor-pointer hover:scale-105  transition-transform duration-200 hover:bg-[#1c6a5c]"
+            >
+              <p className="text-white text-[22px] font-bold">Sign Up</p>
+            </button>
+          )}
+          {isPending && <Loader />}
         </form>
       </div>
 
@@ -77,11 +82,12 @@ const SignUp = () => {
             To keep connected with us please login with your personal info
           </p>
 
-          <div className="px-16 py-2 border-2 border-white rounded-full cursor-pointer">
-            <NavLink className="text-white text-[22px] font-bold" to={ROUTES.login}>
-              Sign In
-            </NavLink>
-          </div>
+          <NavLink
+            className="text-white text-[22px] font-bold px-16 py-2 border-2 border-white rounded-full cursor-pointer"
+            to={ROUTES.login}
+          >
+            Sign In
+          </NavLink>
         </div>
       </div>
     </div>
