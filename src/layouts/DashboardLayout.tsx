@@ -1,9 +1,29 @@
-import Dashboard from '../pages/Dashboard';
+import { Outlet, useNavigate } from 'react-router';
+import { ROUTES } from '@/constants/ROUTES';
+import Sidebar from '@/components/Sidebar';
+import TopBar from '@/components/TopBar';
 
 const DashboardLayout = () => {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    // Add logout logic here
+    localStorage.removeItem('accessToken');
+    navigate(ROUTES.login);
+  };
+
   return (
-    <div>
-      <Dashboard />
+    <div className="flex h-screen w-full overflow-hidden bg-gray-50">
+      <aside className="w-74 shrink-0 h-full border-r bg-white border-gray-200 overflow-y-auto custom-scrollbar">
+        <Sidebar />
+      </aside>
+
+      <main className="flex-1 h-full overflow-y-auto custom-scrollbar">
+        <TopBar />
+        <div className="w-full mt-20 px-3">
+          <Outlet />
+        </div>
+      </main>
     </div>
   );
 };
