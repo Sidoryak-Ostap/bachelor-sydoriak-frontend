@@ -8,6 +8,7 @@ import dividerImg from './images/icons/divider.svg';
 import uiImg from './images/intro/ui.svg';
 import fieldImg from './images/intro/field.svg';
 import circleTickImg from './images/icons/circle-tick.svg';
+import avatarImg from './images/icons/avatar.svg';
 
 export const IMG = {
   googleAuthImg,
@@ -18,6 +19,7 @@ export const IMG = {
   moreImg,
   dividerImg,
   circleTickImg,
+  avatarImg,
 
   // Intro
   uiImg,
