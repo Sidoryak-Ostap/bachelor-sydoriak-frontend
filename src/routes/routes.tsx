@@ -6,6 +6,7 @@ import SignIn from '../pages/SignIn';
 import SignUp from '../pages/SignUp';
 import PasswordRecovery from '../pages/PasswordRecovery';
 import Main from '../pages/Main';
+import Pricing from '@/pages/Dashboard/Pricing';
 
 export const router = createBrowserRouter([
   {
@@ -32,6 +33,12 @@ export const router = createBrowserRouter([
             <DashboardLayout />
           </PrivateRoute>
         ),
+        children: [
+          {
+            path: 'pricing',
+            element: <Pricing />,
+          },
+        ],
       },
     ],
   },

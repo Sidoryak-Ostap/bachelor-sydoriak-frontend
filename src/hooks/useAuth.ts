@@ -28,7 +28,7 @@ export const useAuth = (authType: 'login' | 'signup') => {
       authType === 'signup' &&
         toast.success('Sign-up successful! Welcome!', { position: 'top-right' });
 
-      navigate(ROUTES.dashboard, { replace: true });
+      navigate(ROUTES.dashboard.home, { replace: true });
     },
     onError: error => {
       console.error(`${authType} error:`, error.message);

@@ -9,7 +9,7 @@ const Header = () => {
   const navigate = useNavigate();
 
   const onGetStartedClick = () => {
-    if (isAuthorized) navigate(ROUTES.dashboard);
+    if (isAuthorized) navigate(ROUTES.dashboard.home);
     else navigate(ROUTES.login);
   };
 

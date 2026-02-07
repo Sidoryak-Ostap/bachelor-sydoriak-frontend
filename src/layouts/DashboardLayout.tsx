@@ -20,7 +20,7 @@ const DashboardLayout = () => {
 
       <main className="flex-1 h-full overflow-y-auto custom-scrollbar">
         <TopBar />
-        <div className="w-full mt-20 px-3">
+        <div className="w-full px-3">
           <Outlet />
         </div>
       </main>
