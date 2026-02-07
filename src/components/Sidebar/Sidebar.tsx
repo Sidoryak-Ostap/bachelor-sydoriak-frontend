@@ -1,5 +1,6 @@
 import { IMG } from '@/assets';
 import logo from '@/assets/logo.svg';
+import { ROUTES } from '@/constants/ROUTES';
 import {
   LayoutDashboard,
   Map,
@@ -17,7 +18,7 @@ const NAV_ITEMS = [
   { label: 'Dashboard', icon: LayoutDashboard, to: '' },
   { label: 'Map', icon: Map, to: '' },
   { label: 'Fields', icon: MapPinned, to: '' },
-  { label: 'Pricing', icon: CircleDollarSign, to: '' },
+  { label: 'Pricing', icon: CircleDollarSign, to: ROUTES.dashboard.pricing },
   { label: 'Profitability', icon: BanknoteArrowUp, to: '' },
   { label: 'Reports', icon: ChartColumnBig, to: '' },
 ];
@@ -53,7 +54,7 @@ const Sidebar = () => {
             <li>
               <Link
                 className="group flex items-center gap-2 px-3 py-2.5 rounded-xl hover:bg-primary transition-all duration-300 ease-in-out hover:translate-x-2 "
-                to=""
+                to={item.to}
               >
                 <Icon className="group-hover:text-white" size={18} />
                 <span className="text-sm text-black group-hover:text-white group-hover:font-bold">
@@ -75,7 +76,7 @@ const Sidebar = () => {
             <li>
               <Link
                 className="group flex items-center gap-2 px-3 py-2.5 rounded-xl hover:bg-primary transition-all duration-300 ease-in-out hover:translate-x-2 "
-                to=""
+                to={item.to}
               >
                 <Icon className="group-hover:text-white" size={18} />
                 <span className="text-sm text-black group-hover:text-white group-hover:font-bold">

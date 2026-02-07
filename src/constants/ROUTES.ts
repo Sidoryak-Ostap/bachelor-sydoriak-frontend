@@ -1,6 +1,9 @@
 export const ROUTES = {
   login: '/auth/login',
   signup: '/auth/signup',
-  dashboard: '/dashboard',
+  dashboard: {
+    home: '/dashboard',
+    pricing: '/dashboard/pricing',
+  },
   resetPassword: '/auth/password-recovery',
 };

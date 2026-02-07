@@ -30,7 +30,7 @@ const GoogleButton = ({ authType = 'login' }: { authType?: 'login' | 'signup' })
           })
         );
 
-        navigate(ROUTES.dashboard, { replace: true });
+        navigate(ROUTES.dashboard.home, { replace: true });
       } catch (error: unknown) {
         console.error(error);
         if (
