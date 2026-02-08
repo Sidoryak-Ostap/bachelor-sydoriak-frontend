@@ -4,6 +4,7 @@ export const ROUTES = {
   dashboard: {
     home: '/dashboard',
     pricing: '/dashboard/pricing',
+    faq: '/dashboard/faq',
   },
   resetPassword: '/auth/password-recovery',
 };

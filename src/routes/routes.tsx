@@ -7,6 +7,7 @@ import SignUp from '../pages/SignUp';
 import PasswordRecovery from '../pages/PasswordRecovery';
 import Main from '../pages/Main';
 import Pricing from '@/pages/Dashboard/Pricing';
+import FAQ from '@/pages/Dashboard/FAQ';
 
 export const router = createBrowserRouter([
   {
@@ -37,6 +38,10 @@ export const router = createBrowserRouter([
           {
             path: 'pricing',
             element: <Pricing />,
+          },
+          {
+            path: 'faq',
+            element: <FAQ />,
           },
         ],
       },
