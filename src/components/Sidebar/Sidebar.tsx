@@ -95,9 +95,12 @@ const Sidebar = () => {
           “Upgrade AgroMap today to unlock smarter insights and control”
         </p>
 
-        <button className="bg-primary rounded-xl text-white px-4 py-2 text-sm font-bold">
+        <Link
+          to={ROUTES.dashboard.pricing}
+          className="bg-primary rounded-xl text-white px-4 py-2 text-sm font-bold"
+        >
           Upgrade Your Plan
-        </button>
+        </Link>
       </div>
 
       <div className="text-center text-sm px-6">© 2026 AgromMap Inc. All rights reserved.</div>
