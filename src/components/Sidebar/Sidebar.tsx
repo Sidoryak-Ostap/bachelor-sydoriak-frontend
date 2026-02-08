@@ -25,7 +25,7 @@ const NAV_ITEMS = [
 
 const PREFERENCE_ITEMS = [
   { label: 'Settings', icon: Settings, to: '' },
-  { label: 'Help Center', icon: CircleQuestionMark, to: '' },
+  { label: 'Help Center', icon: CircleQuestionMark, to: ROUTES.dashboard.faq },
 ];
 
 const Sidebar = () => {
