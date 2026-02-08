@@ -8,6 +8,7 @@ import PasswordRecovery from '../pages/PasswordRecovery';
 import Main from '../pages/Main';
 import Pricing from '@/pages/Dashboard/Pricing';
 import FAQ from '@/pages/Dashboard/FAQ';
+import Profile from '@/pages/Dashboard/Profile';
 
 export const router = createBrowserRouter([
   {
@@ -42,6 +43,10 @@ export const router = createBrowserRouter([
           {
             path: 'faq',
             element: <FAQ />,
+          },
+          {
+            path: 'profile',
+            element: <Profile />,
           },
         ],
       },

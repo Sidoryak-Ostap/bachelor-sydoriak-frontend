@@ -5,6 +5,8 @@ export const ROUTES = {
     home: '/dashboard',
     pricing: '/dashboard/pricing',
     faq: '/dashboard/faq',
+    profile: '/dashboard/profile',
+    profileEdit: '/dashboard/profile/edit',
   },
   resetPassword: '/auth/password-recovery',
 };
