@@ -2,9 +2,10 @@ import { CircleQuestionMark, Settings } from 'lucide-react';
 import { Link } from 'react-router';
 import Search from '../Search';
 import { IMG } from '@/assets';
+import { ROUTES } from '@/constants/ROUTES';
 
 const LINKS = [
-  { label: 'Profile', to: '' },
+  { label: 'Profile', to: ROUTES.dashboard.profile },
   { label: 'Settings', to: '' },
   { label: 'Pricing', to: '' },
   { label: 'Exit', to: '', isDanger: true },
@@ -22,7 +23,7 @@ const TopBar = () => {
         <Search />
 
         <div className="px-5 border-x-2 border-gray-200  flex items-stretch gap-4 py-1.5">
-          <Link to="">
+          <Link to={ROUTES.dashboard.faq}>
             <CircleQuestionMark strokeWidth={1.5} className="text-black" size={24} />
           </Link>
           <Link to="">
@@ -41,7 +42,7 @@ const TopBar = () => {
             <ul className="py-3 px-4 flex flex-col gap-2 text-base">
               {LINKS.map(link => (
                 <li className={link.isDanger ? 'text-red-600 font-semibold' : ''} key={link.label}>
-                  <Link to="">{link.label}</Link>
+                  <Link to={link.to}>{link.label}</Link>
                 </li>
               ))}
             </ul>
