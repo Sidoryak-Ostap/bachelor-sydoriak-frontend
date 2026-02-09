@@ -13,7 +13,7 @@ const initialState: IUserState = {
   email: null,
   role: null,
   isAuthorized: false,
-  isAuthLoading: false,
+  isAuthLoading: true,
 };
 
 export const userSlice = createSlice({

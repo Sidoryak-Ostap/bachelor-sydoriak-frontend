@@ -1,17 +1,8 @@
-import { Outlet, useNavigate } from 'react-router';
-import { ROUTES } from '@/constants/ROUTES';
+import { Outlet } from 'react-router';
 import Sidebar from '@/components/Sidebar';
 import TopBar from '@/components/TopBar';
 
 const DashboardLayout = () => {
-  const navigate = useNavigate();
-
-  const handleLogout = () => {
-    // Add logout logic here
-    localStorage.removeItem('accessToken');
-    navigate(ROUTES.login);
-  };
-
   return (
     <div className="flex h-screen w-full overflow-hidden bg-gray-50">
       <aside className="w-74 shrink-0 h-full border-r bg-white border-gray-200 overflow-y-auto custom-scrollbar">

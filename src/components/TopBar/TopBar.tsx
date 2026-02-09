@@ -1,5 +1,5 @@
 import { CircleQuestionMark, Settings } from 'lucide-react';
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import Search from '../Search';
 import { IMG } from '@/assets';
 import { ROUTES } from '@/constants/ROUTES';
@@ -8,10 +8,17 @@ const LINKS = [
   { label: 'Profile', to: ROUTES.dashboard.profile },
   { label: 'Settings', to: '' },
   { label: 'Pricing', to: '' },
-  { label: 'Exit', to: '', isDanger: true },
 ];
 
 const TopBar = () => {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    // Add logout logic here
+    localStorage.removeItem('accessToken');
+    navigate(ROUTES.login, { replace: true });
+  };
+
   return (
     <div className="p-3 flex items-center justify-between border-b border-gray-200 sticky bg-white top-0 w-full z-10">
       <div>
@@ -41,10 +48,18 @@ const TopBar = () => {
           >
             <ul className="py-3 px-4 flex flex-col gap-2 text-base">
               {LINKS.map(link => (
-                <li className={link.isDanger ? 'text-red-600 font-semibold' : ''} key={link.label}>
+                <li key={link.label}>
                   <Link to={link.to}>{link.label}</Link>
                 </li>
               ))}
+              <li>
+                <button
+                  className="text-red-600 font-semibold cursor-pointer"
+                  onClick={handleLogout}
+                >
+                  Exit
+                </button>
+              </li>
             </ul>
           </div>
         </div>

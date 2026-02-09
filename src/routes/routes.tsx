@@ -9,6 +9,7 @@ import Main from '../pages/Main';
 import Pricing from '@/pages/Dashboard/Pricing';
 import FAQ from '@/pages/Dashboard/FAQ';
 import Profile from '@/pages/Dashboard/Profile';
+import ProfileEdit from '@/pages/Dashboard/ProfileEdit/ProfileEdit';
 
 export const router = createBrowserRouter([
   {
@@ -47,6 +48,11 @@ export const router = createBrowserRouter([
           {
             path: 'profile',
             element: <Profile />,
+          },
+
+          {
+            path: 'profile/edit',
+            element: <ProfileEdit />,
           },
         ],
       },
