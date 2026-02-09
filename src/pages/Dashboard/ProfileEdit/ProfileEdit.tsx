@@ -1,9 +1,35 @@
 import { IMG } from '@/assets';
+import FormInput from '@/components/FormInput';
+import { yupResolver } from '@hookform/resolvers/yup';
 import { ArrowLeft } from 'lucide-react';
+import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router';
+import { profileEditSchema } from './schema';
+import type { ProfileEditForm } from './types';
 
 const ProfileEdit = () => {
   const navigate = useNavigate();
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<ProfileEditForm>({
+    defaultValues: {
+      firstName: '',
+      lastName: '',
+      email: '',
+      role: '',
+      bio: '',
+      phone: '',
+      location: '',
+    },
+    resolver: yupResolver(profileEditSchema),
+  });
+
+  const onSubmit = (data: ProfileEditForm) => {
+    console.log(data);
+  };
 
   return (
     <div className="pb-10 pt-5 px-5">
@@ -38,54 +64,42 @@ const ProfileEdit = () => {
           </div>
         </div>
 
-        <form onSubmit={e => e.preventDefault()}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <div className="flex items-center gap-20 mb-5">
             <div className="w-full">
-              <label className="block text-base font-medium text-gray-700 mb-1" htmlFor="firstName">
-                First Name
-              </label>
-              <input
-                className="border bg-gray-100 border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none text-black "
-                type="text"
-                id="firstName"
+              <FormInput
+                label="First Name"
                 placeholder="Enter your first name"
+                {...register('firstName')}
+                error={errors.firstName}
               />
             </div>
 
             <div className="w-full">
-              <label className="block text-base font-medium text-gray-700 mb-1" htmlFor="lastName">
-                Last Name
-              </label>
-              <input
-                className="border bg-gray-100 border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none text-black "
-                type="text"
-                id="lastName"
+              <FormInput
+                label="Last Name"
                 placeholder="Enter your last name"
+                {...register('lastName')}
+                error={errors.lastName}
               />
             </div>
 
             <div className="w-full">
-              <label className="block text-base font-medium text-gray-700 mb-1" htmlFor="role">
-                Role
-              </label>
-              <input
-                className="border bg-gray-100 border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none text-black "
-                type="text"
-                id="role"
+              <FormInput
+                label="Role"
                 placeholder="Enter your role"
+                {...register('role')}
+                error={errors.role}
               />
             </div>
           </div>
 
           <div className="mb-8">
-            <label className="block text-base font-medium text-gray-700 mb-1" htmlFor="bio">
-              Bio
-            </label>
-            <textarea
-              id="bio"
-              className="border bg-gray-100 border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none text-black mb-5"
-              placeholder="Write something about you..."
-              rows={4}
+            <FormInput
+              label="Bio"
+              placeholder="Enter your bio"
+              {...register('bio')}
+              error={errors.bio}
             />
           </div>
 
@@ -99,41 +113,29 @@ const ProfileEdit = () => {
 
             <div className="flex items-center gap-20 ">
               <div className="w-full">
-                <label className="block text-base font-medium text-gray-700 mb-1" htmlFor="phone">
-                  Phone number
-                </label>
-                <input
-                  className="border bg-gray-100 border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none text-black "
-                  type="text"
-                  id="phone"
+                <FormInput
+                  label="Phone Number"
                   placeholder="Enter your phone number"
+                  {...register('phone')}
+                  error={errors.phone}
                 />
               </div>
 
               <div className="w-full">
-                <label className="block text-base font-medium text-gray-700 mb-1" htmlFor="email">
-                  Email address
-                </label>
-                <input
-                  className="border bg-gray-100 border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none text-black "
-                  type="email"
-                  id="email"
-                  placeholder="Enter your email address"
+                <FormInput
+                  label="Email"
+                  placeholder="Enter your email"
+                  {...register('email')}
+                  error={errors.email}
                 />
               </div>
 
               <div className="w-full">
-                <label
-                  className="block text-base font-medium text-gray-700 mb-1"
-                  htmlFor="location"
-                >
-                  Location
-                </label>
-                <input
-                  className="border bg-gray-100 border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none text-black "
-                  type="text"
-                  id="location"
+                <FormInput
+                  label="Location"
                   placeholder="Enter your location"
+                  {...register('location')}
+                  error={errors.location}
                 />
               </div>
             </div>

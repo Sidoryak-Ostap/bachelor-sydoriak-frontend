@@ -32,7 +32,7 @@ export const useAuthCheck = () => {
             })
           );
 
-          navigate(ROUTES.dashboard.home, { replace: true });
+          // navigate(ROUTES.dashboard.home, { replace: true });
         }
       } catch (error) {
         console.error('Invalid token format during check:', error);
