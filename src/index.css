@@ -149,6 +149,7 @@ html {
 
 @theme {
   --color-primary: #0f9b6e;
+  --color-primary-dark: #0b7a56;
   --color-grey: #f5f5f5;
 
   --color-brand-light: #3eb992;

@@ -7,6 +7,7 @@ export const ROUTES = {
     faq: '/dashboard/faq',
     profile: '/dashboard/profile',
     profileEdit: '/dashboard/profile/edit',
+    fields: '/dashboard/fields',
   },
   resetPassword: '/auth/password-recovery',
 };
