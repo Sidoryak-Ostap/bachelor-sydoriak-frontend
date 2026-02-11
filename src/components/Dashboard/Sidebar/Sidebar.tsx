@@ -15,8 +15,8 @@ import {
 import { Link } from 'react-router';
 
 const NAV_ITEMS = [
-  { label: 'Dashboard', icon: LayoutDashboard, to: '' },
-  { label: 'Map', icon: Map, to: '' },
+  { label: 'Dashboard', icon: LayoutDashboard, to: ROUTES.dashboard.home },
+  { label: 'Map', icon: Map, to: ROUTES.dashboard.map },
   { label: 'Fields', icon: MapPinned, to: ROUTES.dashboard.fields },
   { label: 'Pricing', icon: CircleDollarSign, to: ROUTES.dashboard.pricing },
   { label: 'Profitability', icon: BanknoteArrowUp, to: '' },

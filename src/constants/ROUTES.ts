@@ -8,6 +8,7 @@ export const ROUTES = {
     profile: '/dashboard/profile',
     profileEdit: '/dashboard/profile/edit',
     fields: '/dashboard/fields',
+    map: '/dashboard/map',
   },
   resetPassword: '/auth/password-recovery',
 };
