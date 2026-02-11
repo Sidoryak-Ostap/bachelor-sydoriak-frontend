@@ -47,7 +47,7 @@ const FormInput = forwardRef<HTMLInputElement, FormInputProps>(
             />
           </div>
           {error && (
-            <span className="text-red-500 text-base mt-1">
+            <span className="text-red-500 text-sm mt-1">
               {capitalizeFirstLetter(error.message || '')}
             </span>
           )}

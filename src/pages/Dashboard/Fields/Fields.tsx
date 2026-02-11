@@ -1,3 +1,4 @@
+import AddField from '@/components/Dashboard/AddField';
 import FieldsFilter from '@/components/Dashboard/FieldsFilter';
 import Table from '@/components/Dashboard/Table';
 import { Plus, Funnel, SearchIcon } from 'lucide-react';
@@ -104,6 +105,7 @@ const mockFields = [
 
 const Fields = () => {
   const [showFilter, setShowFilter] = useState<boolean>(false);
+  const [addField, setAddField] = useState<boolean>(false);
 
   return (
     <div className="px-5 py-6">
@@ -132,7 +134,10 @@ const Fields = () => {
             Filters
           </button>
         </div>
-        <button className="bg-primary flex items-center px-4 py-2 text-white gap-2 text-base rounded-lg cursor-pointer font-medium">
+        <button
+          onClick={() => setAddField(true)}
+          className="bg-primary  hover:bg-primary-dark flex items-center px-4 py-2 text-white gap-2 text-base rounded-lg cursor-pointer font-medium"
+        >
           <Plus size={22} className="text-white" /> Add Field
         </button>
       </div>
@@ -142,6 +147,7 @@ const Fields = () => {
         <Table maxRows={6} data={mockFields} />
       </div>
       {showFilter && <FieldsFilter setOpen={setShowFilter} />}
+      {addField && <AddField setOpen={setAddField} />}
     </div>
   );
 };
