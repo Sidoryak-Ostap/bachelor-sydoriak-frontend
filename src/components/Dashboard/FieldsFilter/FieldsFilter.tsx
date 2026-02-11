@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { Slider } from '@/components/ui/slider';
 import { CROP_TYPES, SOIL_TYPES } from './constants';
-import { set } from 'react-hook-form';
 
 type FieldsFilterProps = {
   setOpen: (open: boolean) => void;
@@ -31,7 +30,7 @@ const FieldsFilter = ({ setOpen }: FieldsFilterProps) => {
   return (
     <div
       onClick={() => setOpen(false)}
-      className="fixed inset-0 flex items-center justify-center bg-black/50 z-50"
+      className="fixed inset-0 flex items-center justify-center bg-black/50 z-50  backdrop-blur-[0.5px]"
     >
       <div
         onClick={e => e.stopPropagation()}
@@ -114,7 +113,10 @@ const FieldsFilter = ({ setOpen }: FieldsFilterProps) => {
         </div>
 
         <div className="flex items-center justify-between gap-5 mt-10">
-          <button className="py-2 px-5.5 text-sm bg-gray-100 border border-gray-400 font-bold rounded-lg w-full cursor-pointer hover:bg-gray-200">
+          <button
+            onClick={() => setOpen(false)}
+            className="py-2 px-5.5 text-sm bg-gray-100 border border-gray-400 font-bold rounded-lg w-full cursor-pointer hover:bg-gray-200"
+          >
             Cancel
           </button>
           <button className="py-2 px-5.5 text-sm bg-primary border border-primary text-white font-bold rounded-lg w-full  cursor-pointer hover:bg-primary-dark">
