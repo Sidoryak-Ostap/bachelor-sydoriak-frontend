@@ -11,6 +11,7 @@ import FAQ from '@/pages/Dashboard/FAQ';
 import Profile from '@/pages/Dashboard/Profile';
 import ProfileEdit from '@/pages/Dashboard/ProfileEdit/ProfileEdit';
 import Fields from '@/pages/Dashboard/Fields';
+import Map from '@/pages/Dashboard/Map';
 
 export const router = createBrowserRouter([
   {
@@ -58,6 +59,10 @@ export const router = createBrowserRouter([
           {
             path: 'fields',
             element: <Fields />,
+          },
+          {
+            path: 'map',
+            element: <Map />,
           },
         ],
       },
