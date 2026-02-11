@@ -106,6 +106,17 @@ const mockFields = [
 const Fields = () => {
   const [showFilter, setShowFilter] = useState<boolean>(false);
   const [addField, setAddField] = useState<boolean>(false);
+  const [searchQuery, setSearchQuery] = useState<string>('');
+
+  const searchedFields = mockFields.filter(field => {
+    const query = searchQuery.toLowerCase();
+    return (
+      field.ownerName.toLowerCase().includes(query) ||
+      field.address.toLowerCase().includes(query) ||
+      field.crop.toLowerCase().includes(query) ||
+      field.soil.toLowerCase().includes(query)
+    );
+  });
 
   return (
     <div className="px-5 py-6">
@@ -124,6 +135,8 @@ const Fields = () => {
               type="text"
               placeholder="Search..."
               className="ml-2 outline-none border-none w-full text-gray-400 text-base"
+              value={searchQuery}
+              onChange={e => setSearchQuery(e.target.value)}
             />
           </div>
           <button
@@ -143,8 +156,10 @@ const Fields = () => {
       </div>
 
       <div className="flex flex-col gap-2">
-        <h3 className="text-base font-bold ">{mockFields.length} Fields</h3>
-        <Table maxRows={6} data={mockFields} />
+        <h3 className="text-base font-bold ">
+          {searchQuery.length > 0 ? searchedFields.length : mockFields.length} Fields
+        </h3>
+        <Table maxRows={6} data={searchQuery.length > 0 ? searchedFields : mockFields} />
       </div>
       {showFilter && <FieldsFilter setOpen={setShowFilter} />}
       {addField && <AddField setOpen={setAddField} />}
