@@ -1,8 +1,9 @@
 import { CircleQuestionMark, Settings } from 'lucide-react';
-import { Link, useNavigate } from 'react-router';
+import { Link, useLocation, useNavigate } from 'react-router';
 import Search from '../Search';
 import { IMG } from '@/assets';
 import { ROUTES } from '@/constants/ROUTES';
+import { NAVIGATION_METADATA } from './navigationConfig';
 
 const LINKS = [
   { label: 'Profile', to: ROUTES.dashboard.profile },
@@ -12,6 +13,11 @@ const LINKS = [
 
 const TopBar = () => {
   const navigate = useNavigate();
+  const pathname = useLocation().pathname;
+
+  console.log('pathname: ', pathname);
+
+  const currentPage = NAVIGATION_METADATA.find(page => pathname.includes(page.pathname));
 
   const handleLogout = () => {
     // Add logout logic here
@@ -22,8 +28,8 @@ const TopBar = () => {
   return (
     <div className="p-3 flex items-center justify-between border-b border-gray-200 sticky bg-white top-0 w-full z-10">
       <div>
-        <h2 className="text-primary font-semibold text-base mb-1">Pricing</h2>
-        <p className="text-sm text-gray-400">“Choose a plan what will help you to become better”</p>
+        <h2 className="text-primary font-semibold text-base mb-1">{currentPage?.title}</h2>
+        <p className="text-sm text-gray-400">{currentPage?.description}</p>
       </div>
 
       <div className="flex items-center gap-4">
