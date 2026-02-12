@@ -12,6 +12,7 @@ import Profile from '@/pages/Dashboard/Profile';
 import ProfileEdit from '@/pages/Dashboard/ProfileEdit/ProfileEdit';
 import Fields from '@/pages/Dashboard/Fields';
 import Map from '@/pages/Dashboard/Map';
+import FieldDetails from '@/pages/Dashboard/FieldDetails';
 
 export const router = createBrowserRouter([
   {
@@ -59,6 +60,10 @@ export const router = createBrowserRouter([
           {
             path: 'fields',
             element: <Fields />,
+          },
+          {
+            path: 'fields/:id',
+            element: <FieldDetails />,
           },
           {
             path: 'map',
