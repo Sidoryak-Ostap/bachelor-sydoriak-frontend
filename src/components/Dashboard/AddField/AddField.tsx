@@ -5,6 +5,10 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { X } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { addFieldSchema } from './schema';
+import { useDispatch } from 'react-redux';
+import { setFieldInfo } from '@/store/reducers/createFieldSlice';
+import { useNavigate } from 'react-router';
+import { ROUTES } from '@/constants/ROUTES';
 
 type AddFieldProps = {
   setOpen: (open: boolean) => void;
@@ -19,15 +23,21 @@ const AddField = ({ setOpen }: AddFieldProps) => {
   } = useForm<{
     fieldName: string;
     address: string;
-    size: string;
+    owner: string;
+    area: number;
     cropType: string;
     soilType: string;
   }>({
     resolver: yupResolver(addFieldSchema),
   });
 
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const onSubmit = (data: any) => {
-    console.log(data);
+    dispatch(setFieldInfo(data));
+    setOpen(false);
+    navigate(ROUTES.dashboard.map);
   };
 
   return (
@@ -55,6 +65,14 @@ const AddField = ({ setOpen }: AddFieldProps) => {
 
           <FormInput
             inputStyles="placeholder:text-gray-500"
+            {...register('owner')}
+            error={errors.owner}
+            type="text"
+            placeholder="Owner"
+          />
+
+          <FormInput
+            inputStyles="placeholder:text-gray-500"
             {...register('address')}
             error={errors.address}
             type="text"
@@ -63,10 +81,11 @@ const AddField = ({ setOpen }: AddFieldProps) => {
 
           <FormInput
             inputStyles="placeholder:text-gray-500"
-            {...register('size')}
-            error={errors.size}
-            type="text"
-            placeholder="Size"
+            {...register('area')}
+            error={errors.area}
+            type="number"
+            placeholder="Area"
+            step="any"
           />
 
           <FormSelect
