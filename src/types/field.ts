@@ -11,8 +11,9 @@ export type CreateFieldPayload = {
   };
 };
 
-export type FieldResponse = {
-  _id: string;
+export type Field = {
+  id: string;
   userId: string;
   createdAt: string;
+  previewUrl: string;
 } & CreateFieldPayload;

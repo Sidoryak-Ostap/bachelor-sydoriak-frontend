@@ -1,122 +1,33 @@
 import AddField from '@/components/Dashboard/AddField';
 import FieldsFilter from '@/components/Dashboard/FieldsFilter';
 import Table from '@/components/Dashboard/Table';
+import { useGetFields } from '@/hooks/fields/useGetFields';
+import type { Field } from '@/types/field';
 import { Plus, Funnel, SearchIcon } from 'lucide-react';
-import { useState } from 'react';
-
-const mockFields = [
-  {
-    id: 1,
-    ownerName: 'Остап Сидоряк',
-    size: '12.5 ha',
-    address: 'Львівська обл., с. Сокільники',
-    soil: 'Чорнозем',
-    crop: 'Пшениця',
-  },
-  {
-    id: 2,
-    ownerName: 'Іван Петренко',
-    size: '5.2 ha',
-    address: 'Тернопільська обл., м. Збараж',
-    soil: 'Піщаний',
-    crop: 'Кукурудза',
-  },
-  {
-    id: 3,
-    ownerName: 'Марія Коваль',
-    size: '20.0 ha',
-    address: 'Київська обл., м. Буча',
-    soil: 'Суглинок',
-    crop: 'Соняшник',
-  },
-  {
-    id: 4,
-    ownerName: 'Андрій Шевченко',
-    size: '45.8 ha',
-    address: 'Полтавська обл., с. Решетилівка',
-    soil: 'Типовий чорнозем',
-    crop: 'Рапс',
-  },
-  {
-    id: 5,
-    ownerName: 'Олена Бондар',
-    size: '8.3 ha',
-    address: 'Вінницька обл., м. Жмеринка',
-    soil: 'Сірий лісовий',
-    crop: 'Ячмінь',
-  },
-  {
-    id: 6,
-    ownerName: 'Віктор Павлик',
-    size: '100.0 ha',
-    address: 'Одеська обл., м. Білгород-Дністровський',
-    soil: 'Каштановий',
-    crop: 'Виноград',
-  },
-  {
-    id: 7,
-    ownerName: 'Дмитро Козак',
-    size: '15.4 ha',
-    address: 'Черкаська обл., с. Мошни',
-    soil: 'Опідзолений чорнозем',
-    crop: 'Соя',
-  },
-  {
-    id: 8,
-    ownerName: 'Наталія Савченко',
-    size: '3.7 ha',
-    address: 'Закарпатська обл., м. Мукачево',
-    soil: 'Бурозем',
-    crop: 'Картопля',
-  },
-  {
-    id: 9,
-    ownerName: 'Сергій Ткаченко',
-    size: '62.1 ha',
-    address: 'Дніпропетровська обл., с. Слобожанське',
-    soil: 'Звичайний чорнозем',
-    crop: 'Цукровий буряк',
-  },
-  {
-    id: 10,
-    ownerName: 'Юлія Мороз',
-    size: '11.0 ha',
-    address: 'Харківська обл., м. Чугуїв',
-    soil: 'Солонцюватий',
-    crop: 'Жито',
-  },
-  {
-    id: 11,
-    ownerName: 'Олександр Кравченко',
-    size: '27.4 ha',
-    address: 'Херсонська обл., м. Каховка',
-    soil: 'Темно-каштановий',
-    crop: 'Кавун',
-  },
-  {
-    id: 12,
-    ownerName: 'Тетяна Лисенко',
-    size: '18.9 ha',
-    address: 'Чернігівська обл., с. Козелець',
-    soil: 'Дерново-підзолистий',
-    crop: 'Овес',
-  },
-];
+import { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 
 const Fields = () => {
   const [showFilter, setShowFilter] = useState<boolean>(false);
   const [addField, setAddField] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState<string>('');
 
-  const searchedFields = mockFields.filter(field => {
+  const { isPending, data: fieldsData, error, isError } = useGetFields();
+
+  const searchedFields = fieldsData?.filter((field: Field) => {
     const query = searchQuery.toLowerCase();
     return (
-      field.ownerName.toLowerCase().includes(query) ||
+      field.name.toLowerCase().includes(query) ||
       field.address.toLowerCase().includes(query) ||
-      field.crop.toLowerCase().includes(query) ||
-      field.soil.toLowerCase().includes(query)
+      field.cropType.toLowerCase().includes(query) ||
+      field.soilType.toLowerCase().includes(query)
     );
   });
+
+  useEffect(() => {
+    if (isError)
+      toast.error(error?.message || 'Error fetching fields data. Please try again later.');
+  }, [isError]);
 
   return (
     <div className="px-5 py-6">
@@ -157,9 +68,13 @@ const Fields = () => {
 
       <div className="flex flex-col gap-2">
         <h3 className="text-base font-bold ">
-          {searchQuery.length > 0 ? searchedFields.length : mockFields.length} Fields
+          {searchQuery.length > 0 ? searchedFields?.length : fieldsData?.length || 0} Fields
         </h3>
-        <Table maxRows={6} data={searchQuery.length > 0 ? searchedFields : mockFields} />
+        <Table
+          isPending={isPending}
+          maxRows={6}
+          data={searchQuery.length > 0 ? searchedFields || [] : fieldsData || []}
+        />
       </div>
       {showFilter && <FieldsFilter setOpen={setShowFilter} />}
       {addField && <AddField setOpen={setAddField} />}

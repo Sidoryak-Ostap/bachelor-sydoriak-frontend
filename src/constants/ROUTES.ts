@@ -8,9 +8,10 @@ export const ROUTES = {
     profile: '/dashboard/profile',
     profileEdit: '/dashboard/profile/edit',
     fields: '/dashboard/fields',
-    fieldDetails: '/dashboard/fields/:id',
+    fieldDetails: (id: string) => `/dashboard/fields/${id}`,
 
     map: '/dashboard/map',
+    mapField: (id: string) => `/dashboard/map/${id}`,
   },
   resetPassword: '/auth/password-recovery',
 };
