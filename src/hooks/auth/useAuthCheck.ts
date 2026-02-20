@@ -1,9 +1,9 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { jwtDecode } from 'jwt-decode';
-import { setUser, clearUser, setAuthLoading } from '../store/reducers/userSlice';
 import { useNavigate } from 'react-router-dom';
-import { ROUTES } from '../constants/ROUTES';
+import { clearUser, setAuthLoading, setUser } from '@/store/reducers/userSlice';
+import { ROUTES } from '@/constants/ROUTES';
 
 export const useAuthCheck = () => {
   const dispatch = useDispatch();

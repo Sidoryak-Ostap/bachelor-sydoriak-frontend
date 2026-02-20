@@ -1,41 +1,51 @@
 import { MapPin } from 'lucide-react';
 import Pagination from './Pagination';
 import { useState } from 'react';
+import type { Field } from '@/types/field';
+import { Link } from 'react-router';
+import { ROUTES } from '@/constants/ROUTES';
 
 type TableProps = {
-  data: any[];
+  data: Field[];
   maxRows?: number;
+  isPending: boolean;
 };
 
 const Row = (rowItem: any) => {
-  const { ownerName, size, address, soil, crop } = rowItem;
+  const { name, area, address, soilType, cropType } = rowItem;
   return (
     <div className="bg-white border-b border-gray-300 px-5 py-2 last:border-b-0 hover:bg-gray-50">
       <div className="grid grid-cols-[2fr_1fr_2fr_1fr_1fr_1.5fr] gap-4 text-sm items-center">
-        <p className="text-left font-medium">{ownerName}</p>
+        <p className="text-left font-medium">{name}</p>
 
-        <p className="text-left">{size}</p>
+        <p className="text-left">{area}</p>
 
         <p className="text-left truncate">{address}</p>
 
-        <p className="text-left">{soil}</p>
-        <p className="text-left">{crop}</p>
+        <p className="text-left">{soilType}</p>
+        <p className="text-left">{cropType}</p>
 
         <div className="flex items-center justify-end gap-2">
-          <button className="border border-gray-300 px-3 py-2 font-medium text-xs rounded-lg cursor-pointer hover:bg-gray-100">
+          <Link
+            to={ROUTES.dashboard.fieldDetails(rowItem.id)}
+            className="border border-gray-300 px-3 py-2 font-medium text-xs rounded-lg cursor-pointer hover:bg-gray-100"
+          >
             Details
-          </button>
-          <button className="border border-gray-300  px-3 py-2 font-medium text-xs flex items-center gap-2 rounded-lg cursor-pointer hover:bg-gray-100">
+          </Link>
+          <Link
+            to={ROUTES.dashboard.mapField(rowItem.id)}
+            className="border border-gray-300  px-3 py-2 font-medium text-xs flex items-center gap-2 rounded-lg cursor-pointer hover:bg-gray-100"
+          >
             <MapPin size={14} />
             Location
-          </button>
+          </Link>
         </div>
       </div>
     </div>
   );
 };
 
-const Table = ({ data = [], maxRows = 5 }: TableProps) => {
+const Table = ({ isPending, data = [], maxRows = 5 }: TableProps) => {
   const gridConfig = 'grid grid-cols-[2fr_1fr_2fr_1fr_1fr_1.5fr] gap-4';
   const totalPages = data.length > 0 ? Math.ceil(data.length / maxRows) : 1;
 
@@ -58,7 +68,11 @@ const Table = ({ data = [], maxRows = 5 }: TableProps) => {
           </div>
         </div>
 
-        {data.length === 0 ? (
+        {isPending ? (
+          <div className="flex items-center justify-center py-10 bg-white">
+            <p className="text-gray-500">Loading data...</p>
+          </div>
+        ) : data.length === 0 ? (
           <div className="flex items-center justify-center py-10 bg-white">
             <p className="text-gray-500">No data available</p>
           </div>

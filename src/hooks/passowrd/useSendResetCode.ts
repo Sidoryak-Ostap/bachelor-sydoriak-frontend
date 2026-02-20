@@ -1,5 +1,5 @@
+import { sendResetCode } from '@/services/auth';
 import { useMutation } from '@tanstack/react-query';
-import { sendResetCode } from '../services/auth';
 import { toast } from 'react-toastify';
 
 export const useSendResetCode = (onNext?: () => void, isResend?: boolean) => {

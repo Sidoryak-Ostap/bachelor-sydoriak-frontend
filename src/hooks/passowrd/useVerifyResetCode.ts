@@ -1,5 +1,5 @@
+import { verifyResetCode } from '@/services/auth';
 import { useMutation } from '@tanstack/react-query';
-import { verifyResetCode } from '../services/auth';
 import { toast } from 'react-toastify';
 
 export const useVerifyResetCode = (onNext?: () => void) => {

@@ -5,8 +5,8 @@ import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useAppSelector } from '../../store/store';
 import Loader from '../Loader/Loader';
-import { useSendResetCode } from '../../hooks/useSendResetCode';
-import { useVerifyResetCode } from '../../hooks/useVerifyResetCode';
+import { useVerifyResetCode } from '@/hooks/passowrd/useVerifyResetCode';
+import { useSendResetCode } from '@/hooks/passowrd/useSendResetCode';
 
 interface EnterOTPProps {
   onNext: () => void;

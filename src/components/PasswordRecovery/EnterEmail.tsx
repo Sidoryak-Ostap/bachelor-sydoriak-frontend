@@ -7,7 +7,7 @@ import { useDispatch } from 'react-redux';
 import { setResetPasswordEmaiil } from '../../store/reducers/resetPasswordSlice';
 
 import Loader from '../Loader/Loader';
-import { useSendResetCode } from '../../hooks/useSendResetCode';
+import { useSendResetCode } from '@/hooks/passowrd/useSendResetCode';
 
 interface EnterEmailProps {
   onNext: () => void;
