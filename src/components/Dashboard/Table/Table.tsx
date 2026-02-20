@@ -32,10 +32,13 @@ const Row = (rowItem: any) => {
           >
             Details
           </Link>
-          <button className="border border-gray-300  px-3 py-2 font-medium text-xs flex items-center gap-2 rounded-lg cursor-pointer hover:bg-gray-100">
+          <Link
+            to={ROUTES.dashboard.mapField(rowItem.id)}
+            className="border border-gray-300  px-3 py-2 font-medium text-xs flex items-center gap-2 rounded-lg cursor-pointer hover:bg-gray-100"
+          >
             <MapPin size={14} />
             Location
-          </button>
+          </Link>
         </div>
       </div>
     </div>

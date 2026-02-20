@@ -14,12 +14,13 @@ export const useCreateField = () => {
 
   return useMutation({
     mutationFn: (fieldData: CreateFieldPayload) => createField(fieldData),
-    onSuccess: data => {
-      console.log('Field created successfully:', data);
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['fields'] });
-      toast.success('Field created successfully!');
       dispatch(resetFieldCreation());
-      navigate(ROUTES.dashboard.fields);
+      toast.success('Field created successfully!');
+      setTimeout(() => {
+        navigate(ROUTES.dashboard.fields);
+      }, 50);
     },
     onError: error => {
       console.error('Field creation error:', error.message);

@@ -1,10 +1,13 @@
 import { IMG } from '@/assets';
 import FieldTabs from '@/components/Dashboard/FieldTabs';
+import Modal from '@/components/Dashboard/Modal';
 import Loader from '@/components/Loader/Loader';
 import { ROUTES } from '@/constants/ROUTES';
+import { useDeleteField } from '@/hooks/fields/useDeleteField';
 import { useGetFieldById } from '@/hooks/fields/useGetFieldById';
 import { getNDVIColor } from '@/utils/ndvicolor';
 import { CloudSnow, ArrowUp, Sprout, Leaf, Plus, Trash2 } from 'lucide-react';
+import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 
 const fieldActivity = [
@@ -26,13 +29,20 @@ const fieldActivity = [
 ];
 
 const FieldDetails = () => {
+  const [isOpenDeleteModal, setIsOpenDeleteModal] = useState<boolean>(false);
   const { id } = useParams();
-
   const { data: fieldData, isPending } = useGetFieldById(id || null);
 
-  console.log(fieldData);
-
   const navigate = useNavigate();
+  const { mutate, isPending: isDeletePending } = useDeleteField();
+
+  const handleDeleteField = () => {
+    if (fieldData?.id) {
+      mutate(fieldData.id);
+      setIsOpenDeleteModal(false);
+      navigate(ROUTES.dashboard.fields);
+    }
+  };
 
   return (
     <div className="pt-8 pb-14 px-7">
@@ -201,13 +211,28 @@ const FieldDetails = () => {
                 Add new activity
               </button>
 
-              <button className="group flex items-center bg-transparent border border-red-500 text-red-500 font-medium rounded-lg cursor-pointer px-4 py-2 hover:bg-red-500 hover:text-white transition-colors">
+              <button
+                onClick={() => setIsOpenDeleteModal(true)}
+                className="group flex items-center bg-transparent border border-red-500 text-red-500 font-medium rounded-lg cursor-pointer px-4 py-2 hover:bg-red-500 hover:text-white transition-colors"
+              >
                 <Trash2 size={20} className="text-red-500 mr-1 group-hover:text-white" />
                 Delete
               </button>
             </div>
           </div>
         </div>
+      )}
+
+      {isOpenDeleteModal && (
+        <Modal
+          setOpen={setIsOpenDeleteModal}
+          onConfirm={handleDeleteField}
+          title="Delete Field"
+          message="Are you sure you want to delete this field? This action cannot be undone."
+          confirmBtnText="Delete"
+          cancelBtnText="Cancel"
+          onCancel={() => setIsOpenDeleteModal(false)}
+        />
       )}
     </div>
   );

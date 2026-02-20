@@ -9,5 +9,6 @@ export const API_ROUTES = {
     CREATE_FIELD: '/fields',
     GET_FIELDS: '/fields',
     GET_FIELD_BY_ID: (fieldId: string) => `/fields/field/${fieldId}`,
+    DELETE_FIELD: (fieldId: string) => `/fields/field/${fieldId}`,
   },
 };

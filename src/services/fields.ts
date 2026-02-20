@@ -58,3 +58,22 @@ export const getFieldById = async (fieldId: string): Promise<Field> => {
     throw new Error('Network error or request failed.');
   }
 };
+
+export const deleteField = async (fieldId: string) => {
+  try {
+    const response = await axiosInstance.delete(API_ROUTES.FIELDS.DELETE_FIELD(fieldId));
+    return response.data;
+  } catch (error: unknown) {
+    if (axios.isAxiosError(error)) {
+      const message = error.response?.data?.message;
+
+      const errorMessage = Array.isArray(message)
+        ? message.join(', ')
+        : message || 'Server error during field deletion.';
+
+      throw new Error(errorMessage);
+    }
+
+    throw new Error('Network error or request failed.');
+  }
+};
