@@ -1,10 +1,15 @@
 import { useEffect, useRef, useState } from 'react';
 
-const FieldTabs = () => {
-  const [activeTab, setActiveTab] = useState(0);
+type FieldTabsProps = {
+  activeTab: number;
+  setActiveTab: (index: number) => void;
+};
+
+const FieldTabs = ({ activeTab, setActiveTab }: FieldTabsProps) => {
+  const tabs = ['Overview', 'Activity', 'Map', 'Analysis'];
+
   const [indicatorStyle, setIndicatorStyle] = useState({ left: 0, width: 0 });
   const tabsRef = useRef<(HTMLButtonElement | null)[]>([]);
-  const tabs = ['Overview', 'Activity', 'Map', 'Analysis'];
 
   useEffect(() => {
     const activeMenu = tabsRef.current[activeTab];

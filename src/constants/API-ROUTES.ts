@@ -11,4 +11,10 @@ export const API_ROUTES = {
     GET_FIELD_BY_ID: (fieldId: string) => `/fields/field/${fieldId}`,
     DELETE_FIELD: (fieldId: string) => `/fields/field/${fieldId}`,
   },
+
+  FIELD_ACTIVITY: {
+    CREATE_ACTIVITY: '/field-activity',
+    GET_FIELD_ACTIVITIES: (fieldId: string) => `/field-activity/${fieldId}`,
+    DELETE_ACTIVITY: `/field-activity`,
+  },
 };
