@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import { Controller } from 'react-hook-form';
 import { ChevronDown, Check } from 'lucide-react';
 import { capitalizeFirstLetter } from '../utils/format';
