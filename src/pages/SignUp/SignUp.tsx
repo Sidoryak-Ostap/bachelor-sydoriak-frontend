@@ -7,7 +7,7 @@ import signUpSchema from './validation';
 import type { SignUpInputs } from './types';
 import FormInput from '../../components/FormInput';
 import { ROUTES } from '../../constants/ROUTES';
-import { useAuth } from '../../hooks/useAuth';
+import { useAuth } from '../../hooks/auth/useAuth';
 import Loader from '../../components/Loader/Loader';
 import GoogleButton from '../../components/GoogleButton';
 

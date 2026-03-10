@@ -5,7 +5,7 @@ import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useAppSelector } from '../../store/store';
 import Loader from '../Loader/Loader';
-import { useResetPassoword } from '../../hooks/useResetPassword';
+import { useResetPassoword } from '@/hooks/passowrd/useResetPassword';
 
 interface ResetPasswordProps {
   onNext: () => void;

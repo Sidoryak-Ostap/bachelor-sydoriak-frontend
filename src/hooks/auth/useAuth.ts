@@ -1,10 +1,10 @@
 import { useMutation } from '@tanstack/react-query';
-import { authUser, type AuthCredentials } from '../services/auth';
+import { authUser, type AuthCredentials } from '../../services/auth';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { setUser } from '../store/reducers/userSlice';
-import { ROUTES } from '../constants/ROUTES';
+import { setUser } from '../../store/reducers/userSlice';
+import { ROUTES } from '../../constants/ROUTES';
 
 export const useAuth = (authType: 'login' | 'signup') => {
   const navigate = useNavigate();
@@ -28,7 +28,7 @@ export const useAuth = (authType: 'login' | 'signup') => {
       authType === 'signup' &&
         toast.success('Sign-up successful! Welcome!', { position: 'top-right' });
 
-      navigate(ROUTES.dashboard, { replace: true });
+      navigate(ROUTES.dashboard.home, { replace: true });
     },
     onError: error => {
       console.error(`${authType} error:`, error.message);

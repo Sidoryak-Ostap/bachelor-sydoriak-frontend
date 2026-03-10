@@ -3,15 +3,27 @@ import { Link, useNavigate } from 'react-router';
 import { ROUTES } from '../../../../constants/ROUTES';
 import { useAppSelector } from '../../../../store/store';
 import BurgerMenu from '../BurgerMenu';
+import { motion, type Variant } from 'framer-motion';
 
 const Header = () => {
   const { isAuthorized } = useAppSelector(state => state.user);
   const navigate = useNavigate();
 
   const onGetStartedClick = () => {
-    if (isAuthorized) navigate(ROUTES.dashboard);
+    if (isAuthorized) navigate(ROUTES.dashboard.home);
     else navigate(ROUTES.login);
   };
+
+  const buttonHover: Variant = {
+    scale: 1.05,
+    transition: { duration: 0.2, ease: 'easeInOut' },
+  };
+
+  const buttonTap: Variant = {
+    scale: 0.95,
+  };
+
+  const MotionLink = motion.create(Link);
 
   return (
     <header className="border-b-2 border-gray-200">
@@ -38,19 +50,23 @@ const Header = () => {
           </ul>
 
           <div className="hidden items-center gap-4 lg:flex">
-            <Link
+            <MotionLink
+              whileHover={buttonHover}
+              whileTap={buttonTap}
               className="text-primary text-base font-medium border-primary border-3 rounded-xl px-8 py-2 flex items-center justify-center"
               to={ROUTES.login}
             >
               Log in
-            </Link>
+            </MotionLink>
 
-            <button
+            <motion.button
+              whileHover={buttonHover}
+              whileTap={buttonTap}
               onClick={onGetStartedClick}
               className="cursor-pointer text-white bg-primary text-base font-medium rounded-xl px-8 py-2 flex items-center justify-center border-3 border-transparent"
             >
               Get Started
-            </button>
+            </motion.button>
           </div>
 
           <div className="lg:hidden">

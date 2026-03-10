@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
-import { resetPassword } from '../services/auth';
+import { resetPassword } from '@/services/auth';
 import { toast } from 'react-toastify';
 
 export const useResetPassoword = (onNext?: () => void) => {

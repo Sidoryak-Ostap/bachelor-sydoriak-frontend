@@ -1,5 +1,5 @@
 import { Outlet } from 'react-router';
-import { useAuthCheck } from './hooks/useAuthCheck';
+import { useAuthCheck } from './hooks/auth/useAuthCheck';
 
 function App() {
   useAuthCheck();
