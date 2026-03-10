@@ -14,6 +14,7 @@ import NavigationGuard from '@/components/NavigationGuard/NavigationGuard';
 import { useParams } from 'react-router-dom';
 import { useGetFieldById } from '@/hooks/fields/useGetFieldById';
 import { useGetFields } from '@/hooks/fields/useGetFields';
+import FieldsBar from './FieldsBar/FieldsBar';
 
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_ACCESS_TOKEN;
 
@@ -259,6 +260,7 @@ const Map: React.FC = () => {
 
       <NavigationGuard shouldBlock={isUnsavedChanges} />
 
+      <FieldsBar fields={allFields || []} />
       <MapToolBar
         mode={mode}
         isSelected={isSelected}
