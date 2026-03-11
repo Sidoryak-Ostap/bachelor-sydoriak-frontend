@@ -7,6 +7,7 @@ type ModalProps = {
   message: string;
   cancelBtnText?: string;
   confirmBtnText?: string;
+  confirmBtnStyle?: string;
   setOpen: (open: boolean) => void;
   isActionPending?: boolean;
 };
@@ -18,9 +19,11 @@ const Modal = ({
   message,
   cancelBtnText = 'Cancel',
   confirmBtnText = 'Confirm',
+  confirmBtnStyle,
   setOpen,
   isActionPending = false,
 }: ModalProps) => {
+  const activeConfirmStyle = confirmBtnStyle || 'bg-red-500 hover:bg-red-600';
   return (
     <div className="fixed inset-0 z-999 flex items-center justify-center bg-black/50 backdrop-blur-[1px]">
       <div className="bg-white p-8 rounded-2xl shadow-2xl max-w-md w-full mx-4 animate-in fade-in zoom-in duration-200">
@@ -44,7 +47,7 @@ const Modal = ({
                 {cancelBtnText}
               </button>
               <button
-                className="cursor-pointer flex-1 px-6 py-3 bg-red-500 text-white rounded-xl font-semibold hover:bg-red-600 shadow-lg shadow-red-200 transition-all"
+                className={`cursor-pointer flex-1 px-6 py-3 text-white rounded-xl font-semibold shadow-lg transition-all ${activeConfirmStyle}`}
                 onClick={() => {
                   onConfirm();
                   setOpen(false);

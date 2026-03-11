@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 
 import mapboxgl from 'mapbox-gl';
-
 import 'mapbox-gl/dist/mapbox-gl.css';
 import '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css';
 import MapToolBar from './MapToolBar';
@@ -15,19 +14,26 @@ import { useGetFieldById } from '@/hooks/fields/useGetFieldById';
 import { useGetFields } from '@/hooks/fields/useGetFields';
 import FieldsBar from './FieldsBar/FieldsBar';
 import { useMapbox } from '@/hooks/useMapBox';
-import { highlightSingleField, syncAllFieldsLayer } from '@/utils/mapUtils';
+import { calculateArea, highlightSingleField, syncAllFieldsLayer } from '@/utils/mapUtils';
+import Modal from '@/components/Dashboard/Modal';
+import { useDispatch } from 'react-redux';
+import { setArea } from '@/store/reducers/createFieldSlice';
 
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_ACCESS_TOKEN;
 
 const Map: React.FC = () => {
+  const dispatch = useDispatch();
   const [coordinates, setCoordinates] = useState<number[][] | null>(null);
   const [isSelected, setIsSelected] = useState(false);
-  const mapContainer = useRef<HTMLDivElement | null>(null);
+  const [detectedArea, setDetectedArea] = useState<number>(0.0);
+  const [showConfirmModal, setShowConfirmModal] = useState<boolean>(false);
 
+  const mapContainer = useRef<HTMLDivElement | null>(null);
   const { map, draw, popup, mode, setMode } = useMapbox(mapContainer);
   const { id } = useParams();
 
   const { data, isDrawing } = useAppSelector(state => state.createField);
+
   const { mutate, isPending } = useCreateField();
   const { data: fieldData } = useGetFieldById(id || null);
   const { data: allFields } = useGetFields();
@@ -45,8 +51,19 @@ const Map: React.FC = () => {
       if (e.features.length > 0) setCoordinates(e.features[0].geometry.coordinates[0]);
     };
 
+    const handleDrawCreate = (e: any) => {
+      if (e.features.length > 0) {
+        const newCoords = e.features[0].geometry.coordinates[0];
+        const area = calculateArea(newCoords);
+
+        setCoordinates(newCoords);
+        setDetectedArea(+area);
+        setShowConfirmModal(true);
+      }
+    };
+
     document.addEventListener('keydown', handleKeyDown);
-    currentMap.on('draw.create', updateCoordinates);
+    currentMap.on('draw.create', handleDrawCreate);
     currentMap.on('draw.update', updateCoordinates);
     currentMap.on('draw.delete', () => setCoordinates(null));
     currentMap.on('draw.selectionchange', (e: { features: any[] }) => {
@@ -54,7 +71,7 @@ const Map: React.FC = () => {
     });
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
-      currentMap.off('draw.create', updateCoordinates);
+      currentMap.off('draw.create', handleDrawCreate);
       currentMap.off('draw.update', updateCoordinates);
     };
   }, [map.current]);
@@ -138,6 +155,20 @@ const Map: React.FC = () => {
         zoomIn={() => map.current?.zoomIn()}
         zoomOut={() => map.current?.zoomOut()}
       />
+
+      {showConfirmModal && (
+        <Modal
+          setOpen={setShowConfirmModal}
+          onConfirm={() => dispatch(setArea(detectedArea))}
+          title="Field Area Detected"
+          message={`The detected area is ${detectedArea} hectares. `}
+          confirmBtnText="Accept"
+          cancelBtnText="Cancel"
+          onCancel={() => setShowConfirmModal(false)}
+          isActionPending={false}
+          confirmBtnStyle="bg-primary hover:bg-primary-dark"
+        />
+      )}
     </div>
   );
 };

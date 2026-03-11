@@ -41,6 +41,10 @@ const createFieldSlice = createSlice({
       state.isDrawing = true;
     },
 
+    setArea: (state, action) => {
+      state.data.area = action.payload;
+    },
+
     setDrawing: state => {
       state.isDrawing = false;
     },
@@ -51,5 +55,5 @@ const createFieldSlice = createSlice({
   },
 });
 
-export const { setFieldInfo, setDrawing, resetFieldCreation } = createFieldSlice.actions;
+export const { setFieldInfo, setDrawing, resetFieldCreation, setArea } = createFieldSlice.actions;
 export default createFieldSlice.reducer;
