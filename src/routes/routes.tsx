@@ -13,6 +13,7 @@ import ProfileEdit from '@/pages/Dashboard/ProfileEdit/ProfileEdit';
 import Fields from '@/pages/Dashboard/Fields';
 import Map from '@/pages/Dashboard/Map';
 import FieldDetails from '@/pages/Dashboard/FieldDetails';
+import MainDashboard from '@/pages/Dashboard/MainDashboard';
 
 export const router = createBrowserRouter([
   {
@@ -40,6 +41,7 @@ export const router = createBrowserRouter([
           </PrivateRoute>
         ),
         children: [
+          { index: true, element: <MainDashboard /> },
           {
             path: 'pricing',
             element: <Pricing />,
