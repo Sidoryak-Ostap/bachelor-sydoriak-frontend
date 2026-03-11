@@ -1,4 +1,5 @@
 import mapboxgl from 'mapbox-gl';
+import * as turf from '@turf/turf';
 
 export const syncAllFieldsLayer = (map: mapboxgl.Map, fields: any[], popup: mapboxgl.Popup) => {
   const sourceId = 'all-fields-source';
@@ -154,4 +155,14 @@ export const highlightSingleField = (
 
     map.fitBounds(bounds, { padding: 100, duration: 2000 });
   }
+};
+
+export const calculateArea = (coords: number[][] | null) => {
+  if (!coords) return '0.00';
+  const polygon = turf.polygon([[...coords, coords[0]]]);
+  const areaInMeters = turf.area(polygon);
+
+  const areaInHectares = areaInMeters / 10000;
+
+  return areaInHectares.toFixed(2);
 };
