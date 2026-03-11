@@ -12,7 +12,7 @@ import {
   Gem,
   Settings,
 } from 'lucide-react';
-import { Link } from 'react-router';
+import { Link, useLocation } from 'react-router';
 
 const NAV_ITEMS = [
   { label: 'Dashboard', icon: LayoutDashboard, to: ROUTES.dashboard.home },
@@ -29,6 +29,8 @@ const PREFERENCE_ITEMS = [
 ];
 
 const Sidebar = () => {
+  const { pathname } = useLocation();
+
   return (
     <div className="px-4 py-7.5 bg-white">
       <Link to="/dashboard" className="flex items-center gap-2 text-xl font-bold text-primary mb-6">
@@ -46,18 +48,35 @@ const Sidebar = () => {
 
       <h2 className="uppercase text-sm text-gray-400 mb-1 ml-3">main menu</h2>
 
-      <ul className="flex flex-col gap-0 mb-10">
+      <ul className="flex flex-col gap-1 mb-10">
         {NAV_ITEMS.map(item => {
           const Icon = item.icon;
+          const isActive = pathname === item.to;
 
           return (
-            <li>
+            <li key={item.to}>
               <Link
-                className="group flex items-center gap-2 px-3 py-2.5 rounded-xl hover:bg-primary transition-all duration-300 ease-in-out hover:translate-x-2 "
                 to={item.to}
+                className={`
+                group flex items-center gap-2 px-3 py-2.5 rounded-xl transition-all duration-300 ease-in-out
+                ${
+                  isActive
+                    ? 'bg-primary text-white shadow-md shadow-primary/20 translate-x-1'
+                    : 'text-gray-600 hover:bg-primary hover:text-white hover:translate-x-2'
+                }
+              `}
               >
-                <Icon className="group-hover:text-white" size={18} />
-                <span className="text-sm text-black group-hover:text-white group-hover:font-bold">
+                <Icon
+                  size={18}
+                  className={`transition-colors ${isActive ? 'text-white' : 'group-hover:text-white'}`}
+                />
+                <span
+                  className={`text-sm transition-all ${
+                    isActive
+                      ? 'text-white font-bold'
+                      : 'group-hover:text-white group-hover:font-bold'
+                  }`}
+                >
                   {item.label}
                 </span>
               </Link>
