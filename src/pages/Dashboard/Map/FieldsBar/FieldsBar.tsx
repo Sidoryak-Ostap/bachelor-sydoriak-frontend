@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { ChevronLeft, ChevronRight, Sprout } from 'lucide-react';
 import type { Field } from '@/types/field';
 import { ROUTES } from '@/constants/ROUTES';
-import { Link } from 'react-router';
+import { Link, useParams } from 'react-router';
 
 type FieldsBarProps = {
   fields: Field[];
@@ -10,6 +10,7 @@ type FieldsBarProps = {
 
 const FieldsBar = ({ fields }: FieldsBarProps) => {
   const [isOpen, setIsOpen] = useState(true);
+  const { id: fieldId } = useParams<{ id: string }>();
 
   return (
     <div
@@ -58,7 +59,14 @@ const FieldsBar = ({ fields }: FieldsBarProps) => {
                 <li key={field.id}>
                   <Link
                     to={ROUTES.dashboard.mapField(field.id)}
-                    className="group flex items-center gap-4 p-3 bg-white border border-gray-100 rounded-xl shadow-sm hover:shadow-md hover:border-blue-200 transition-all cursor-pointer"
+                    className={`
+                            group flex items-center gap-4 p-3 transition-all cursor-pointer rounded-xl border
+                            ${
+                              fieldId === field.id
+                                ? 'bg-primary/5 border-primary shadow-md ring-1 ring-primary/20'
+                                : 'bg-white border-gray-100 shadow-sm hover:shadow-md hover:border-primary/50'
+                            }
+                          `}
                   >
                     <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-lg bg-gray-200">
                       <img
