@@ -10,8 +10,11 @@ import { ROUTES } from '../../constants/ROUTES';
 import { useAuth } from '../../hooks/auth/useAuth';
 import Loader from '../../components/Loader/Loader';
 import GoogleButton from '../../components/GoogleButton';
+import { useAuthInit } from '@/hooks/auth/useAuthInit';
 
 const SignIn = () => {
+  useAuthInit();
+
   const {
     register,
     handleSubmit,

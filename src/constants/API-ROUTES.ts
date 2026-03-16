@@ -4,7 +4,10 @@ export const API_ROUTES = {
   FORGOT_PASSWORD: '/auth/forgot-password',
   RESET_PASSWORD: '/auth/reset-password',
 
-  AUTH: {},
+  AUTH: {
+    ME: '/auth/me',
+    LOGOUT: '/auth/logout',
+  },
   FIELDS: {
     CREATE_FIELD: '/fields',
     GET_FIELDS: '/fields',

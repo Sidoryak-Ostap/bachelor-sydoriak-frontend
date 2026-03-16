@@ -1,9 +1,8 @@
 import { Outlet } from 'react-router';
-import { useAuthCheck } from './hooks/auth/useAuthCheck';
 
+import { useAuthInit } from '@/hooks/auth/useAuthInit';
 function App() {
-  useAuthCheck();
-
+  useAuthInit();
   return (
     <div>
       <Outlet />

@@ -13,15 +13,16 @@ export const useAuth = (authType: 'login' | 'signup') => {
   return useMutation({
     mutationFn: (credentials: AuthCredentials) => authUser(authType, credentials),
     onSuccess: data => {
-      const { user, access_token } = data;
+      const { user, accessToken } = data;
 
-      localStorage.setItem('accessToken', access_token);
+      localStorage.setItem('accessToken', accessToken);
 
       dispatch(
         setUser({
           name: user.name,
           email: user.email,
           role: user.role,
+          token: accessToken,
         })
       );
 
