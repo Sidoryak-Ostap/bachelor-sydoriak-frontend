@@ -1,9 +1,10 @@
 import { CircleQuestionMark, Settings } from 'lucide-react';
-import { Link, useLocation, useNavigate } from 'react-router';
+import { Link, useLocation } from 'react-router';
 import Search from '../Search';
 import { IMG } from '@/assets';
 import { ROUTES } from '@/constants/ROUTES';
 import { NAVIGATION_METADATA } from './navigationConfig';
+import { useLogout } from '@/hooks/auth/useLogout';
 
 const LINKS = [
   { label: 'Profile', to: ROUTES.dashboard.profile },
@@ -12,18 +13,12 @@ const LINKS = [
 ];
 
 const TopBar = () => {
-  const navigate = useNavigate();
   const pathname = useLocation().pathname;
-
-  console.log('pathname: ', pathname);
+  const { mutate } = useLogout();
 
   const currentPage = NAVIGATION_METADATA.find(page => pathname.includes(page.pathname));
 
-  const handleLogout = () => {
-    // Add logout logic here
-    localStorage.removeItem('accessToken');
-    navigate(ROUTES.login, { replace: true });
-  };
+  const handleLogout = () => mutate();
 
   return (
     <div className="p-3 flex items-center justify-between border-b border-gray-200 sticky bg-white top-0 w-full z-10">
