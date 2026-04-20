@@ -23,4 +23,7 @@ export const API_ROUTES = {
   PROFILE: {
     UPDATE: '/user/profile',
   },
+  SETTINGS: {
+    UPDATE: '/user/settings',
+  },
 };
