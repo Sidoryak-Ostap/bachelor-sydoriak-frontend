@@ -29,4 +29,9 @@ export const API_ROUTES = {
   STATISTICS: {
     GET: '/statistics',
   },
+  SUBSCRIPTION: {
+    GET: '/subscription',
+    CREATE: '/subscription/create',
+    CANCEL: '/subscription/cancel',
+  },
 };

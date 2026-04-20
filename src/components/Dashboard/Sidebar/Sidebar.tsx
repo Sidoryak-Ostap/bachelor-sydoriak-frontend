@@ -1,6 +1,7 @@
 import { IMG } from '@/assets';
 import logo from '@/assets/logo.svg';
 import { ROUTES } from '@/constants/ROUTES';
+import { useAppSelector } from '@/store/store';
 import {
   LayoutDashboard,
   Map,
@@ -30,6 +31,9 @@ const PREFERENCE_ITEMS = [
 
 const Sidebar = () => {
   const { pathname } = useLocation();
+  const { plan } = useAppSelector(state => state.subscription);
+
+  const isPaidPlan = plan && plan !== 'starter';
 
   return (
     <div className="px-4 py-7.5 bg-white">
@@ -107,20 +111,22 @@ const Sidebar = () => {
         })}
       </ul>
 
-      <div className="bg-white rounded-2xl shadow-lg py-5 px-4 flex flex-col items-center border-2 border-gray-200 mb-40">
-        <Gem className="mb-3" size={32} />
-        <h3 className="text-black font-bold text-base mb-1 text-center">Upgrade plan</h3>
-        <p className="text-black text-sm text-center mb-3">
-          “Upgrade AgroMap today to unlock smarter insights and control”
-        </p>
+      {!isPaidPlan && (
+        <div className="bg-white rounded-2xl shadow-lg py-5 px-4 flex flex-col items-center border-2 border-gray-200 mb-40">
+          <Gem className="mb-3" size={32} />
+          <h3 className="text-black font-bold text-base mb-1 text-center">Upgrade plan</h3>
+          <p className="text-black text-sm text-center mb-3">
+            “Upgrade AgroMap today to unlock smarter insights and control”
+          </p>
 
-        <Link
-          to={ROUTES.dashboard.pricing}
-          className="bg-primary rounded-xl text-white px-4 py-2 text-sm font-bold"
-        >
-          Upgrade Your Plan
-        </Link>
-      </div>
+          <Link
+            to={ROUTES.dashboard.pricing}
+            className="bg-primary rounded-xl text-white px-4 py-2 text-sm font-bold"
+          >
+            Upgrade Your Plan
+          </Link>
+        </div>
+      )}
 
       <div className="text-center text-sm px-6">© 2026 AgromMap Inc. All rights reserved.</div>
     </div>

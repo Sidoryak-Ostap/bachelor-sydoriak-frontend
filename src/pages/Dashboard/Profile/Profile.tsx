@@ -12,6 +12,7 @@ interface CropDistItem {
 
 const Profile = () => {
   const user = useAppSelector(state => state.user);
+  const { plan } = useAppSelector(state => state.subscription);
   const { data: statisticsData, isError } = useGetStatistics();
 
   const {
@@ -75,7 +76,9 @@ const Profile = () => {
 
           <div className="px-4 py-5 rounded-lg bg-gray-100 w-full">
             <p className="text-gray-400 text-base w-full">Plan</p>
-            <p className="text-black font-medium text-lg w-full">Pro</p>
+            <p className="text-black font-medium text-lg w-full">
+              {plan.charAt(0).toUpperCase() + plan.slice(1)}
+            </p>
           </div>
         </div>
       </div>
@@ -121,13 +124,15 @@ const Profile = () => {
               </div>
 
               <p className="bg-gray-100 text-gray-500 px-4 py-2 font-medium rounded-lg text-base">
-                Pro
+                {plan.charAt(0).toUpperCase() + plan.slice(1)}
               </p>
             </div>
 
             <div className="flex items-center justify-between mb-3">
               <div>
-                <h3 className="text-black font-medium text-lg">AgroMap Pro</h3>
+                <h3 className="text-black font-medium text-lg">
+                  AgroMap {plan.charAt(0).toUpperCase() + plan.slice(1)}
+                </h3>
                 <p className="text-base text-gray-400">
                   Up to 10,000 acres · Unlimited team members
                 </p>
