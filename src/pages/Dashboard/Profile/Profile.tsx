@@ -1,12 +1,29 @@
 import { IMG } from '@/assets';
 import { ROUTES } from '@/constants/ROUTES';
 import { Link } from 'react-router';
-import { Switch } from '@/components/ui/switch';
 import { useAppSelector } from '@/store/store';
+import { useGetStatistics } from '@/hooks/statistics/useGetStatistics';
+import { useMemo } from 'react';
+
+interface CropDistItem {
+  name: string;
+  value: number;
+}
 
 const Profile = () => {
   const user = useAppSelector(state => state.user);
-  console.log(user);
+  const { data: statisticsData, isError } = useGetStatistics();
+
+  const {
+    totalFields = 0,
+    totalArea = 0,
+    cropAreaDistribution = [] as CropDistItem[],
+  } = statisticsData || {};
+
+  const crops = useMemo(() => {
+    if (!statisticsData || isError) return [];
+    return (cropAreaDistribution as CropDistItem[]).map(item => item.name);
+  }, [statisticsData, isError]);
 
   return (
     <div className="pb-10 pt-5 px-5">
@@ -48,12 +65,12 @@ const Profile = () => {
         <div className="flex items-center gap-3">
           <div className="px-4 py-5 rounded-lg bg-gray-100 w-full">
             <p className="text-gray-400 text-base w-full">Total fields</p>
-            <p className="text-black font-medium text-lg w-full">18</p>
+            <p className="text-black font-medium text-lg w-full">{totalFields}</p>
           </div>
 
           <div className="px-4 py-5 rounded-lg bg-gray-100 w-full">
             <p className="text-gray-400 text-base w-full">Crops this season</p>
-            <p className="text-black font-medium text-lg w-full">Corn · Soybeans</p>
+            <p className="text-black font-medium text-lg w-full">{crops.join(' · ')}</p>
           </div>
 
           <div className="px-4 py-5 rounded-lg bg-gray-100 w-full">
@@ -90,7 +107,7 @@ const Profile = () => {
 
             <div>
               <h4 className="text-black font-medium text-lg mb-0.5">Farm size</h4>
-              <p className="text-gray-400 text-base">4,250 acres · Mixed crops</p>
+              <p className="text-gray-400 text-base">{totalArea} ha · Mixed crops</p>
             </div>
           </div>
         </div>

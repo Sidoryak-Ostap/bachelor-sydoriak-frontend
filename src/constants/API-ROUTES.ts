@@ -26,4 +26,7 @@ export const API_ROUTES = {
   SETTINGS: {
     UPDATE: '/user/settings',
   },
+  STATISTICS: {
+    GET: '/statistics',
+  },
 };

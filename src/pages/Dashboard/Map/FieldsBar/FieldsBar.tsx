@@ -37,7 +37,7 @@ const FieldsBar = ({ fields }: FieldsBarProps) => {
         }`}
       >
         <div className="w-full min-h-full px-5 py-6 flex flex-col">
-          <div className="sticky top-0 bg-white pb-4 mb-4 flex items-baseline justify-between border-b border-gray-100 z-10">
+          <div className="top-0 pb-4 mb-4 flex items-baseline justify-between z-10">
             <h2 className="text-xl font-bold text-gray-800 whitespace-nowrap">My Fields</h2>
             <span className="text-xs font-medium px-2 py-1 bg-blue-50 text-blue-600 rounded-full">
               {fields.length} Total
