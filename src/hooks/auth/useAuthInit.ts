@@ -25,6 +25,8 @@ export const useAuthInit = () => {
     }
 
     if (isSuccess && data) {
+      console.log(data);
+
       dispatch(setUser({ ...data, token }));
     }
 

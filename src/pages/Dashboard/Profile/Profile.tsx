@@ -2,8 +2,12 @@ import { IMG } from '@/assets';
 import { ROUTES } from '@/constants/ROUTES';
 import { Link } from 'react-router';
 import { Switch } from '@/components/ui/switch';
+import { useAppSelector } from '@/store/store';
 
 const Profile = () => {
+  const user = useAppSelector(state => state.user);
+  console.log(user);
+
   return (
     <div className="pb-10 pt-5 px-5">
       <div className="flex items-center justify-between mb-8">
@@ -24,11 +28,19 @@ const Profile = () => {
 
       <div className="bg-white border border-gray-200 rounded-lg p-5 mb-11">
         <div className="flex items-start gap-5 mb-4.5">
-          <img src={IMG.avatarImg} className="w-18 h-18" alt="Avatar" />
+          <div className="w-18 h-18 rounded-full overflow-hidden object-cover">
+            <img
+              src={user.profile.avatarUrl || IMG.avatarImg}
+              className="w-full h-full"
+              alt="Avatar"
+            />
+          </div>
 
           <div className="flex flex-col gap-1">
-            <p className="font-semibold text-xl text-black">Ostap Sydoriak</p>
-            <div className="text-gray-400 text-base">Meyer Family Farms · Central Iowa</div>
+            <p className="font-semibold text-xl text-black">
+              {user.profile.firstName} {user.profile.lastName}
+            </p>
+            <div className="text-gray-400 text-base">{user.profile.bio}</div>
             <div className="text-gray-400 text-base">Member since 2019 • 4,250 acres managed</div>
           </div>
         </div>
@@ -63,17 +75,17 @@ const Profile = () => {
           <div className="flex flex-col gap-2">
             <div>
               <h4 className="text-black font-medium text-lg mb-0.5">Email</h4>
-              <p className="text-gray-400 text-base">daniel.meyer@meyerfarms.com</p>
+              <p className="text-gray-400 text-base">{user.email}</p>
             </div>
 
             <div>
               <h4 className="text-black font-medium text-lg mb-0.5">Phone</h4>
-              <p className="text-gray-400 text-base">+1 (515) 555‑0134</p>
+              <p className="text-gray-400 text-base">{user.profile.phoneNumber}</p>
             </div>
 
             <div>
               <h4 className="text-black font-medium text-lg mb-0.5">Location</h4>
-              <p className="text-gray-400 text-base">Boone County, Iowa · United States</p>
+              <p className="text-gray-400 text-base">{user.profile.location}</p>
             </div>
 
             <div>

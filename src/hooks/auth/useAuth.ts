@@ -23,6 +23,14 @@ export const useAuth = (authType: 'login' | 'signup') => {
           email: user.email,
           role: user.role,
           token: accessToken,
+          profile: {
+            firstName: user.profile.firstName,
+            lastName: user.profile.lastName,
+            location: user.profile.location,
+            bio: user.profile.bio,
+            avatarUrl: user.profile.avatarUrl,
+            phoneNumber: user.profile.phoneNumber,
+          },
         })
       );
 
