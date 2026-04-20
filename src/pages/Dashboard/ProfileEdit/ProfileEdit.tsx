@@ -1,14 +1,36 @@
 import { IMG } from '@/assets';
 import FormInput from '@/components/FormInput';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, Trash } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router';
 import { profileEditSchema } from './schema';
 import type { ProfileEditForm } from './types';
+import { useAppSelector } from '@/store/store';
+import { useRef, useState, type ChangeEvent } from 'react';
+import { useUpdateProfile } from '@/hooks/profile/useUpdateProfile';
+import { ROUTES } from '@/constants/ROUTES';
+import Loader from '@/components/Loader';
 
 const ProfileEdit = () => {
   const navigate = useNavigate();
+  const user = useAppSelector(state => state.user);
+
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [currentAvatar, setCurrentAvatar] = useState<string | null>(user.profile.avatarUrl || null);
+
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setSelectedFile(file);
+      setCurrentAvatar(URL.createObjectURL(file));
+    }
+  };
+
+  const triggerFileInput = () => fileInputRef.current?.click();
+
+  const { mutate, isPending } = useUpdateProfile(() => navigate(ROUTES.dashboard.profile));
 
   const {
     register,
@@ -16,19 +38,31 @@ const ProfileEdit = () => {
     formState: { errors },
   } = useForm<ProfileEditForm>({
     defaultValues: {
-      firstName: '',
-      lastName: '',
-      email: '',
-      role: '',
-      bio: '',
-      phone: '',
-      location: '',
+      firstName: user.profile.firstName || '',
+      lastName: user.profile.lastName || '',
+      bio: user.profile.bio || '',
+      phoneNumber: user.profile.phoneNumber || '',
+      location: user.profile.location || '',
     },
     resolver: yupResolver(profileEditSchema),
   });
 
   const onSubmit = (data: ProfileEditForm) => {
-    console.log(data);
+    const formData = new FormData();
+
+    Object.keys(data).forEach(key => {
+      formData.append(key, data[key as keyof ProfileEditForm] || '');
+    });
+
+    if (selectedFile) {
+      formData.append('avatar', selectedFile);
+    } else if (currentAvatar && currentAvatar.startsWith('http')) {
+      formData.append('avatarUrl', currentAvatar);
+    } else {
+      formData.append('avatarUrl', 'null');
+    }
+
+    mutate(formData);
   };
 
   return (
@@ -52,15 +86,43 @@ const ProfileEdit = () => {
         </div>
 
         <div className="flex items-center gap-4 mb-10">
-          <div className="border border-gray-400 rounded-full w-20 h-20 p-0.5">
-            <img className="w-full h-full rounded-full" src={IMG.avatarImg} alt="Avatar" />
+          <div className="group relative w-20 h-20 rounded-full overflow-hidden">
+            <img
+              src={currentAvatar || IMG.avatarImg}
+              className="w-full h-full object-cover"
+              alt="Avatar"
+            />
+
+            {currentAvatar && (
+              <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                <Trash
+                  size={24}
+                  className="text-red-600 transform translate-y-2 group-hover:translate-y-0 transition-all duration-300 cursor-pointer"
+                  onClick={() => {
+                    setCurrentAvatar(null);
+                    setSelectedFile(null);
+                  }}
+                />
+              </div>
+            )}
           </div>
 
           <div className="flex flex-col gap-2">
-            <button className="text-sm bg-gray-100 text-black font-medium py-2 px-4 rounded-lg border border-gray-200 cursor-pointer">
+            <input
+              type="file"
+              ref={fileInputRef}
+              onChange={handleFileChange}
+              accept="image/*"
+              className="hidden"
+            />
+
+            <button
+              onClick={triggerFileInput}
+              className="text-sm bg-gray-100 text-black font-medium py-2 px-4 rounded-lg border border-gray-200 cursor-pointer"
+            >
               Change Avatar
             </button>
-            <p className="text-sm text-gray-400">JPG, GIF or PNG. Max size of 800K</p>
+            <p className="text-sm text-gray-400">JPG, GIF or PNG. Max size of 5MB</p>
           </div>
         </div>
 
@@ -81,15 +143,6 @@ const ProfileEdit = () => {
                 placeholder="Enter your last name"
                 {...register('lastName')}
                 error={errors.lastName}
-              />
-            </div>
-
-            <div className="w-full">
-              <FormInput
-                label="Role"
-                placeholder="Enter your role"
-                {...register('role')}
-                error={errors.role}
               />
             </div>
           </div>
@@ -116,17 +169,8 @@ const ProfileEdit = () => {
                 <FormInput
                   label="Phone Number"
                   placeholder="Enter your phone number"
-                  {...register('phone')}
-                  error={errors.phone}
-                />
-              </div>
-
-              <div className="w-full">
-                <FormInput
-                  label="Email"
-                  placeholder="Enter your email"
-                  {...register('email')}
-                  error={errors.email}
+                  {...register('phoneNumber')}
+                  error={errors.phoneNumber}
                 />
               </div>
 
@@ -141,17 +185,28 @@ const ProfileEdit = () => {
             </div>
           </div>
 
-          <div className="flex items-center justify-end gap-5">
-            <button
-              onClick={() => navigate(-1)}
-              className="text-black text-base font-medium cursor-pointer"
-            >
-              Cancel
-            </button>
-            <button className="bg-primary text-base font-medium text-white px-4 py-2 rounded-lg cursor-pointer">
-              Save Changes
-            </button>
-          </div>
+          {isPending ? (
+            <div className="flex justify-center">
+              <Loader />
+            </div>
+          ) : (
+            <div className="flex items-center justify-end gap-5">
+              <button
+                disabled={isPending}
+                onClick={() => navigate(-1)}
+                className="text-black text-base font-medium cursor-pointer"
+              >
+                Cancel
+              </button>
+
+              <button
+                disabled={isPending}
+                className="bg-primary text-base font-medium text-white px-4 py-2 rounded-lg cursor-pointer"
+              >
+                Save Changes
+              </button>
+            </div>
+          )}
         </form>
       </div>
     </div>

@@ -20,4 +20,7 @@ export const API_ROUTES = {
     GET_FIELD_ACTIVITIES: (fieldId: string) => `/field-activity/${fieldId}`,
     DELETE_ACTIVITY: `/field-activity`,
   },
+  PROFILE: {
+    UPDATE: '/user/profile',
+  },
 };
