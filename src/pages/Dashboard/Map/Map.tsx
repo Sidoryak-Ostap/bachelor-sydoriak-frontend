@@ -23,6 +23,7 @@ mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_ACCESS_TOKEN;
 
 const Map: React.FC = () => {
   const dispatch = useDispatch();
+  const { autoAreaCalculation } = useAppSelector(state => state.user.settings);
   const [coordinates, setCoordinates] = useState<number[][] | null>(null);
   const [isSelected, setIsSelected] = useState(false);
   const [detectedArea, setDetectedArea] = useState<number>(0.0);
@@ -156,7 +157,7 @@ const Map: React.FC = () => {
         zoomOut={() => map.current?.zoomOut()}
       />
 
-      {showConfirmModal && (
+      {showConfirmModal && autoAreaCalculation && (
         <Modal
           setOpen={setShowConfirmModal}
           onConfirm={() => dispatch(setArea(detectedArea))}
