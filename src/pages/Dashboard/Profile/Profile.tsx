@@ -129,21 +129,6 @@ const Profile = () => {
               Manage Plan
             </Link>
           </div>
-
-          <div className="bg-white border border-gray-200 rounded-lg p-5">
-            <div className="mb-5">
-              <h3 className="text-black font-medium text-lg">Notifications</h3>
-              <p className="text-base text-gray-400">Choose how AgroMap keeps you informed</p>
-            </div>
-
-            <div className="flex items-center justify-between">
-              <div>
-                <h3 className="text-black font-medium text-lg">Email updates</h3>
-                <p className="text-base text-gray-400">Weekly farm summary</p>
-              </div>
-              <Switch className="scale-125" />{' '}
-            </div>
-          </div>
         </div>
       </div>
     </div>

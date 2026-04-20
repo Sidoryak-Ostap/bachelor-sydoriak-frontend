@@ -15,6 +15,14 @@ interface IUserState {
     phoneNumber: string | null;
     avatarUrl: string | null;
   };
+  settings: {
+    language: string;
+    timezone: string;
+    autoAreaCalculation?: boolean;
+    emailUpdates?: boolean;
+    weeklySummary?: boolean;
+    marketingNews?: boolean;
+  };
 }
 
 const storedToken = localStorage.getItem('accessToken') || null;
@@ -33,6 +41,14 @@ const initialState: IUserState = {
     bio: '',
     avatarUrl: null,
   },
+  settings: {
+    language: 'en',
+    timezone: 'UTC',
+    autoAreaCalculation: true,
+    emailUpdates: false,
+    weeklySummary: false,
+    marketingNews: false,
+  },
 };
 
 export const userSlice = createSlice({
@@ -40,43 +56,27 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     setUser: (state, action) => {
-      state.name = action.payload.name;
-      state.email = action.payload.email;
-      state.role = action.payload.role;
-      state.token = action.payload.token;
+      const { profile, settings, ...rest } = action.payload;
+
+      Object.assign(state, rest);
       state.isAuthorized = true;
       state.isAuthLoading = false;
-      state.profile.phoneNumber = action.payload.profile.phoneNumber;
-      state.profile.firstName = action.payload.profile.firstName;
-      state.profile.lastName = action.payload.profile.lastName;
-      state.profile.location = action.payload.profile.location;
-      state.profile.bio = action.payload.profile.bio;
-      state.profile.avatarUrl = action.payload.profile.avatarUrl;
+
+      if (profile) state.profile = { ...state.profile, ...profile };
+      if (settings) state.settings = { ...state.settings, ...settings };
     },
 
     setProfile: (state, action) => {
-      state.profile.phoneNumber = action.payload.phoneNumber;
-      state.profile.firstName = action.payload.firstName;
-      state.profile.lastName = action.payload.lastName;
-      state.profile.location = action.payload.location;
-      state.profile.bio = action.payload.bio;
-      state.profile.avatarUrl = action.payload.avatarUrl;
+      state.profile = { ...state.profile, ...action.payload };
     },
 
-    logout: state => {
-      state.name = null;
-      state.email = null;
-      state.role = null;
-      state.token = null;
-      state.isAuthorized = false;
-      state.isAuthLoading = false;
-      state.profile.firstName = null;
-      state.profile.lastName = null;
-      state.profile.location = null;
-      state.profile.bio = null;
-      state.profile.phoneNumber = null;
-      state.profile.avatarUrl = null;
+    setSettings: (state, action) => {
+      state.settings = { ...state.settings, ...action.payload };
+    },
+
+    logout: () => {
       localStorage.removeItem('accessToken');
+      return initialState;
     },
 
     setAuthLoading: (state, action) => {
@@ -85,6 +85,6 @@ export const userSlice = createSlice({
   },
 });
 
-export const { setUser, logout, setAuthLoading, setProfile } = userSlice.actions;
+export const { setUser, logout, setAuthLoading, setProfile, setSettings } = userSlice.actions;
 
 export default userSlice.reducer;

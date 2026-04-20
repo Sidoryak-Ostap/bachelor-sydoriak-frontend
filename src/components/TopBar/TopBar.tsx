@@ -8,8 +8,8 @@ import { useLogout } from '@/hooks/auth/useLogout';
 
 const LINKS = [
   { label: 'Profile', to: ROUTES.dashboard.profile },
-  { label: 'Settings', to: '' },
-  { label: 'Pricing', to: '' },
+  { label: 'Settings', to: ROUTES.dashboard.settings },
+  { label: 'Pricing', to: ROUTES.dashboard.pricing },
 ];
 
 const TopBar = () => {
@@ -34,7 +34,7 @@ const TopBar = () => {
           <Link to={ROUTES.dashboard.faq}>
             <CircleQuestionMark strokeWidth={1.5} className="text-black" size={24} />
           </Link>
-          <Link to="">
+          <Link to={ROUTES.dashboard.settings}>
             <Settings strokeWidth={1.5} className="text-black" size={24} />
           </Link>
         </div>

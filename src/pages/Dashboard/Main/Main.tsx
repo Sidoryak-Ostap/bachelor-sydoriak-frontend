@@ -28,7 +28,7 @@ const cropDistribution = [
   { name: 'Oats', value: 10, color: '#6366f1' },
 ];
 
-const MainDashboard = () => {
+const Main = () => {
   return (
     <div className="p-8 bg-gray-50 min-h-screen">
       <div className="mb-8">
@@ -163,4 +163,4 @@ const MainDashboard = () => {
   );
 };
 
-export default MainDashboard;
+export default Main;
