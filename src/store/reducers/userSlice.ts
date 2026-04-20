@@ -56,14 +56,15 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     setUser: (state, action) => {
-      const { profile, settings, ...rest } = action.payload;
-
-      Object.assign(state, rest);
+      const { settings, profile } = action.payload;
+      state.name = action.payload.name;
+      state.email = action.payload.email;
+      state.role = action.payload.role;
+      state.token = action.payload.token;
       state.isAuthorized = true;
       state.isAuthLoading = false;
-
-      if (profile) state.profile = { ...state.profile, ...profile };
-      if (settings) state.settings = { ...state.settings, ...settings };
+      state.profile = { ...state.profile, ...profile };
+      state.settings = { ...state.settings, ...settings };
     },
 
     setProfile: (state, action) => {
@@ -74,9 +75,28 @@ export const userSlice = createSlice({
       state.settings = { ...state.settings, ...action.payload };
     },
 
-    logout: () => {
+    logout: state => {
+      state.name = null;
+      state.email = null;
+      state.role = null;
+      state.token = null;
+      state.profile.firstName = null;
+      state.profile.lastName = null;
+      state.profile.location = null;
+      state.profile.bio = null;
+      state.profile.phoneNumber = null;
+      state.profile.avatarUrl = null;
+      state.settings.language = 'en';
+      state.settings.timezone = 'UTC';
+      state.settings.autoAreaCalculation = true;
+      state.settings.emailUpdates = false;
+      state.settings.weeklySummary = false;
+      state.settings.marketingNews = false;
+
+      state.isAuthorized = false;
+      state.isAuthLoading = false;
+
       localStorage.removeItem('accessToken');
-      return initialState;
     },
 
     setAuthLoading: (state, action) => {
