@@ -7,6 +7,7 @@ interface ISubscriptionState {
   invoiceId: string;
   lastAmount: number;
   nextPaymentDate: string;
+  price: number;
 }
 
 const initialState: ISubscriptionState = {
@@ -16,6 +17,7 @@ const initialState: ISubscriptionState = {
   invoiceId: '',
   lastAmount: 0,
   nextPaymentDate: '',
+  price: 0,
 };
 
 export const subscriptionSlice = createSlice({
@@ -29,6 +31,10 @@ export const subscriptionSlice = createSlice({
       state.invoiceId = action.payload.invoiceId;
       state.lastAmount = action.payload.lastAmount;
       state.nextPaymentDate = action.payload.nextPaymentDate;
+      state.price = action.payload.price;
+    },
+    setSubscriptionStatus: (state, action) => {
+      state.status = action.payload.status;
     },
     clearSubscription: state => {
       state.subscriptionId = '';
@@ -38,9 +44,11 @@ export const subscriptionSlice = createSlice({
       state.invoiceId = '';
       state.lastAmount = 0;
       state.nextPaymentDate = '';
+      state.price = 0;
     },
   },
 });
 
-export const { setSubscription, clearSubscription } = subscriptionSlice.actions;
+export const { setSubscription, clearSubscription, setSubscriptionStatus } =
+  subscriptionSlice.actions;
 export default subscriptionSlice.reducer;

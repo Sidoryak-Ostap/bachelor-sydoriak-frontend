@@ -9,6 +9,7 @@ type Subscription = {
   invoiceId: string;
   lastAmount: number;
   nextPaymentDate: string;
+  price: number;
 };
 
 type CreateSubscriptionResponse = {

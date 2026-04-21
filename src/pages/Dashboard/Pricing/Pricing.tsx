@@ -1,14 +1,21 @@
 import { IMG } from '@/assets';
 import { useCreateSubscription } from '@/hooks/subscription/useCreateSubscription';
+import { useCancelSubscription } from '@/hooks/subscription/userCancelSubscription';
 import { useAppSelector } from '@/store/store';
 import { useState } from 'react';
 
 const Pricing = () => {
   const [isAnnual, setIsAnnual] = useState(false);
-  const { plan } = useAppSelector(state => state.subscription);
+  const { plan, subscriptionId } = useAppSelector(state => state.subscription);
 
+  const { mutate: cancelSubscription } = useCancelSubscription();
   const { mutate } = useCreateSubscription();
   const handleSubscribe = (plan: 'starter' | 'basic' | 'pro') => {
+    if (plan === 'starter') {
+      cancelSubscription({ subscriptionId, action: 'cancel' });
+      return;
+    }
+
     mutate(plan);
   };
 
