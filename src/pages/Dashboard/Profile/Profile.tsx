@@ -4,6 +4,8 @@ import { Link } from 'react-router';
 import { useAppSelector } from '@/store/store';
 import { useGetStatistics } from '@/hooks/statistics/useGetStatistics';
 import { useMemo } from 'react';
+import { formatDate } from '@/utils/format';
+import { useCancelSubscription } from '@/hooks/subscription/userCancelSubscription';
 
 interface CropDistItem {
   name: string;
@@ -12,7 +14,23 @@ interface CropDistItem {
 
 const Profile = () => {
   const user = useAppSelector(state => state.user);
+  const { plan, price, nextPaymentDate, subscriptionId, status } = useAppSelector(
+    state => state.subscription
+  );
+
+  const isActiveSubscription = plan !== 'starter' && status === 'active';
+
   const { data: statisticsData, isError } = useGetStatistics();
+  const { mutate: cancelSubscription } = useCancelSubscription();
+
+  const handleCancelSubscription = () => {
+    cancelSubscription({ subscriptionId, action: 'cancel' });
+  };
+
+  const subscriptionAvailableTill = useMemo(() => {
+    if (new Date(nextPaymentDate) < new Date()) return null;
+    return formatDate(nextPaymentDate);
+  }, [nextPaymentDate]);
 
   const {
     totalFields = 0,
@@ -75,7 +93,9 @@ const Profile = () => {
 
           <div className="px-4 py-5 rounded-lg bg-gray-100 w-full">
             <p className="text-gray-400 text-base w-full">Plan</p>
-            <p className="text-black font-medium text-lg w-full">Pro</p>
+            <p className="text-black font-medium text-lg w-full">
+              {plan ? plan.charAt(0).toUpperCase() + plan.slice(1) : 'Starter'}
+            </p>
           </div>
         </div>
       </div>
@@ -121,30 +141,53 @@ const Profile = () => {
               </div>
 
               <p className="bg-gray-100 text-gray-500 px-4 py-2 font-medium rounded-lg text-base">
-                Pro
+                {plan ? plan.charAt(0).toUpperCase() + plan.slice(1) : 'Starter'}
               </p>
             </div>
 
             <div className="flex items-center justify-between mb-3">
               <div>
-                <h3 className="text-black font-medium text-lg">AgroMap Pro</h3>
+                <h3 className="text-black font-medium text-lg">
+                  AgroMap {plan.charAt(0).toUpperCase() + plan.slice(1)}
+                </h3>
                 <p className="text-base text-gray-400">
                   Up to 10,000 acres · Unlimited team members
                 </p>
               </div>
 
               <div className="flex flex-col items-end">
-                <h3 className="text-black font-medium text-lg">$29.99</h3>
+                <h3 className="text-black font-medium text-lg">UAH {price?.toFixed(2) || 0}</h3>
                 <p className="text-base text-gray-400">per month</p>
               </div>
             </div>
 
-            <Link
-              to={ROUTES.dashboard.pricing}
-              className="w-full bg-gray-100 text-black font-medium py-2 px-4 rounded-lg border border-gray-200 cursor-pointer"
-            >
-              Manage Plan
-            </Link>
+            {isActiveSubscription && (
+              <div className="flex flex-col gap-4">
+                <div>
+                  <h3 className="text-black font-medium text-lg">Next payment date</h3>
+                  <p className="text-base text-gray-400">{formatDate(nextPaymentDate)}</p>
+                </div>
+
+                <div>
+                  <h3 className="text-black font-medium text-lg">Subscription ID</h3>
+                  <p className="text-base text-gray-400">{subscriptionId}</p>
+                </div>
+
+                <button
+                  onClick={handleCancelSubscription}
+                  className="mt-5 text-md bg-red-600 rounded-xl px-4 py-3 text-white font-medium self-start cursor-pointer hover:bg-red-700 transition-colors duration-300"
+                >
+                  Cancel Subscription
+                </button>
+              </div>
+            )}
+
+            {!isActiveSubscription && subscriptionAvailableTill && (
+              <div>
+                <h3 className="text-black font-medium text-lg">Plan available until</h3>
+                <p className="text-base text-gray-400">{formatDate(nextPaymentDate)}</p>
+              </div>
+            )}
           </div>
         </div>
       </div>

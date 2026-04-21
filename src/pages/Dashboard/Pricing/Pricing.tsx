@@ -1,8 +1,23 @@
 import { IMG } from '@/assets';
+import { useCreateSubscription } from '@/hooks/subscription/useCreateSubscription';
+import { useCancelSubscription } from '@/hooks/subscription/userCancelSubscription';
+import { useAppSelector } from '@/store/store';
 import { useState } from 'react';
 
 const Pricing = () => {
   const [isAnnual, setIsAnnual] = useState(false);
+  const { plan, subscriptionId } = useAppSelector(state => state.subscription);
+
+  const { mutate: cancelSubscription } = useCancelSubscription();
+  const { mutate } = useCreateSubscription();
+  const handleSubscribe = (plan: 'starter' | 'basic' | 'pro') => {
+    if (plan === 'starter') {
+      cancelSubscription({ subscriptionId, action: 'cancel' });
+      return;
+    }
+
+    mutate(plan);
+  };
 
   return (
     <div className="min-h-screen flex flex-col justify-center py-10">
@@ -69,7 +84,11 @@ const Pricing = () => {
             </li>
           </ul>
 
-          <button className="bg-primary text-white text-center py-2.5 px-8 text-base font-bold rounded-xl mt-auto">
+          <button
+            onClick={() => handleSubscribe('starter')}
+            disabled={plan === 'starter'}
+            className="bg-primary text-white text-center py-2.5 px-8 text-base font-bold rounded-xl mt-auto cursor-pointer disabled:bg-gray-400 disabled:cursor-not-allowed"
+          >
             Start 7 day free trial
           </button>
         </div>
@@ -106,12 +125,16 @@ const Pricing = () => {
             </li>
           </ul>
 
-          <button className="bg-primary text-white text-center py-2.5 px-8 text-base font-bold rounded-xl mt-auto">
+          <button
+            onClick={() => handleSubscribe('basic')}
+            disabled={plan === 'basic'}
+            className="bg-primary text-white text-center py-2.5 px-8 text-base font-bold rounded-xl mt-auto cursor-pointer disabled:bg-gray-400 disabled:cursor-not-allowed"
+          >
             Subscribe now
           </button>
         </div>
 
-        <div className="bg-white rounded-2xl pt-8 pb-7 px-7 shadow-md flex flex-col max-w-[290px] w-full relative overflow-clip">
+        <div className="bg-white rounded-2xl pt-8 pb-7 px-7 shadow-md flex flex-col max-w-72.5 w-full relative overflow-clip">
           <div
             className="bg-primary h-32 w-full absolute top-0 left-0"
             style={{ clipPath: 'polygon(0 0, 100% 0, 100% 50%, 0% 12%)' }}
@@ -148,7 +171,11 @@ const Pricing = () => {
             </li>
           </ul>
 
-          <button className="bg-primary text-white text-center py-2.5 px-8 text-base font-bold rounded-xl mt-auto">
+          <button
+            onClick={() => handleSubscribe('pro')}
+            disabled={plan === 'pro'}
+            className="bg-primary text-white text-center py-2.5 px-8 text-base font-bold rounded-xl mt-auto cursor-pointer disabled:bg-gray-400 disabled:cursor-not-allowed"
+          >
             Subscribe now
           </button>
         </div>
