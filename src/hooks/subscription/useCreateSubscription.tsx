@@ -2,6 +2,7 @@ import { createSubscription, getSubscription } from '@/services/subscription';
 import { setSubscription } from '@/store/reducers/subscriptionSlice';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useDispatch } from 'react-redux';
+import { toast } from 'react-toastify';
 
 export const useCreateSubscription = () => {
   const queryClient = useQueryClient();
@@ -22,6 +23,9 @@ export const useCreateSubscription = () => {
       } catch (err) {
         console.error('Failed to fetch subscription after login', err);
       }
+    },
+    onError: (error: any) => {
+      toast.error(error?.response?.data?.message || 'Failed to create subscription');
     },
   });
 };

@@ -14,5 +14,8 @@ export const useCancelSubscription = () => {
       dispatch(setSubscriptionStatus({ status: 'cancelled' }));
       toast.success('Subscription cancelled successfully');
     },
+    onError: (error: any) => {
+      toast.error(error?.response?.data?.message || 'Failed to cancel subscription');
+    },
   });
 };
