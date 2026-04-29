@@ -37,7 +37,7 @@ const Sidebar = () => {
 
   return (
     <div className="px-4 py-7.5 bg-white">
-      <Link to="/dashboard" className="flex items-center gap-2 text-xl font-bold text-primary mb-6">
+      <Link to="/" className="flex items-center gap-2 text-xl font-bold text-primary mb-6">
         <img className="w-10 h-10" src={logo} alt="Logo" />
         <h1>AgroMap</h1>
       </Link>

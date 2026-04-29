@@ -50,14 +50,16 @@ const Header = () => {
           </ul>
 
           <div className="hidden items-center gap-4 lg:flex">
-            <MotionLink
-              whileHover={buttonHover}
-              whileTap={buttonTap}
-              className="text-primary text-base font-medium border-primary border-3 rounded-xl px-8 py-2 flex items-center justify-center"
-              to={ROUTES.login}
-            >
-              Log in
-            </MotionLink>
+            {!isAuthorized && (
+              <MotionLink
+                whileHover={buttonHover}
+                whileTap={buttonTap}
+                className="text-primary text-base font-medium border-primary border-3 rounded-xl px-8 py-2 flex items-center justify-center"
+                to={ROUTES.login}
+              >
+                Log in
+              </MotionLink>
+            )}
 
             <motion.button
               whileHover={buttonHover}
@@ -65,7 +67,7 @@ const Header = () => {
               onClick={onGetStartedClick}
               className="cursor-pointer text-white bg-primary text-base font-medium rounded-xl px-8 py-2 flex items-center justify-center border-3 border-transparent"
             >
-              Get Started
+              {isAuthorized ? 'Dashboard' : 'Get Started'}
             </motion.button>
           </div>
 
