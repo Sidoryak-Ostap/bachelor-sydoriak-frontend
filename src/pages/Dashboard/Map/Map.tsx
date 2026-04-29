@@ -14,16 +14,24 @@ import { useGetFieldById } from '@/hooks/fields/useGetFieldById';
 import { useGetFields } from '@/hooks/fields/useGetFields';
 import FieldsBar from './FieldsBar/FieldsBar';
 import { useMapbox } from '@/hooks/useMapBox';
-import { calculateArea, highlightSingleField, syncAllFieldsLayer } from '@/utils/mapUtils';
+import {
+  calculateArea,
+  highlightSingleField,
+  removeNdviLayer,
+  syncAllFieldsLayer,
+  toggleNdviLayer,
+} from '@/utils/mapUtils';
 import Modal from '@/components/Dashboard/Modal';
 import { useDispatch } from 'react-redux';
 import { setArea } from '@/store/reducers/createFieldSlice';
+import { useGetFieldImages } from '@/hooks/indices.ts/useGetFieldImages';
 
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_ACCESS_TOKEN;
 
 const Map: React.FC = () => {
   const dispatch = useDispatch();
   const { autoAreaCalculation } = useAppSelector(state => state.user.settings);
+  const { isNdviActive, selectedFieldId } = useAppSelector(state => state.fieldMap);
   const [coordinates, setCoordinates] = useState<number[][] | null>(null);
   const [isSelected, setIsSelected] = useState(false);
   const [detectedArea, setDetectedArea] = useState<number>(0.0);
@@ -32,6 +40,9 @@ const Map: React.FC = () => {
   const mapContainer = useRef<HTMLDivElement | null>(null);
   const { map, draw, popup, mode, setMode } = useMapbox(mapContainer);
   const { id } = useParams();
+
+  const { data: fieldImages } = useGetFieldImages(selectedFieldId || '');
+  const activeFieldData = fieldImages && fieldImages.length > 0 ? fieldImages[0] : null;
 
   const { data, isDrawing } = useAppSelector(state => state.createField);
 
@@ -99,6 +110,22 @@ const Map: React.FC = () => {
     if (currentMap.isStyleLoaded()) setupLayers();
     else currentMap.once('load', setupLayers);
   }, [allFields, fieldData, id, map.current]);
+
+  // 3. NDVI Layer Effect
+  useEffect(() => {
+    if (!map.current) return;
+
+    if (isNdviActive && activeFieldData && activeFieldData.bbox.mapboxCoords) {
+      toggleNdviLayer(
+        map.current,
+        activeFieldData.cloudinaryUrl,
+        activeFieldData.bbox.mapboxCoords,
+        activeFieldData.fieldId
+      );
+    } else if (activeFieldData) {
+      removeNdviLayer(map.current, activeFieldData.fieldId);
+    }
+  }, [isNdviActive, activeFieldData]);
 
   const toggleDrawPolygon = () => {
     if (draw.current) {
