@@ -1,16 +1,28 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ChevronLeft, ChevronRight, Sprout } from 'lucide-react';
 import type { Field } from '@/types/field';
 import { ROUTES } from '@/constants/ROUTES';
 import { Link, useParams } from 'react-router';
+import clsx from 'clsx';
+import { useDispatch } from 'react-redux';
+import { changeField, setNdviActive } from '@/store/reducers/fieldMapSlice';
+import { useAppSelector } from '@/store/store';
 
 type FieldsBarProps = {
   fields: Field[];
 };
 
 const FieldsBar = ({ fields }: FieldsBarProps) => {
+  const dispatch = useDispatch();
+  const isNDVIVisible = useAppSelector(state => state.fieldMap.isNdviActive);
   const [isOpen, setIsOpen] = useState(true);
   const { id: fieldId } = useParams<{ id: string }>();
+
+  useEffect(() => {
+    if (fieldId) {
+      dispatch(changeField(fieldId));
+    }
+  }, [fieldId]);
 
   return (
     <div
@@ -82,6 +94,24 @@ const FieldsBar = ({ fields }: FieldsBarProps) => {
                         {field.area} ha
                       </p>
                     </div>
+
+                    {fieldId === field.id && (
+                      <button
+                        onClick={e => {
+                          e.preventDefault();
+                          dispatch(setNdviActive(!isNDVIVisible));
+                        }}
+                        type="button"
+                        className={clsx(
+                          'cursor-pointer text-sm font-medium border-2 rounded-lg px-3 py-1 transition-colors',
+                          isNDVIVisible
+                            ? 'text-blue-600 border-blue-600'
+                            : 'text-gray-500 border-gray-300 '
+                        )}
+                      >
+                        NDVI
+                      </button>
+                    )}
                   </Link>
                 </li>
               ))}
