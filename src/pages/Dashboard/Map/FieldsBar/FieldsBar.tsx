@@ -27,7 +27,7 @@ const FieldsBar = ({ fields }: FieldsBarProps) => {
   return (
     <div
       className={`absolute top-0 left-0 h-full border-r border-gray-200 bg-white transition-all duration-200 ease-in-out z-20 ${
-        isOpen ? 'w-70' : 'w-0'
+        isOpen ? 'w-80' : 'w-0'
       }`}
     >
       <button
