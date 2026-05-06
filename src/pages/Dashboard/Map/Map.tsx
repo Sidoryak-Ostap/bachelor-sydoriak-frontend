@@ -24,7 +24,8 @@ import {
 import Modal from '@/components/Dashboard/Modal';
 import { useDispatch } from 'react-redux';
 import { setArea } from '@/store/reducers/createFieldSlice';
-import { useGetFieldImages } from '@/hooks/indices.ts/useGetFieldImages';
+import { useGetFieldImages } from '@/hooks/indices/useGetFieldImages';
+import TimeLine from './TimeLine';
 
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_ACCESS_TOKEN;
 
@@ -42,13 +43,23 @@ const Map: React.FC = () => {
   const { id } = useParams();
 
   const { data: fieldImages } = useGetFieldImages(selectedFieldId || '');
-  const activeFieldData = fieldImages && fieldImages.length > 0 ? fieldImages[0] : null;
+  const [activeFieldData, setActiveFieldData] = useState<any>(() => {
+    if (fieldImages && fieldImages.length > 0) {
+      return fieldImages[fieldImages.length - 1];
+    }
+  });
 
   const { data, isDrawing } = useAppSelector(state => state.createField);
 
   const { mutate, isPending } = useCreateField();
   const { data: fieldData } = useGetFieldById(id || null);
   const { data: allFields } = useGetFields();
+
+  useEffect(() => {
+    if (fieldImages && fieldImages.length > 0) {
+      setActiveFieldData(fieldImages[fieldImages.length - 1]);
+    }
+  }, [fieldImages]);
 
   // 1. Event Listeners Effect
   useEffect(() => {
@@ -183,6 +194,16 @@ const Map: React.FC = () => {
         zoomIn={() => map.current?.zoomIn()}
         zoomOut={() => map.current?.zoomOut()}
       />
+
+      {isNdviActive && (
+        <div className="absolute bottom-4 right-1/2 transform translate-x-1/2 w-full max-w-lg px-4 z-40">
+          <TimeLine
+            fieldImagesData={fieldImages || []}
+            activeFieldMap={activeFieldData}
+            setActiveFieldMap={setActiveFieldData}
+          />
+        </div>
+      )}
 
       {showConfirmModal && autoAreaCalculation && (
         <Modal

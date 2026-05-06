@@ -8,3 +8,9 @@ export const formatDate = (date: string | Date) =>
     day: 'numeric',
     year: 'numeric',
   });
+
+export const formattedShortDate = (date: string | Date) =>
+  new Date(date).toLocaleDateString('en-US', {
+    month: 'long',
+    day: 'numeric',
+  });

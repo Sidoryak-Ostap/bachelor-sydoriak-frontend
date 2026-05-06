@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { ChevronLeft, ChevronRight, Sprout } from 'lucide-react';
 import type { Field } from '@/types/field';
 import { ROUTES } from '@/constants/ROUTES';
-import { Link, useParams } from 'react-router';
+import { Link, useNavigate, useParams } from 'react-router';
 import clsx from 'clsx';
 import { useDispatch } from 'react-redux';
 import { changeField, setNdviActive } from '@/store/reducers/fieldMapSlice';
@@ -17,6 +17,7 @@ const FieldsBar = ({ fields }: FieldsBarProps) => {
   const isNDVIVisible = useAppSelector(state => state.fieldMap.isNdviActive);
   const [isOpen, setIsOpen] = useState(true);
   const { id: fieldId } = useParams<{ id: string }>();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (fieldId) {
@@ -70,6 +71,11 @@ const FieldsBar = ({ fields }: FieldsBarProps) => {
               {fields.map(field => (
                 <li key={field.id}>
                   <Link
+                    onDoubleClick={e => {
+                      e.preventDefault();
+                      dispatch(setNdviActive(!isNDVIVisible));
+                      navigate(ROUTES.dashboard.fieldDetails(field.id));
+                    }}
                     to={ROUTES.dashboard.mapField(field.id)}
                     className={`
                             group flex items-center gap-4 p-3 transition-all cursor-pointer rounded-xl border

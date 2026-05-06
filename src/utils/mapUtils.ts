@@ -188,6 +188,12 @@ export const toggleNdviLayer = (
   const sourceId = `ndvi-source-${fieldId}`;
   const layerId = `ndvi-layer-${fieldId}`;
 
+  if (!map.isStyleLoaded()) {
+    // Якщо не готовий, чекаємо подію 'style.load' і викликаємо функцію знову
+    map.once('style.load', () => toggleNdviLayer(map, imageUrl, coords, fieldId));
+    return;
+  }
+
   // Якщо imageUrl або coords відсутні — видаляємо шар (якщо він є)
   if (!imageUrl || !coords) {
     removeNdviLayer(map, fieldId);
