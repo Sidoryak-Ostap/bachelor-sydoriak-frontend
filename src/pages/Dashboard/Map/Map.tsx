@@ -49,14 +49,17 @@ const Map: React.FC = () => {
     }
   });
 
-  // const activeFieldData =
-  //   fieldImages && fieldImages.length > 0 ? fieldImages[fieldImages.length - 1] : null;
-
   const { data, isDrawing } = useAppSelector(state => state.createField);
 
   const { mutate, isPending } = useCreateField();
   const { data: fieldData } = useGetFieldById(id || null);
   const { data: allFields } = useGetFields();
+
+  useEffect(() => {
+    if (fieldImages && fieldImages.length > 0) {
+      setActiveFieldData(fieldImages[fieldImages.length - 1]);
+    }
+  }, [fieldImages]);
 
   // 1. Event Listeners Effect
   useEffect(() => {
