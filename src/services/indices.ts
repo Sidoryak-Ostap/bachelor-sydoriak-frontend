@@ -20,7 +20,7 @@ type FieldIndice = {
   savi: Indice;
 };
 
-type FieldImage = {
+export type FieldImage = {
   fieldId: string;
   date: string;
   cloudinaryUrl: string;

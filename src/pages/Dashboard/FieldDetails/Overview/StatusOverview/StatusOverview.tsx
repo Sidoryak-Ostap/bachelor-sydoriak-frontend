@@ -1,10 +1,10 @@
 import { useGetFieldActivities } from '@/hooks/field-activity/useGetFieldActivities';
-import { useGetFieldIndices } from '@/hooks/indices.ts/useGetFieldIndices';
+import { useGetFieldIndices } from '@/hooks/indices/useGetFieldIndices';
 import { useGetCurrentFieldWeather } from '@/hooks/weather/useGetCurrentFieldWeather';
 import { capitalizeString } from '@/utils/capitalize';
 import { formatDate } from '@/utils/format';
 import { getNDVIColor } from '@/utils/ndvicolor';
-import { ArrowUp, CloudSnow, Leaf, Plus, Sprout, Trash2 } from 'lucide-react';
+import { ArrowDown, ArrowUp, CloudSnow, Leaf, Plus, Sprout, Trash2 } from 'lucide-react';
 import { useEffect } from 'react';
 import { useParams } from 'react-router';
 import { toast } from 'react-toastify';
@@ -44,10 +44,19 @@ const StatusOverview = ({ onDelete, onAddActivity, handleChangeTab }: StatusOver
     }
   }, [currentFieldWeatherData, isCurrentWeatherError, fieldIndicesData, isFieldIndicesError]);
 
-  const currentFieldIndices =
-    fieldIndicesData && fieldIndicesData.length > 0 ? fieldIndicesData[0] : null;
+  const lastIndices =
+    fieldIndicesData && fieldIndicesData.length > 0
+      ? fieldIndicesData[fieldIndicesData.length - 1]
+      : null;
 
-  const currentNDVI = currentFieldIndices ? currentFieldIndices.ndvi.mean : null;
+  const currentNDVI = lastIndices ? lastIndices.ndvi.mean : null;
+  const previousNDVI =
+    fieldIndicesData && fieldIndicesData.length > 1
+      ? fieldIndicesData[fieldIndicesData.length - 2].ndvi.mean
+      : null;
+
+  const ndviChange =
+    currentNDVI !== null && previousNDVI !== null ? currentNDVI - previousNDVI : null;
 
   return (
     <div className="flex flex-col gap-8">
@@ -57,7 +66,7 @@ const StatusOverview = ({ onDelete, onAddActivity, handleChangeTab }: StatusOver
           <div className="flex items-center gap-2 mb-6">
             <p className=" text-gray-600 text-3xl flex flex-col gap-1">
               {capitalizeString(currentFieldWeatherData?.current.description || '')}{' '}
-              {currentFieldWeatherData?.current.temp}
+              {currentFieldWeatherData?.current.temp.toFixed(1)}
               °C
             </p>
             <CloudSnow size={100} className="text-blue-400" />
@@ -79,7 +88,18 @@ const StatusOverview = ({ onDelete, onAddActivity, handleChangeTab }: StatusOver
               style={{ color: getNDVIColor(currentNDVI || 0) }}
             >
               {currentNDVI !== null ? currentNDVI.toFixed(2) : 'N/A'}
-              <ArrowUp size={24} className="text-green-500 absolute -top-1 left-19" />
+              {ndviChange !== null && ndviChange > 0 && (
+                <div className="absolute -top-1 left-19 flex items-center gap-1">
+                  <ArrowUp size={22} className="text-green-500" />
+                  <span className="text-green-500 text-sm">(+{ndviChange.toFixed(2)})</span>
+                </div>
+              )}
+              {ndviChange !== null && ndviChange < 0 && (
+                <div className="absolute -top-1 left-19 flex items-center gap-1">
+                  <ArrowDown size={22} className="text-red-500" />
+                  <span className="text-red-500 text-sm">({ndviChange.toFixed(2)})</span>
+                </div>
+              )}
             </p>
           </div>
 
@@ -99,9 +119,7 @@ const StatusOverview = ({ onDelete, onAddActivity, handleChangeTab }: StatusOver
 
                 <p className="text-sm text-yellow-700 font-semibold">
                   Last NDVI update:{' '}
-                  {formatDate(
-                    currentFieldIndices ? new Date(currentFieldIndices.date) : new Date()
-                  )}
+                  {formatDate(lastIndices ? new Date(lastIndices.date) : new Date())}
                 </p>
               </div>
             </div>
