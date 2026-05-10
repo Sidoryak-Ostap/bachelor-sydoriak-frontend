@@ -1,5 +1,7 @@
 import axios from 'axios';
 import { axiosInstance } from '../api/axios';
+import { getErrorMessage } from '@/utils/handleApiError';
+import { API_ROUTES } from '@/constants/API-ROUTES';
 
 export interface AuthCredentials {
   email: string;
@@ -26,13 +28,7 @@ export const sendResetCode = async (email: string) => {
     const response = await axiosInstance.post('/auth/send-code', { email });
     return response.data;
   } catch (error: unknown) {
-    if (axios.isAxiosError(error)) {
-      const serverMessage =
-        error.response?.data?.message || 'Server error during sending reset code.';
-      throw new Error(serverMessage);
-    }
-
-    throw new Error('Network error or request failed.');
+    throw new Error(getErrorMessage(error));
   }
 };
 
@@ -41,12 +37,7 @@ export const verifyResetCode = async (email: string, code: string) => {
     const response = await axiosInstance.post('/auth/verify-code', { email, code });
     return response.data;
   } catch (error: unknown) {
-    if (axios.isAxiosError(error)) {
-      const serverMessage = error.response?.data?.message || 'Server error during verification.';
-      throw new Error(serverMessage);
-    }
-
-    throw new Error('Network error or request failed.');
+    throw new Error(getErrorMessage(error));
   }
 };
 
@@ -55,11 +46,24 @@ export const resetPassword = async (email: string, newPassword: string) => {
     const response = await axiosInstance.post('/auth/reset-password', { email, newPassword });
     return response.data;
   } catch (error: unknown) {
-    if (axios.isAxiosError(error)) {
-      const serverMessage = error.response?.data?.message || 'Server error during password reset.';
-      throw new Error(serverMessage);
-    }
+    throw new Error(getErrorMessage(error));
+  }
+};
 
-    throw new Error('Network error or request failed.');
+export const getMe = async () => {
+  try {
+    const response = await axiosInstance.get(API_ROUTES.AUTH.ME);
+    return response.data;
+  } catch (error) {
+    throw new Error(getErrorMessage(error));
+  }
+};
+
+export const logOut = async () => {
+  try {
+    const response = await axiosInstance.post(API_ROUTES.AUTH.LOGOUT);
+    return response.data;
+  } catch (error) {
+    throw new Error(getErrorMessage(error));
   }
 };

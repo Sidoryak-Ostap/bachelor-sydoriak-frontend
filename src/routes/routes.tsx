@@ -13,7 +13,9 @@ import ProfileEdit from '@/pages/Dashboard/ProfileEdit/ProfileEdit';
 import Fields from '@/pages/Dashboard/Fields';
 import Map from '@/pages/Dashboard/Map';
 import FieldDetails from '@/pages/Dashboard/FieldDetails';
-import MainDashboard from '@/pages/Dashboard/MainDashboard';
+import MainDashboard from '@/pages/Dashboard/Main';
+import { PublicRoute } from './PublicRoute';
+import Settings from '@/pages/Dashboard/Settings';
 
 export const router = createBrowserRouter([
   {
@@ -23,11 +25,19 @@ export const router = createBrowserRouter([
       { index: true, element: <Main /> },
       {
         path: 'auth/signup',
-        element: <SignUp />,
+        element: (
+          <PublicRoute>
+            <SignUp />
+          </PublicRoute>
+        ),
       },
       {
         path: 'auth/login',
-        element: <SignIn />,
+        element: (
+          <PublicRoute>
+            <SignIn />
+          </PublicRoute>
+        ),
       },
       {
         path: 'auth/password-recovery',
@@ -75,6 +85,7 @@ export const router = createBrowserRouter([
             path: 'map/:id',
             element: <Map />,
           },
+          { path: 'settings', element: <Settings /> },
         ],
       },
     ],

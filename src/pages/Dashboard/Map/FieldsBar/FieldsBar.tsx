@@ -1,16 +1,29 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ChevronLeft, ChevronRight, Sprout } from 'lucide-react';
 import type { Field } from '@/types/field';
 import { ROUTES } from '@/constants/ROUTES';
-import { Link, useParams } from 'react-router';
+import { Link, useNavigate, useParams } from 'react-router';
+import clsx from 'clsx';
+import { useDispatch } from 'react-redux';
+import { changeField, setNdviActive } from '@/store/reducers/fieldMapSlice';
+import { useAppSelector } from '@/store/store';
 
 type FieldsBarProps = {
   fields: Field[];
 };
 
 const FieldsBar = ({ fields }: FieldsBarProps) => {
+  const dispatch = useDispatch();
+  const isNDVIVisible = useAppSelector(state => state.fieldMap.isNdviActive);
   const [isOpen, setIsOpen] = useState(true);
   const { id: fieldId } = useParams<{ id: string }>();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (fieldId) {
+      dispatch(changeField(fieldId));
+    }
+  }, [fieldId]);
 
   return (
     <div
@@ -37,7 +50,7 @@ const FieldsBar = ({ fields }: FieldsBarProps) => {
         }`}
       >
         <div className="w-full min-h-full px-5 py-6 flex flex-col">
-          <div className="sticky top-0 bg-white pb-4 mb-4 flex items-baseline justify-between border-b border-gray-100 z-10">
+          <div className="top-0 pb-4 mb-4 flex items-baseline justify-between z-10">
             <h2 className="text-xl font-bold text-gray-800 whitespace-nowrap">My Fields</h2>
             <span className="text-xs font-medium px-2 py-1 bg-blue-50 text-blue-600 rounded-full">
               {fields.length} Total
@@ -58,6 +71,11 @@ const FieldsBar = ({ fields }: FieldsBarProps) => {
               {fields.map(field => (
                 <li key={field.id}>
                   <Link
+                    onDoubleClick={e => {
+                      e.preventDefault();
+                      dispatch(setNdviActive(!isNDVIVisible));
+                      navigate(ROUTES.dashboard.fieldDetails(field.id));
+                    }}
                     to={ROUTES.dashboard.mapField(field.id)}
                     className={`
                             group flex items-center gap-4 p-3 transition-all cursor-pointer rounded-xl border
@@ -82,6 +100,24 @@ const FieldsBar = ({ fields }: FieldsBarProps) => {
                         {field.area} ha
                       </p>
                     </div>
+
+                    {fieldId === field.id && (
+                      <button
+                        onClick={e => {
+                          e.preventDefault();
+                          dispatch(setNdviActive(!isNDVIVisible));
+                        }}
+                        type="button"
+                        className={clsx(
+                          'cursor-pointer text-sm font-medium border-2 rounded-lg px-3 py-1 transition-colors',
+                          isNDVIVisible
+                            ? 'text-blue-600 border-blue-600'
+                            : 'text-gray-500 border-gray-300 '
+                        )}
+                      >
+                        NDVI
+                      </button>
+                    )}
                   </Link>
                 </li>
               ))}

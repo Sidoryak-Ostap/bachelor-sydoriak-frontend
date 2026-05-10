@@ -3,6 +3,8 @@ import FieldTabs from '@/components/Dashboard/FieldTabs';
 import Overview from './Overview';
 import { useState } from 'react';
 import Activity from './Activity';
+import TimeLine from './TimeLine';
+import Analysis from './Analysis/Analysis';
 
 const FieldDetails = () => {
   const [activeTab, setActiveTab] = useState<number>(0);
@@ -25,6 +27,8 @@ const FieldDetails = () => {
       {/* Tab screens */}
       {activeTab === 0 && <Overview handleChangeTab={handleChangeTab} />}
       {activeTab === 1 && <Activity />}
+      {activeTab === 2 && <TimeLine />}
+      {activeTab === 3 && <Analysis />}
     </div>
   );
 };

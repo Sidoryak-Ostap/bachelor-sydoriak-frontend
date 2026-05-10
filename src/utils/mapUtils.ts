@@ -166,3 +166,66 @@ export const calculateArea = (coords: number[][] | null) => {
 
   return areaInHectares.toFixed(2);
 };
+
+export const removeNdviLayer = (map: mapboxgl.Map, fieldId: string) => {
+  const sourceId = `ndvi-source-${fieldId}`;
+  const layerId = `ndvi-layer-${fieldId}`;
+
+  if (map.getLayer(layerId)) {
+    map.removeLayer(layerId);
+  }
+  if (map.getSource(sourceId)) {
+    map.removeSource(sourceId);
+  }
+};
+
+export const toggleNdviLayer = (
+  map: mapboxgl.Map,
+  imageUrl: string | null,
+  coords: number[][] | null,
+  fieldId: string
+) => {
+  const sourceId = `ndvi-source-${fieldId}`;
+  const layerId = `ndvi-layer-${fieldId}`;
+
+  if (!map.isStyleLoaded()) {
+    // Якщо не готовий, чекаємо подію 'style.load' і викликаємо функцію знову
+    map.once('style.load', () => toggleNdviLayer(map, imageUrl, coords, fieldId));
+    return;
+  }
+
+  // Якщо imageUrl або coords відсутні — видаляємо шар (якщо він є)
+  if (!imageUrl || !coords) {
+    removeNdviLayer(map, fieldId);
+    return;
+  }
+
+  const source = map.getSource(sourceId) as mapboxgl.ImageSource;
+
+  if (source) {
+    // Якщо джерело вже є, просто оновлюємо URL та координати
+    source.updateImage({ url: imageUrl, coordinates: coords as any });
+  } else {
+    // Додаємо нове джерело типу 'image'
+    map.addSource(sourceId, {
+      type: 'image',
+      url: imageUrl,
+      coordinates: coords as any,
+    });
+
+    // Додаємо шар
+    map.addLayer(
+      {
+        id: layerId,
+        type: 'raster',
+        source: sourceId,
+        paint: {
+          'raster-opacity': 0.8,
+          'raster-fade-duration': 300,
+          'raster-resampling': 'linear',
+        },
+      },
+      'single-field-label'
+    );
+  }
+};

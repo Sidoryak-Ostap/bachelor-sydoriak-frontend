@@ -2,6 +2,8 @@ import { configureStore } from '@reduxjs/toolkit';
 import userReducer from './reducers/userSlice';
 import resetPasswordReducer from './reducers/resetPasswordSlice';
 import createFieldReducer from './reducers/createFieldSlice';
+import subscriptionReducer from './reducers/subscriptionSlice';
+import fieldMapSlice from './reducers/fieldMapSlice';
 import { useSelector, type TypedUseSelectorHook } from 'react-redux';
 
 export const store = configureStore({
@@ -9,6 +11,8 @@ export const store = configureStore({
     user: userReducer,
     resetPassword: resetPasswordReducer,
     createField: createFieldReducer,
+    subscription: subscriptionReducer,
+    fieldMap: fieldMapSlice,
   },
 });
 

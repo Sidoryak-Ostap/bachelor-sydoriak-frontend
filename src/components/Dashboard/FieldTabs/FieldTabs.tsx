@@ -6,7 +6,7 @@ type FieldTabsProps = {
 };
 
 const FieldTabs = ({ activeTab, setActiveTab }: FieldTabsProps) => {
-  const tabs = ['Overview', 'Activity', 'Map', 'Analysis'];
+  const tabs = ['Overview', 'Activity', 'NDVI Timeline', 'Analysis'];
 
   const [indicatorStyle, setIndicatorStyle] = useState({ left: 0, width: 0 });
   const tabsRef = useRef<(HTMLButtonElement | null)[]>([]);

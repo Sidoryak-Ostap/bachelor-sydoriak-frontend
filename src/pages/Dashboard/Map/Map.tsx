@@ -14,15 +14,25 @@ import { useGetFieldById } from '@/hooks/fields/useGetFieldById';
 import { useGetFields } from '@/hooks/fields/useGetFields';
 import FieldsBar from './FieldsBar/FieldsBar';
 import { useMapbox } from '@/hooks/useMapBox';
-import { calculateArea, highlightSingleField, syncAllFieldsLayer } from '@/utils/mapUtils';
+import {
+  calculateArea,
+  highlightSingleField,
+  removeNdviLayer,
+  syncAllFieldsLayer,
+  toggleNdviLayer,
+} from '@/utils/mapUtils';
 import Modal from '@/components/Dashboard/Modal';
 import { useDispatch } from 'react-redux';
 import { setArea } from '@/store/reducers/createFieldSlice';
+import { useGetFieldImages } from '@/hooks/indices/useGetFieldImages';
+import TimeLine from './TimeLine';
 
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_ACCESS_TOKEN;
 
 const Map: React.FC = () => {
   const dispatch = useDispatch();
+  const { autoAreaCalculation } = useAppSelector(state => state.user.settings);
+  const { isNdviActive, selectedFieldId } = useAppSelector(state => state.fieldMap);
   const [coordinates, setCoordinates] = useState<number[][] | null>(null);
   const [isSelected, setIsSelected] = useState(false);
   const [detectedArea, setDetectedArea] = useState<number>(0.0);
@@ -32,11 +42,24 @@ const Map: React.FC = () => {
   const { map, draw, popup, mode, setMode } = useMapbox(mapContainer);
   const { id } = useParams();
 
+  const { data: fieldImages } = useGetFieldImages(selectedFieldId || '');
+  const [activeFieldData, setActiveFieldData] = useState<any>(() => {
+    if (fieldImages && fieldImages.length > 0) {
+      return fieldImages[fieldImages.length - 1];
+    }
+  });
+
   const { data, isDrawing } = useAppSelector(state => state.createField);
 
   const { mutate, isPending } = useCreateField();
   const { data: fieldData } = useGetFieldById(id || null);
   const { data: allFields } = useGetFields();
+
+  useEffect(() => {
+    if (fieldImages && fieldImages.length > 0) {
+      setActiveFieldData(fieldImages[fieldImages.length - 1]);
+    }
+  }, [fieldImages]);
 
   // 1. Event Listeners Effect
   useEffect(() => {
@@ -99,6 +122,22 @@ const Map: React.FC = () => {
     else currentMap.once('load', setupLayers);
   }, [allFields, fieldData, id, map.current]);
 
+  // 3. NDVI Layer Effect
+  useEffect(() => {
+    if (!map.current) return;
+
+    if (isNdviActive && activeFieldData && activeFieldData.bbox.mapboxCoords) {
+      toggleNdviLayer(
+        map.current,
+        activeFieldData.cloudinaryUrl,
+        activeFieldData.bbox.mapboxCoords,
+        activeFieldData.fieldId
+      );
+    } else if (activeFieldData) {
+      removeNdviLayer(map.current, activeFieldData.fieldId);
+    }
+  }, [isNdviActive, activeFieldData]);
+
   const toggleDrawPolygon = () => {
     if (draw.current) {
       draw.current.changeMode('draw_polygon');
@@ -156,7 +195,17 @@ const Map: React.FC = () => {
         zoomOut={() => map.current?.zoomOut()}
       />
 
-      {showConfirmModal && (
+      {isNdviActive && id && (
+        <div className="absolute bottom-4 right-1/2 transform translate-x-1/2 w-full max-w-lg px-4 z-40">
+          <TimeLine
+            fieldImagesData={fieldImages || []}
+            activeFieldMap={activeFieldData}
+            setActiveFieldMap={setActiveFieldData}
+          />
+        </div>
+      )}
+
+      {showConfirmModal && autoAreaCalculation && (
         <Modal
           setOpen={setShowConfirmModal}
           onConfirm={() => dispatch(setArea(detectedArea))}

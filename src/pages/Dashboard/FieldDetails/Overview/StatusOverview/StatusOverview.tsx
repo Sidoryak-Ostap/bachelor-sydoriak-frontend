@@ -1,7 +1,13 @@
 import { useGetFieldActivities } from '@/hooks/field-activity/useGetFieldActivities';
+import { useGetFieldIndices } from '@/hooks/indices/useGetFieldIndices';
+import { useGetCurrentFieldWeather } from '@/hooks/weather/useGetCurrentFieldWeather';
+import { capitalizeString } from '@/utils/capitalize';
+import { formatDate } from '@/utils/format';
 import { getNDVIColor } from '@/utils/ndvicolor';
-import { ArrowUp, CloudSnow, Leaf, Plus, Sprout, Trash2 } from 'lucide-react';
+import { ArrowDown, ArrowUp, CloudSnow, Leaf, Plus, Sprout, Trash2 } from 'lucide-react';
+import { useEffect } from 'react';
 import { useParams } from 'react-router';
+import { toast } from 'react-toastify';
 
 type StatusOverviewProps = {
   onDelete: () => void;
@@ -14,30 +20,86 @@ const StatusOverview = ({ onDelete, onAddActivity, handleChangeTab }: StatusOver
 
   const { data: fieldActivitiesData } = useGetFieldActivities(fieldId || '');
 
+  const { data: currentFieldWeatherData, isError: isCurrentWeatherError } =
+    useGetCurrentFieldWeather(fieldId || '');
+  const { data: fieldIndicesData, isError: isFieldIndicesError } = useGetFieldIndices(
+    fieldId || ''
+  );
+
+  useEffect(() => {
+    if (isCurrentWeatherError) {
+      toast.error('Failed to fetch current weather data. Please try again later.', {
+        position: 'top-right',
+        autoClose: 5000,
+        hideProgressBar: false,
+      });
+    }
+
+    if (isFieldIndicesError) {
+      toast.error('Failed to fetch field indices data. Please try again later.', {
+        position: 'top-right',
+        autoClose: 5000,
+        hideProgressBar: false,
+      });
+    }
+  }, [currentFieldWeatherData, isCurrentWeatherError, fieldIndicesData, isFieldIndicesError]);
+
+  const lastIndices =
+    fieldIndicesData && fieldIndicesData.length > 0
+      ? fieldIndicesData[fieldIndicesData.length - 1]
+      : null;
+
+  const currentNDVI = lastIndices ? lastIndices.ndvi.mean : null;
+  const previousNDVI =
+    fieldIndicesData && fieldIndicesData.length > 1
+      ? fieldIndicesData[fieldIndicesData.length - 2].ndvi.mean
+      : null;
+
+  const ndviChange =
+    currentNDVI !== null && previousNDVI !== null ? currentNDVI - previousNDVI : null;
+
   return (
     <div className="flex flex-col gap-8">
-      <div className="bg-white shadow-md p-6 flex items-start justify-between gap-20 rounded-2xl">
-        <div>
+      <div className="bg-white shadow-md p-6 flex items-start justify-between gap-10 rounded-2xl">
+        <div className="min-w-1/3">
           <h2 className="mb-4 font-semibold text-base">Weather</h2>
-          <div className="flex items-center gap-4 mb-6">
-            <CloudSnow size={60} className="text-blue-500 mr-2" />
-            <p className=" text-gray-600 text-3xl">Snowy, -5°C</p>
+          <div className="flex items-center gap-2 mb-6">
+            <p className=" text-gray-600 text-3xl flex flex-col gap-1">
+              {capitalizeString(currentFieldWeatherData?.current.description || '')}{' '}
+              {currentFieldWeatherData?.current.temp.toFixed(1)}
+              °C
+            </p>
+            <CloudSnow size={100} className="text-blue-400" />
           </div>
 
           <div className="flex flex-col gap-3 text-sm text-slate-500 font-medium">
-            <p>Wind: 3m/s</p>
-            <p>Precipitation: 0 mm</p>
-            <p>Humidity: 80%</p>
-            <p>Friday, January 23, 2026</p>
+            <p>Wind: {currentFieldWeatherData?.current.wind_speed} m/s</p>
+            <p>Precipitation: {currentFieldWeatherData?.current.rain || 0} mm</p>
+            <p>Humidity: {currentFieldWeatherData?.current.humidity}%</p>
+            <p>{formatDate(new Date())}</p>
           </div>
         </div>
 
         <div>
           <h2 className="mb-4 font-semibold text-base">NDVI Index</h2>
           <div className="mb-4">
-            <p className="text-4xl font-bold relative" style={{ color: getNDVIColor(0.35) }}>
-              0.35
-              <ArrowUp size={24} className="text-green-500 absolute -top-1 left-19" />
+            <p
+              className="text-4xl font-bold relative"
+              style={{ color: getNDVIColor(currentNDVI || 0) }}
+            >
+              {currentNDVI !== null ? currentNDVI.toFixed(2) : 'N/A'}
+              {ndviChange !== null && ndviChange > 0 && (
+                <div className="absolute -top-1 left-19 flex items-center gap-1">
+                  <ArrowUp size={22} className="text-green-500" />
+                  <span className="text-green-500 text-sm">(+{ndviChange.toFixed(2)})</span>
+                </div>
+              )}
+              {ndviChange !== null && ndviChange < 0 && (
+                <div className="absolute -top-1 left-19 flex items-center gap-1">
+                  <ArrowDown size={22} className="text-red-500" />
+                  <span className="text-red-500 text-sm">({ndviChange.toFixed(2)})</span>
+                </div>
+              )}
             </p>
           </div>
 
@@ -46,7 +108,9 @@ const StatusOverview = ({ onDelete, onAddActivity, handleChangeTab }: StatusOver
               <Sprout size={30} className="text-yellow-700 mt-1 mr-2" />
               <div>
                 <p className="text-sm text-yellow-700 font-semibold">
-                  The NDVI index is currently at 0.35, indicating moderate vegetation health.
+                  The NDVI index is currently at{' '}
+                  {currentNDVI !== null ? currentNDVI.toFixed(2) : 'N/A'}, indicating moderate
+                  vegetation health.
                 </p>
                 <p className="text-sm text-yellow-700 mb-4">
                   Consider monitoring the field closely and implementing targeted interventions to
@@ -54,7 +118,8 @@ const StatusOverview = ({ onDelete, onAddActivity, handleChangeTab }: StatusOver
                 </p>
 
                 <p className="text-sm text-yellow-700 font-semibold">
-                  Last NDVI update: Jan 05, 2026.
+                  Last NDVI update:{' '}
+                  {formatDate(lastIndices ? new Date(lastIndices.date) : new Date())}
                 </p>
               </div>
             </div>

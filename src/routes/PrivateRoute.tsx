@@ -4,10 +4,9 @@ import { useAppSelector } from '../store/store';
 import Loader from '../components/Loader/Loader';
 
 export const PrivateRoute = ({ children }: { children: JSX.Element }) => {
-  const isAuthLoading = useAppSelector(state => state.user.isAuthLoading);
   const user = useAppSelector(state => state.user);
 
-  if (isAuthLoading) {
+  if (user.isAuthLoading) {
     return (
       <div className="w-full h-screen flex justify-center items-center">
         <Loader />
