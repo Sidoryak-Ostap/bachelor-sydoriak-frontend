@@ -40,6 +40,7 @@ const TimeLine = () => {
   }, [fieldImagesData, currentIndex]);
 
   const currentImage = fieldImagesData?.[currentIndex];
+
   const totalImages = fieldImagesData?.length || 0;
   const currentNDVI = fieldIndicesData?.find(index => index.date === currentImage?.date)?.ndvi;
 
@@ -57,7 +58,7 @@ const TimeLine = () => {
                 <img
                   src={currentImage?.cloudinaryUrl}
                   alt={`Field image captured on ${new Date(currentImage?.date || '').toLocaleDateString()}`}
-                  className="w-full h-auto max-h-80 object-contain"
+                  className="w-full h-auto max-h-80 object-contain scale-75"
                 />
 
                 <div className="absolute bottom-4 right-4 z-10">

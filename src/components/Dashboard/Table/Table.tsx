@@ -15,7 +15,10 @@ const Row = (rowItem: any) => {
   const { name, area, address, soilType, cropType } = rowItem;
   return (
     <div className="bg-white border-b border-gray-300 px-5 py-2 last:border-b-0 hover:bg-gray-50">
-      <div className="grid grid-cols-[2fr_1fr_2fr_1fr_1fr_1.5fr] gap-4 text-sm items-center">
+      <Link
+        to={ROUTES.dashboard.fieldDetails(rowItem.id)}
+        className="grid grid-cols-[2fr_1fr_2fr_1fr_1fr_1.5fr] gap-4 text-sm items-center"
+      >
         <p className="text-left font-medium">{name}</p>
 
         <p className="text-left">{area}</p>
@@ -27,12 +30,6 @@ const Row = (rowItem: any) => {
 
         <div className="flex items-center justify-end gap-2">
           <Link
-            to={ROUTES.dashboard.fieldDetails(rowItem.id)}
-            className="border border-gray-300 px-3 py-2 font-medium text-xs rounded-lg cursor-pointer hover:bg-gray-100"
-          >
-            Details
-          </Link>
-          <Link
             to={ROUTES.dashboard.mapField(rowItem.id)}
             className="border border-gray-300  px-3 py-2 font-medium text-xs flex items-center gap-2 rounded-lg cursor-pointer hover:bg-gray-100"
           >
@@ -40,7 +37,7 @@ const Row = (rowItem: any) => {
             Location
           </Link>
         </div>
-      </div>
+      </Link>
     </div>
   );
 };
@@ -64,7 +61,7 @@ const Table = ({ isPending, data = [], maxRows = 5 }: TableProps) => {
             <p className="text-left">Address</p>
             <p className="text-left">Soil</p>
             <p className="text-left">Crop</p>
-            <p className="text-center">Action</p>
+            {/* <p className="text-left">Action</p> */}
           </div>
         </div>
 
