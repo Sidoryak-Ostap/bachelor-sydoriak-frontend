@@ -4,7 +4,7 @@ import Overview from './Overview';
 import { useState } from 'react';
 import Activity from './Activity';
 import TimeLine from './TimeLine';
-import Analysis from './Analysis/Analysis';
+import Analysis from './Analysis';
 
 const FieldDetails = () => {
   const [activeTab, setActiveTab] = useState<number>(0);

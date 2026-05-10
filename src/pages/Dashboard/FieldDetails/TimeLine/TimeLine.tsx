@@ -5,6 +5,7 @@ import { toast } from 'react-toastify';
 import NDVILegend from './NDVILegend';
 import { useGetFieldIndices } from '@/hooks/indices/useGetFieldIndices';
 import { formattedShortDate } from '@/utils/format';
+import AreaDistribution from './AreaDistribution';
 
 const TimeLine = () => {
   const { id: fieldId } = useParams();
@@ -49,9 +50,9 @@ const TimeLine = () => {
       <h2 className="text-2xl font-semibold mb-4">NDVI Timeline</h2>
       <p className="text-gray-500 mb-6">Visualize the NDVI changes over time for this field.</p>
 
-      <div>
-        {fieldImagesData?.length ? (
-          <div className="space-y-4">
+      {fieldImagesData?.length ? (
+        <div className="flex items-start gap-6">
+          <div className="flex-2/3 space-y-4">
             {/* Main Image Display */}
             <div className="border rounded-lg overflow-hidden">
               <div className="relative bg-gray-100">
@@ -106,10 +107,15 @@ const TimeLine = () => {
               ))}
             </div>
           </div>
-        ) : (
-          <p className="text-gray-500">No images available for this field.</p>
-        )}
-      </div>
+          {currentImage?.distribution && (
+            <div className="flex-1/3">
+              <AreaDistribution currentDistributionData={currentImage?.distribution} />
+            </div>
+          )}
+        </div>
+      ) : (
+        <p className="text-gray-500">No images available for this field.</p>
+      )}
     </div>
   );
 };
