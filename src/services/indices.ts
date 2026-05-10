@@ -2,7 +2,7 @@ import { axiosInstance } from '@/api/axios';
 import { API_ROUTES } from '@/constants/API-ROUTES';
 import { getErrorMessage } from '@/utils/handleApiError';
 
-type Indice = {
+export type Indice = {
   min: number;
   max: number;
   mean: number;
@@ -11,7 +11,7 @@ type Indice = {
   noDataCount: number;
 };
 
-type FieldIndice = {
+export type FieldIndice = {
   date: string;
   fieldId: string;
   ndvi: Indice;

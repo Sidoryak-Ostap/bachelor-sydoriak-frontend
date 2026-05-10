@@ -195,7 +195,7 @@ const Map: React.FC = () => {
         zoomOut={() => map.current?.zoomOut()}
       />
 
-      {isNdviActive && (
+      {isNdviActive && id && (
         <div className="absolute bottom-4 right-1/2 transform translate-x-1/2 w-full max-w-lg px-4 z-40">
           <TimeLine
             fieldImagesData={fieldImages || []}
