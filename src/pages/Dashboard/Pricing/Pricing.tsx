@@ -3,10 +3,15 @@ import { useCreateSubscription } from '@/hooks/subscription/useCreateSubscriptio
 import { useCancelSubscription } from '@/hooks/subscription/userCancelSubscription';
 import { useAppSelector } from '@/store/store';
 import { useState } from 'react';
+import {
+  PLANS,
+  type SubscriptionPlan,
+  SubscriptionPlanName,
+} from '@/constants/subscriptionOptions';
 
 const Pricing = () => {
   const [isAnnual, setIsAnnual] = useState(false);
-  const { plan, subscriptionId } = useAppSelector(state => state.subscription);
+  const { plan: currentPlan, subscriptionId } = useAppSelector(state => state.subscription);
 
   const { mutate: cancelSubscription } = useCancelSubscription();
   const { mutate } = useCreateSubscription();
@@ -55,130 +60,48 @@ const Pricing = () => {
       </div>
 
       <div className="flex items-stretch justify-center gap-11 ">
-        <div className="bg-white rounded-2xl pt-8 pb-7 px-7 shadow-md flex flex-col max-w-[290px] w-full">
-          <p className="text-primary text-lg font-semibold">Starter</p>
-          <h3 className="text-2xl font-semibold text-primary mb-1">Free</h3>
-          <p className="text-gray-400 text-sm pb-2 border-b border-gray-200 mb-4">
-            For those getting started
-          </p>
+        {PLANS.map((plan: SubscriptionPlan) => (
+          <div className="bg-white rounded-2xl pt-8 pb-7 px-6 shadow-md flex flex-col max-w-72.5 w-full relative overflow-clip">
+            {plan.name === SubscriptionPlanName.Pro && (
+              <div
+                className="bg-primary h-32 w-full absolute top-0 left-0"
+                style={{ clipPath: 'polygon(0 0, 100% 0, 100% 50%, 0% 12%)' }}
+              />
+            )}
 
-          <ul className="flex flex-col gap-2 mb-17">
-            <li className="flex items-center gap-2">
-              <img className="w-5 h-5" src={IMG.circleTickImg} alt="Tick" />
-              <p className="font-medium">WebPro ai domain</p>
-            </li>
+            <p className="text-primary text-lg font-semibold">{plan.name}</p>
+            <h3 className="text-2xl font-semibold text-primary mb-1">
+              {isAnnual ? plan.pricePerYear : plan.regularPrice}
+              {plan.name !== SubscriptionPlanName.Starter && (
+                <span className="text-primary text-sm">{isAnnual ? ' /year' : ' /month'}</span>
+              )}
+            </h3>
+            <p className="text-gray-400 text-sm pb-2 border-b border-gray-200 mb-4">
+              {plan.description}
+            </p>
 
-            <li className="flex items-center gap-2">
-              <img className="w-5 h-5" src={IMG.circleTickImg} alt="Tick" />
-              <p className="font-medium">WebPro ai domain</p>
-            </li>
+            <ul className="flex flex-col gap-2 mb-17">
+              {plan.features.map((feature, index) => (
+                <li key={index} className="flex items-center gap-2">
+                  <img className="w-5 h-5" src={IMG.circleTickImg} alt="Tick" />
+                  <p className="font-medium">{feature}</p>
+                </li>
+              ))}
+            </ul>
 
-            <li className="flex items-center gap-2">
-              <img className="w-5 h-5" src={IMG.circleTickImg} alt="Tick" />
-              <p className="font-medium">WebPro ai domain</p>
-            </li>
-
-            <li className="flex items-center gap-2">
-              <img className="w-5 h-5" src={IMG.circleTickImg} alt="Tick" />
-              <p className="font-medium">WebPro ai domain</p>
-            </li>
-          </ul>
-
-          <button
-            onClick={() => handleSubscribe('starter')}
-            disabled={plan === 'starter'}
-            className="bg-primary text-white text-center py-2.5 px-8 text-base font-bold rounded-xl mt-auto cursor-pointer disabled:bg-gray-400 disabled:cursor-not-allowed"
-          >
-            Start 7 day free trial
-          </button>
-        </div>
-
-        <div className="bg-white rounded-2xl pt-8 pb-7 px-7 shadow-md flex flex-col max-w-[290px] w-full">
-          <p className="text-primary text-lg font-semibold">Basic</p>
-          <h3 className="text-2xl font-semibold text-primary mb-1">
-            {isAnnual ? '$149.99' : '$14.99'}
-            <span className=" text-primary text-sm ">{isAnnual ? ' /year' : ' /month'}</span>
-          </h3>
-          <p className="text-gray-400 text-sm pb-2 border-b border-gray-200 mb-4">
-            For those getting started
-          </p>
-
-          <ul className="flex flex-col gap-2 mb-17">
-            <li className="flex items-center gap-2">
-              <img className="w-5 h-5" src={IMG.circleTickImg} alt="Tick" />
-              <p className="font-medium">WebPro ai domain</p>
-            </li>
-
-            <li className="flex items-center gap-2">
-              <img className="w-5 h-5" src={IMG.circleTickImg} alt="Tick" />
-              <p className="font-medium">WebPro ai domain</p>
-            </li>
-
-            <li className="flex items-center gap-2">
-              <img className="w-5 h-5" src={IMG.circleTickImg} alt="Tick" />
-              <p className="font-medium">WebPro ai domain</p>
-            </li>
-
-            <li className="flex items-center gap-2">
-              <img className="w-5 h-5" src={IMG.circleTickImg} alt="Tick" />
-              <p className="font-medium">WebPro ai domain</p>
-            </li>
-          </ul>
-
-          <button
-            onClick={() => handleSubscribe('basic')}
-            disabled={plan === 'basic'}
-            className="bg-primary text-white text-center py-2.5 px-8 text-base font-bold rounded-xl mt-auto cursor-pointer disabled:bg-gray-400 disabled:cursor-not-allowed"
-          >
-            Subscribe now
-          </button>
-        </div>
-
-        <div className="bg-white rounded-2xl pt-8 pb-7 px-7 shadow-md flex flex-col max-w-72.5 w-full relative overflow-clip">
-          <div
-            className="bg-primary h-32 w-full absolute top-0 left-0"
-            style={{ clipPath: 'polygon(0 0, 100% 0, 100% 50%, 0% 12%)' }}
-          ></div>
-
-          <p className="text-primary text-lg font-semibold">Pro</p>
-          <h3 className="text-2xl font-semibold text-primary mb-1">
-            {isAnnual ? '$299.99' : '$29.99'}
-            <span className=" text-primary text-sm ">{isAnnual ? ' /year' : ' /month'}</span>
-          </h3>
-          <p className="text-gray-400 text-sm pb-2 border-b border-gray-200 mb-4">
-            For those getting started
-          </p>
-
-          <ul className="flex flex-col gap-2 mb-17">
-            <li className="flex items-center gap-2">
-              <img className="w-5 h-5" src={IMG.circleTickImg} alt="Tick" />
-              <p className="font-medium">WebPro ai domain</p>
-            </li>
-
-            <li className="flex items-center gap-2">
-              <img className="w-5 h-5" src={IMG.circleTickImg} alt="Tick" />
-              <p className="font-medium">WebPro ai domain</p>
-            </li>
-
-            <li className="flex items-center gap-2">
-              <img className="w-5 h-5" src={IMG.circleTickImg} alt="Tick" />
-              <p className="font-medium">WebPro ai domain</p>
-            </li>
-
-            <li className="flex items-center gap-2">
-              <img className="w-5 h-5" src={IMG.circleTickImg} alt="Tick" />
-              <p className="font-medium">WebPro ai domain</p>
-            </li>
-          </ul>
-
-          <button
-            onClick={() => handleSubscribe('pro')}
-            disabled={plan === 'pro'}
-            className="bg-primary text-white text-center py-2.5 px-8 text-base font-bold rounded-xl mt-auto cursor-pointer disabled:bg-gray-400 disabled:cursor-not-allowed"
-          >
-            Subscribe now
-          </button>
-        </div>
+            <button
+              onClick={() =>
+                handleSubscribe(plan.name.toLowerCase() as 'starter' | 'basic' | 'pro')
+              }
+              disabled={currentPlan === plan.name.toLowerCase()}
+              className="bg-primary text-white text-center py-2.5 px-8 text-base font-bold rounded-xl mt-auto cursor-pointer disabled:bg-gray-400 disabled:cursor-not-allowed"
+            >
+              {plan.name === SubscriptionPlanName.Starter
+                ? 'Start 30 day Free Trial'
+                : 'Subscribe now'}
+            </button>
+          </div>
+        ))}
       </div>
     </div>
   );
