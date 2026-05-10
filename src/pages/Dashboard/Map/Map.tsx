@@ -26,6 +26,7 @@ import { useDispatch } from 'react-redux';
 import { setArea } from '@/store/reducers/createFieldSlice';
 import { useGetFieldImages } from '@/hooks/indices/useGetFieldImages';
 import TimeLine from './TimeLine';
+import AreaDistribution from '../FieldDetails/TimeLine/AreaDistribution';
 
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_ACCESS_TOKEN;
 
@@ -196,13 +197,19 @@ const Map: React.FC = () => {
       />
 
       {isNdviActive && id && (
-        <div className="absolute bottom-4 right-1/2 transform translate-x-1/2 w-full max-w-lg px-4 z-40">
-          <TimeLine
-            fieldImagesData={fieldImages || []}
-            activeFieldMap={activeFieldData}
-            setActiveFieldMap={setActiveFieldData}
-          />
-        </div>
+        <>
+          <div className="absolute bottom-4 right-1/2 transform translate-x-1/2 w-full max-w-lg px-4 z-40">
+            <TimeLine
+              fieldImagesData={fieldImages || []}
+              activeFieldMap={activeFieldData}
+              setActiveFieldMap={setActiveFieldData}
+            />
+          </div>
+
+          <div className="absolute top-4 right-4 w-full max-w-xs z-40">
+            <AreaDistribution currentDistributionData={activeFieldData?.distribution} />
+          </div>
+        </>
       )}
 
       {showConfirmModal && autoAreaCalculation && (
