@@ -1,13 +1,16 @@
 import { motion } from 'framer-motion';
 import { CircleCheckBig } from 'lucide-react';
 import { titleVariants, containerVariants, cardVariants } from './animations';
-import {
-  PLANS,
-  type SubscriptionPlan,
-  SubscriptionPlanName,
-} from '@/constants/subscriptionOptions';
+import { type SubscriptionPlan, SubscriptionPlanName } from '@/constants/subscriptionOptions';
+import { useTranslation } from 'react-i18next';
 
 const Pricing = () => {
+  const { t } = useTranslation();
+  const { language } = useTranslation().i18n;
+
+  const plansItems = t('main.plans.items', { returnObjects: true }) || [];
+  const plansArray = Array.isArray(plansItems) ? plansItems : [];
+
   return (
     <div id="pricing" className="bg-white py-25 overflow-hidden">
       <div className="max-w-7xl mx-auto px-5 xl:px-0">
@@ -18,7 +21,7 @@ const Pricing = () => {
           variants={titleVariants}
           className="text-center text-black font-bold text-4xl mb-15"
         >
-          Simple, Transparent Pricing
+          {t('main.plans.title')}
         </motion.h2>
 
         <motion.div
@@ -28,19 +31,19 @@ const Pricing = () => {
           viewport={{ once: true, amount: 0.2 }}
           className="flex flex-col md:flex-row items-stretch justify-between gap-6"
         >
-          {PLANS.map((plan: SubscriptionPlan) => (
+          {plansArray.map((plan: SubscriptionPlan) => (
             <motion.div
               variants={cardVariants}
               className="flex-1 flex flex-col p-8 rounded-2xl border-2 border-gray-200"
             >
               <p className="text-primary text-lg font-semibold mb-2">{plan.name}</p>
-              <h3 className="text-black font-bold text-4xl mb-2">
-                {plan.name === SubscriptionPlanName.Starter ? '' : '$'}
+              <h3 className="text-black font-bold text-3xl mb-2">
+                {plan.nameKey === SubscriptionPlanName.Starter ? '' : '$'}
                 {plan.regularPrice}
-                {plan.name === SubscriptionPlanName.Starter ? (
+                {plan.nameKey === SubscriptionPlanName.Starter ? (
                   ''
                 ) : (
-                  <span className="text-lg">/month</span>
+                  <span className="text-lg">{language === 'en' ? '/month' : '/місяць'}</span>
                 )}
               </h3>
               <p className="text-base text-gray-400 mb-12">{plan.description}</p>
@@ -57,9 +60,7 @@ const Pricing = () => {
                 whileTap={{ scale: 0.98 }}
                 className="mt-auto bg-primary text-white font-bold text-base py-3 w-full rounded-lg cursor-pointer"
               >
-                {plan.name === SubscriptionPlanName.Starter
-                  ? 'Start 30-day Free Trial'
-                  : 'Subscribe Now'}
+                {plan.button}
               </motion.button>
             </motion.div>
           ))}

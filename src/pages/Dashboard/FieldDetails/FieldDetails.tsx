@@ -5,8 +5,10 @@ import { useState } from 'react';
 import Activity from './Activity';
 import TimeLine from './TimeLine';
 import Analysis from './Analysis';
+import { useTranslation } from 'react-i18next';
 
 const FieldDetails = () => {
+  const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState<number>(0);
 
   const handleChangeTab = (index: number) => setActiveTab(index);
@@ -14,10 +16,8 @@ const FieldDetails = () => {
   return (
     <div className="pt-8 pb-14 px-7">
       <div className="flex flex-col gap-1 mb-5">
-        <h3 className="text-primary text-3xl font-bold">Field Details</h3>
-        <p className="text-gray-400 text-base">
-          Simplify processes and build trust through traceability
-        </p>
+        <h3 className="text-primary text-3xl font-bold">{t('dashboard.fieldDetails.title')}</h3>
+        <p className="text-gray-400 text-base">{t('dashboard.fieldDetails.description')}</p>
       </div>
 
       <div className="mb-10">

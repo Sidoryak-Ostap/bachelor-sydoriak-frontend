@@ -10,7 +10,7 @@ import { store } from './store/store';
 
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { ToastContainer } from 'react-toastify';
-
+import './i18n';
 const queryClient = new QueryClient();
 
 createRoot(document.getElementById('root')!).render(

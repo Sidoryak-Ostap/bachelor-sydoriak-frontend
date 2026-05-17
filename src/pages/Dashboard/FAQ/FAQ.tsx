@@ -6,16 +6,16 @@ import {
 } from '@/components/ui/accordion';
 
 import { FAQDATA } from './constants';
+import { useTranslation } from 'react-i18next';
 
 const FAQ = () => {
+  const { t } = useTranslation();
+
   return (
     <div className=" min-h-screen flex flex-col justify-center">
-      <div className="flex flex-col items-center gap-4 mb-10">
-        <h1 className="font-black text-4xl text-center text-primary">Frequently asked questions</h1>
-        <p className="text-base text-gray-400 text-center">
-          These are the most commonly asked questions about AgroMap. Can't <br /> find what you're
-          looking for? Chat our friendly team
-        </p>
+      <div className="flex flex-col items-center gap-4 mb-10 max-w-2xl w-full mx-auto">
+        <h1 className="font-black text-4xl text-center text-primary">{t('dashboard.faq.title')}</h1>
+        <p className="text-base text-gray-400 text-center">{t('dashboard.faq.description')}</p>
       </div>
 
       <Accordion
@@ -30,11 +30,11 @@ const FAQ = () => {
                 {item.icon}
               </div>
 
-              <div className="flex-1 font-bold text-base pt-1">{item.question}</div>
+              <div className="flex-1 font-bold text-base pt-1">{t(item.question)}</div>
             </AccordionTrigger>
 
-            <AccordionContent className="pl-[52px] text-base text-gray-400">
-              {item.answer}
+            <AccordionContent className="pl-13 text-base text-gray-400">
+              {t(item.answer)}
             </AccordionContent>
           </AccordionItem>
         ))}

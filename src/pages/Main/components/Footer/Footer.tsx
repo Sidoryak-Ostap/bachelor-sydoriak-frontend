@@ -1,6 +1,9 @@
 import logo from '@/assets/logo.svg';
+import { useTranslation } from 'react-i18next';
 
 const Footer = () => {
+  const { t } = useTranslation();
+
   return (
     <footer className="border-t-2 border-gray-200">
       <div className="w-full h-35 flex justify-center items-center">
@@ -10,7 +13,7 @@ const Footer = () => {
             <h1>AgroMap</h1>
           </div>
 
-          <p className="text-base text-gray-400">© 2026 AgroMap Inc. All rights reserved.</p>
+          <p className="text-base text-gray-400">© 2026 AgroMap Inc. {t('main.footer.rights')}.</p>
         </div>
       </div>
     </footer>

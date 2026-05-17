@@ -7,29 +7,41 @@ import {
   Map,
   CircleDollarSign,
   MapPinned,
-  ChartColumnBig,
   BanknoteArrowUp,
   CircleQuestionMark,
   Gem,
   Settings,
 } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { Link, useLocation } from 'react-router';
 
 const NAV_ITEMS = [
-  { label: 'Dashboard', icon: LayoutDashboard, to: ROUTES.dashboard.home },
-  { label: 'Map', icon: Map, to: ROUTES.dashboard.map },
-  { label: 'Fields', icon: MapPinned, to: ROUTES.dashboard.fields },
-  { label: 'Pricing', icon: CircleDollarSign, to: ROUTES.dashboard.pricing },
-  { label: 'Profitability', icon: BanknoteArrowUp, to: '' },
-  { label: 'Reports', icon: ChartColumnBig, to: '' },
+  { labelKey: 'dashboard.sidebar.nav.dashboard', icon: LayoutDashboard, to: ROUTES.dashboard.home },
+  { labelKey: 'dashboard.sidebar.nav.map', icon: Map, to: ROUTES.dashboard.map },
+  { labelKey: 'dashboard.sidebar.nav.fields', icon: MapPinned, to: ROUTES.dashboard.fields },
+  {
+    labelKey: 'dashboard.sidebar.nav.pricing',
+    icon: CircleDollarSign,
+    to: ROUTES.dashboard.pricing,
+  },
+  { labelKey: 'dashboard.sidebar.nav.profitability', icon: BanknoteArrowUp, to: '' },
 ];
 
 const PREFERENCE_ITEMS = [
-  { label: 'Settings', icon: Settings, to: ROUTES.dashboard.settings },
-  { label: 'Help Center', icon: CircleQuestionMark, to: ROUTES.dashboard.faq },
+  {
+    labelKey: 'dashboard.sidebar.preferences.settings',
+    icon: Settings,
+    to: ROUTES.dashboard.settings,
+  },
+  {
+    labelKey: 'dashboard.sidebar.preferences.help',
+    icon: CircleQuestionMark,
+    to: ROUTES.dashboard.faq,
+  },
 ];
 
 const Sidebar = () => {
+  const { t } = useTranslation();
   const { pathname } = useLocation();
   const { plan } = useAppSelector(state => state.subscription);
 
@@ -46,11 +58,13 @@ const Sidebar = () => {
         <img className="h-12 w-12" src={IMG.avatarImg} alt="User Avatar" />
         <div>
           <h3 className="text-primary font-bold text-base">Ostap Sydoriak</h3>
-          <p className="text-sm text-gray-400">Personal Account</p>
+          <p className="text-sm text-gray-400">{t('dashboard.sidebar.account.title')}</p>
         </div>
       </div>
 
-      <h2 className="uppercase text-sm text-gray-400 mb-1 ml-3">main menu</h2>
+      <h2 className="uppercase text-sm text-gray-400 mb-1 ml-3">
+        {t('dashboard.sidebar.nav.title')}
+      </h2>
 
       <ul className="flex flex-col gap-1 mb-10">
         {NAV_ITEMS.map(item => {
@@ -81,7 +95,7 @@ const Sidebar = () => {
                       : 'group-hover:text-white group-hover:font-bold'
                   }`}
                 >
-                  {item.label}
+                  <span>{t(item.labelKey)}</span>{' '}
                 </span>
               </Link>
             </li>
@@ -89,7 +103,9 @@ const Sidebar = () => {
         })}
       </ul>
 
-      <h2 className="uppercase text-sm text-gray-400 mb-1 ml-3">Preferences</h2>
+      <h2 className="uppercase text-sm text-gray-400 mb-1 ml-3">
+        {t('dashboard.sidebar.preferences.title')}
+      </h2>
 
       <ul className="flex flex-col gap-0 mb-10">
         {PREFERENCE_ITEMS.map(item => {
@@ -103,7 +119,7 @@ const Sidebar = () => {
               >
                 <Icon className="group-hover:text-white" size={18} />
                 <span className="text-sm text-black group-hover:text-white group-hover:font-bold">
-                  {item.label}
+                  <span>{t(item.labelKey)}</span>
                 </span>
               </Link>
             </li>
@@ -114,21 +130,25 @@ const Sidebar = () => {
       {!isPaidPlan && (
         <div className="bg-white rounded-2xl shadow-lg py-5 px-4 flex flex-col items-center border-2 border-gray-200 mb-40">
           <Gem className="mb-3" size={32} />
-          <h3 className="text-black font-bold text-base mb-1 text-center">Upgrade plan</h3>
+          <h3 className="text-black font-bold text-base mb-1 text-center">
+            {t('dashboard.sidebar.upgrade.title')}
+          </h3>
           <p className="text-black text-sm text-center mb-3">
-            “Upgrade AgroMap today to unlock smarter insights and control”
+            {t('dashboard.sidebar.upgrade.description')}
           </p>
 
           <Link
             to={ROUTES.dashboard.pricing}
             className="bg-primary rounded-xl text-white px-4 py-2 text-sm font-bold"
           >
-            Upgrade Your Plan
+            {t('dashboard.sidebar.upgrade.button')}
           </Link>
         </div>
       )}
 
-      <div className="text-center text-sm px-6">© 2026 AgromMap Inc. All rights reserved.</div>
+      <div className="text-center text-sm px-6">
+        © 2026 AgromMap Inc. {t('main.footer.rights')}.
+      </div>
     </div>
   );
 };

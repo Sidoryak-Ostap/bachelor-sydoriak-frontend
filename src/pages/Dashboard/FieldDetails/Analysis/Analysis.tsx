@@ -14,14 +14,17 @@ import {
   YAxis,
 } from 'recharts';
 import RangePicker, { type Range } from './components/RangePicker';
+import { useTranslation } from 'react-i18next';
 
 const INDICES = ['ndvi', 'ndmi', 'savi', 'evi'];
 
 const Analysis = () => {
+  const { t } = useTranslation();
+
   const { id: fieldId } = useParams<{ id: string }>();
   const [activeIndex, setActiveIndex] = useState<string>(INDICES[0]);
   const [activePoint, setActivePoint] = useState<FieldIndice | null>(null);
-  const [activeRange, setActiveRange] = useState<Range>('1M');
+  const [activeRange, setActiveRange] = useState<Range>({ value: '1M', label: '1M,' });
 
   const { data: fieldIndices, error, isError } = useGetFieldIndices(fieldId || '');
 
@@ -98,7 +101,7 @@ const Analysis = () => {
         <div className="flex items-stretch gap-4 w-full">
           <div className="bg-white px-4 py-4 rounded-lg border-2 border-gray-200 flex flex-col gap-3 max-w-50 w-full ">
             <p className="text-sm text-gray-400 font-semibold uppercase">
-              mean {activeIndex.toLowerCase()}
+              {t('dashboard.fieldDetails.analysis.mean')} {activeIndex.toLowerCase()}
             </p>
             <p className="text-2xl text-black font-bold">
               {currentData && currentData[activeIndex as keyof FieldIndice]
@@ -117,7 +120,9 @@ const Analysis = () => {
           </div>
 
           <div className="bg-white px-4 py-4 rounded-lg border-2 border-gray-200 flex flex-col gap-3 max-w-50 w-full">
-            <p className="text-sm text-gray-400 font-semibold uppercase">Max value</p>
+            <p className="text-sm text-gray-400 font-semibold uppercase">
+              {t('dashboard.fieldDetails.analysis.max')}
+            </p>
             <p className="text-2xl text-black font-bold">
               {currentData && currentData[activeIndex as keyof FieldIndice]
                 ? (currentData[activeIndex as keyof FieldIndice] as any).max.toFixed(2)
@@ -126,7 +131,9 @@ const Analysis = () => {
           </div>
 
           <div className="bg-white px-4 py-4 rounded-lg border-2 border-gray-200 flex flex-col gap-3 max-w-50 w-full">
-            <p className="text-sm text-gray-400 font-semibold uppercase">min value</p>
+            <p className="text-sm text-gray-400 font-semibold uppercase">
+              {t('dashboard.fieldDetails.analysis.min')}
+            </p>
             <p className="text-2xl text-black font-bold">
               {currentData && currentData[activeIndex as keyof FieldIndice]
                 ? (currentData[activeIndex as keyof FieldIndice] as any).min.toFixed(2)
@@ -173,6 +180,7 @@ const Analysis = () => {
                   boxShadow: '0 10px 15px -3px rgba(0,0,0,0.1)',
                 }}
               />
+              formatter=
               <Area
                 type="monotone"
                 dataKey={activeIndex}

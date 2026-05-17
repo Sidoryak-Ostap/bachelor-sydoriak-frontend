@@ -2,6 +2,7 @@ import { Leaf, Pencil, Trash2 } from 'lucide-react';
 import { formatDate } from '@/utils/format';
 import { useGetFieldActivities } from '@/hooks/field-activity/useGetFieldActivities';
 import type { Dispatch, SetStateAction } from 'react';
+import { useTranslation } from 'react-i18next';
 
 type TableProps = {
   fieldId: string;
@@ -18,6 +19,8 @@ const Table = ({
   setActivityToDelete,
   setIsOpenDeleteModal,
 }: TableProps) => {
+  const { t, i18n } = useTranslation();
+  const language = i18n.language;
   const { data: fieldActivitiesData } = useGetFieldActivities(fieldId || '');
 
   const handleCheckboxChange = (id: string) => {
@@ -28,8 +31,12 @@ const Table = ({
     <div>
       <div className="border-2 border-slate-300 rounded-sm overflow-hidden">
         <div className="grid grid-cols-[1fr_2fr_1fr] p-4 border-b bg-slate-200 border-slate-300">
-          <p className="text-sm font-medium text-slate-700 uppercase pl-13.5">Date</p>
-          <p className="text-sm font-medium text-slate-700 uppercase">Description</p>
+          <p className="text-sm font-medium text-slate-700 uppercase pl-13.5">
+            {t('dashboard.fieldDetails.activity.date')}
+          </p>
+          <p className="text-sm font-medium text-slate-700 uppercase">
+            {t('dashboard.fieldDetails.activity.description')}
+          </p>
         </div>
 
         {fieldActivitiesData && fieldActivitiesData.length > 0 ? (
@@ -45,7 +52,7 @@ const Table = ({
                   checked={checkedIds.includes(activity?.id)}
                   onChange={() => handleCheckboxChange(activity?.id)}
                 />
-                {formatDate(activity.date)}
+                {formatDate(activity.date, language)}
               </p>
 
               <p className="text-sm font-medium text-slate-700 whitespace-nowrap truncate">
@@ -77,9 +84,13 @@ const Table = ({
             <div className="bg-slate-100 p-3 rounded-full mb-3">
               <Leaf size={24} className="text-slate-400 opacity-50" />
             </div>
-            <p className="text-slate-500 font-medium">No recent activities found</p>
+            <p className="text-slate-500 font-medium">
+              {language === 'en' ? 'No recent activities found' : 'Не знайдено останніх дій'}
+            </p>
             <p className="text-slate-400 text-sm mt-1">
-              Check back later for updates on your field.
+              {language === 'en'
+                ? 'Activities will appear here when you add them.'
+                : "Дії з'являться тут, коли ви їх додасте."}
             </p>
           </div>
         )}
@@ -92,7 +103,9 @@ const Table = ({
             className="cursor-pointer flex items-center gap-2 px-4 py-2 text-sm font-semibold text-red-600 bg-red-50 hover:bg-red-100 border border-red-100 hover:border-red-200 rounded-lg transition-all "
           >
             <Trash2 size={16} />
-            Delete Activities
+            {language === 'en'
+              ? `Delete ${checkedIds.length} activities`
+              : `Видалити ${checkedIds.length} активностей`}
           </button>
         </div>
       )}

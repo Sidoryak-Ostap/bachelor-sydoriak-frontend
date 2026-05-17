@@ -6,8 +6,12 @@ import NDVILegend from './NDVILegend';
 import { useGetFieldIndices } from '@/hooks/indices/useGetFieldIndices';
 import { formattedShortDate } from '@/utils/format';
 import AreaDistribution from './AreaDistribution';
+import { useTranslation } from 'react-i18next';
 
 const TimeLine = () => {
+  const { t, i18n } = useTranslation();
+  const language = i18n.language || 'en';
+
   const { id: fieldId } = useParams();
   const {
     data: fieldImagesData,
@@ -47,8 +51,10 @@ const TimeLine = () => {
 
   return (
     <div>
-      <h2 className="text-2xl font-semibold mb-4">NDVI Timeline</h2>
-      <p className="text-gray-500 mb-6">Visualize the NDVI changes over time for this field.</p>
+      <h2 className="text-2xl font-semibold mb-4">
+        {t('dashboard.fieldDetails.ndviTimeline.title')}
+      </h2>
+      <p className="text-gray-500 mb-6">{t('dashboard.fieldDetails.ndviTimeline.description')}</p>
 
       {fieldImagesData?.length ? (
         <div className="flex items-start gap-6">
@@ -58,7 +64,7 @@ const TimeLine = () => {
               <div className="relative bg-gray-100">
                 <img
                   src={currentImage?.cloudinaryUrl}
-                  alt={`Field image captured on ${new Date(currentImage?.date || '').toLocaleDateString()}`}
+                  alt={`Field image  ${new Date(currentImage?.date || '').toLocaleDateString()}`}
                   className="w-full h-auto max-h-80 object-contain scale-75"
                 />
 
@@ -69,8 +75,9 @@ const TimeLine = () => {
                 <div className="absolute top-4 left-4 z-10">
                   <div className="bg-white border border-gray-300 rounded-lg shadow-md p-4">
                     <p className="text-sm font-medium ">
-                      Mean NDVI (
-                      {currentImage?.date ? formattedShortDate(currentImage.date) : 'N/A'})
+                      {t('dashboard.fieldDetails.ndviTimeline.meanNdvi')} (
+                      {currentImage?.date ? formattedShortDate(currentImage.date, language) : 'N/A'}
+                      )
                     </p>
                     <p className="text-2xl font-bold text-primary">
                       {currentNDVI?.mean !== undefined ? currentNDVI.mean.toFixed(2) : 'N/A'}
@@ -82,10 +89,12 @@ const TimeLine = () => {
               {/* Image Info */}
               <div className="p-4 bg-white">
                 <p className="text-sm text-gray-600 mb-2">
-                  Captured on: {new Date(currentImage?.date || '').toLocaleDateString()}
+                  {t('dashboard.fieldDetails.ndviTimeline.capturedOn')}{' '}
+                  {new Date(currentImage?.date || '').toLocaleDateString()}
                 </p>
                 <p className="text-sm text-gray-500">
-                  Image {currentIndex + 1} of {totalImages}
+                  {t('dashboard.fieldDetails.ndviTimeline.image')} {currentIndex + 1}{' '}
+                  {t('dashboard.fieldDetails.ndviTimeline.of')} {totalImages}
                 </p>
               </div>
             </div>
@@ -114,7 +123,11 @@ const TimeLine = () => {
           )}
         </div>
       ) : (
-        <p className="text-gray-500">No images available for this field.</p>
+        <p className="text-gray-500">
+          {language === 'en'
+            ? 'No images available for this field.'
+            : 'Немає доступних зображень для цього поля.'}
+        </p>
       )}
     </div>
   );

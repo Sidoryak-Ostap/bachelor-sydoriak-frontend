@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 type FieldTabsProps = {
   activeTab: number;
@@ -6,7 +7,13 @@ type FieldTabsProps = {
 };
 
 const FieldTabs = ({ activeTab, setActiveTab }: FieldTabsProps) => {
-  const tabs = ['Overview', 'Activity', 'NDVI Timeline', 'Analysis'];
+  const { t } = useTranslation();
+  const tabs = [
+    t('dashboard.fieldDetails.tabs.overview'),
+    t('dashboard.fieldDetails.tabs.activity'),
+    t('dashboard.fieldDetails.tabs.ndviTimeline'),
+    t('dashboard.fieldDetails.tabs.analysis'),
+  ];
 
   const [indicatorStyle, setIndicatorStyle] = useState({ left: 0, width: 0 });
   const tabsRef = useRef<(HTMLButtonElement | null)[]>([]);
