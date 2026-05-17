@@ -210,7 +210,7 @@ const Profile = () => {
             {!isActiveSubscription && subscriptionAvailableTill && (
               <div>
                 <h3 className="text-black font-medium text-lg">
-                  {t('dashboard.profile.plan.availableUntil')}
+                  {t('dashboard.profile.plan.planAvailableUntil')}
                 </h3>
                 <p className="text-base text-gray-400">{formatDate(nextPaymentDate, language)}</p>
               </div>

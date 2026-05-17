@@ -18,6 +18,7 @@ const Pricing = () => {
 
   const { mutate: cancelSubscription } = useCancelSubscription();
   const { mutate } = useCreateSubscription();
+
   const handleSubscribe = (plan: 'starter' | 'basic' | 'pro') => {
     if (plan === 'starter') {
       cancelSubscription({ subscriptionId, action: 'cancel' });
@@ -105,7 +106,7 @@ const Pricing = () => {
 
             <button
               onClick={() =>
-                handleSubscribe(plan.name.toLowerCase() as 'starter' | 'basic' | 'pro')
+                handleSubscribe(plan.nameKey?.toLowerCase() as 'starter' | 'basic' | 'pro')
               }
               disabled={currentPlan.toLowerCase() === plan?.nameKey?.toLowerCase()}
               className="bg-primary text-white text-center py-2.5 px-8 text-base font-bold rounded-xl mt-auto cursor-pointer disabled:bg-gray-400 disabled:cursor-not-allowed"
