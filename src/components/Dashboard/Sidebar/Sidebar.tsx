@@ -24,7 +24,7 @@ const NAV_ITEMS = [
     icon: CircleDollarSign,
     to: ROUTES.dashboard.pricing,
   },
-  { labelKey: 'dashboard.sidebar.nav.profitability', icon: BanknoteArrowUp, to: '' },
+  // { labelKey: 'dashboard.sidebar.nav.profitability', icon: BanknoteArrowUp, to: '' },
 ];
 
 const PREFERENCE_ITEMS = [
