@@ -7,7 +7,6 @@ import {
   Map,
   CircleDollarSign,
   MapPinned,
-  BanknoteArrowUp,
   CircleQuestionMark,
   Gem,
   Settings,
