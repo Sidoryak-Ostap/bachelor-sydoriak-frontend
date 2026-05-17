@@ -28,6 +28,9 @@ export const API_ROUTES = {
     GET_FIELD_ACTIVITIES: (fieldId: string) => `/field-activity/${fieldId}`,
     DELETE_ACTIVITY: `/field-activity`,
   },
+  FIELD_REPORT: {
+    GET: (fieldId: string) => `/ai-analysis-report/${fieldId}`,
+  },
   PROFILE: {
     UPDATE: '/user/profile',
   },

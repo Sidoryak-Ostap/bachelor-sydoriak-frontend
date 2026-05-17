@@ -4,22 +4,33 @@ import { useGetCurrentFieldWeather } from '@/hooks/weather/useGetCurrentFieldWea
 import { capitalizeString } from '@/utils/capitalize';
 import { formatDate } from '@/utils/format';
 import { getNDVIColor } from '@/utils/ndvicolor';
-import { ArrowDown, ArrowUp, CloudSnow, Leaf, Plus, Sprout, Trash2 } from 'lucide-react';
-import { useEffect } from 'react';
+import { ArrowDown, ArrowUp, CloudSnow, Leaf, Loader2, Plus, Sprout, Trash2 } from 'lucide-react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router';
 import { toast } from 'react-toastify';
+import { Wheat } from 'lucide-react';
+import { useGetFieldDataReport } from '@/hooks/field-report/useGetFieldDataReport';
+import FieldAnalysisModal from '@/components/Dashboard/FieldAnalysisModal/FieldAnalysisModal';
+import type { Field } from '@/types/field';
 
 type StatusOverviewProps = {
+  fieldData: Field | undefined;
   onDelete: () => void;
   onAddActivity: () => void;
   handleChangeTab: (index: number) => void;
 };
 
-const StatusOverview = ({ onDelete, onAddActivity, handleChangeTab }: StatusOverviewProps) => {
+const StatusOverview = ({
+  fieldData,
+  onDelete,
+  onAddActivity,
+  handleChangeTab,
+}: StatusOverviewProps) => {
   const { t, i18n } = useTranslation();
   const language = i18n.language || 'en';
   const { id: fieldId } = useParams();
+  const [isAnalysisModalOpen, setIsAnalysisModalOpen] = useState<boolean>(false);
 
   const { data: fieldActivitiesData } = useGetFieldActivities(fieldId || '');
 
@@ -60,6 +71,12 @@ const StatusOverview = ({ onDelete, onAddActivity, handleChangeTab }: StatusOver
 
   const ndviChange =
     currentNDVI !== null && previousNDVI !== null ? currentNDVI - previousNDVI : null;
+
+  const {
+    data: fieldDataReport,
+    isPending: isFieldDataReportPending,
+    mutate: loadFieldDataReport,
+  } = useGetFieldDataReport(fieldId || '');
 
   return (
     <div className="flex flex-col gap-8">
@@ -119,26 +136,50 @@ const StatusOverview = ({ onDelete, onAddActivity, handleChangeTab }: StatusOver
             </p>
           </div>
 
-          <div className="bg-[#FEF3C7] rounded-md  px-3.5 py-3">
-            <div className="flex items-start gap-2">
+          <div className="bg-[#FEF3C7] rounded-md px-3.5 py-3">
+            <div className="flex items-center gap-2 ">
               <Sprout size={30} className="text-yellow-700 mt-1 mr-2" />
               <div>
-                <p className="text-sm text-yellow-700 font-semibold">
-                  The NDVI index is currently at{' '}
-                  {currentNDVI !== null ? currentNDVI.toFixed(2) : 'N/A'}, indicating moderate
-                  vegetation health.
-                </p>
-                <p className="text-sm text-yellow-700 mb-4">
-                  Consider monitoring the field closely and implementing targeted interventions to
-                  improve crop health.
-                </p>
-
                 <p className="text-sm text-yellow-700 font-semibold">
                   {t('dashboard.fieldDetails.overview.statusInfo.ndviIndex.lastUpdate')}
                   {formatDate(lastIndices ? new Date(lastIndices.date) : new Date(), language)}
                 </p>
               </div>
             </div>
+          </div>
+
+          {((fieldDataReport && fieldDataReport?.status) || fieldData?.interpretation?.status) && (
+            <div className="bg-[#FEF3C7] rounded-md  px-3.5 py-3 mt-4">
+              <p className="text-sm text-yellow-700 font-semibold mb-2">
+                {fieldDataReport?.status || fieldData?.interpretation?.status}
+              </p>
+              <p
+                onClick={() => setIsAnalysisModalOpen(true)}
+                className="text-sm text-yellow-700 cursor-pointer"
+              >
+                Детальний аналіз
+              </p>
+            </div>
+          )}
+
+          <div>
+            <button
+              onClick={() => loadFieldDataReport()}
+              disabled={isFieldDataReportPending}
+              className="group mt-4 font-semibold bg-primary text-white rounded-lg border border-primary px-4 py-2 hover:bg-transparent hover:text-primary transition-colors flex items-center cursor-pointer"
+            >
+              {isFieldDataReportPending ? (
+                <Loader2 className="animate-spin" />
+              ) : (
+                <>
+                  <Wheat
+                    size={20}
+                    className="mr-1 transition-colors text-white group-hover:text-primary"
+                  />
+                  Аналізувати дані
+                </>
+              )}
+            </button>
           </div>
         </div>
       </div>
@@ -213,6 +254,13 @@ const StatusOverview = ({ onDelete, onAddActivity, handleChangeTab }: StatusOver
           {t('dashboard.fieldDetails.overview.statusInfo.buttons.deleteField')}
         </button>
       </div>
+
+      {isAnalysisModalOpen && (
+        <FieldAnalysisModal
+          reportData={fieldDataReport || fieldData?.interpretation || undefined}
+          setOpen={open => setIsAnalysisModalOpen(open)}
+        />
+      )}
     </div>
   );
 };
