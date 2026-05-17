@@ -7,9 +7,13 @@ import { settingsSchema, type SettingsFormValues } from './schema';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useAppSelector } from '@/store/store';
 import { useUpdateSettings } from '@/hooks/settings/useUpdateSettings';
+import { useTranslation } from 'react-i18next';
 
 const Settings = () => {
+  const { t } = useTranslation();
   const { settings } = useAppSelector(state => state.user);
+
+  console.log(settings);
   const { control, handleSubmit } = useForm<SettingsFormValues>({
     defaultValues: {
       language: settings.language,
@@ -30,30 +34,31 @@ const Settings = () => {
     <form onSubmit={handleSubmit(onSubmit)} className="pb-10 pt-5 px-5 bg-gray-100 min-h-screen">
       <div className="mb-10">
         <div className="flex flex-col gap-1 mb-8">
-          <h2 className="text-black font-semibold text-xl">General Preferences</h2>
-          <p className="text-base text-gray-400">
-            Customize your basic application experience and regional settings.
-          </p>
+          <h2 className="text-black font-semibold text-xl">{t('dashboard.settings.title')}</h2>
+          <p className="text-base text-gray-400">{t('dashboard.settings.description')}</p>
         </div>
 
         <div className="flex flex-col">
           <div className="bg-white px-6 py-5 rounded-t-md border border-gray-300">
             <div className="flex items-center justify-between">
               <div className="text-base">
-                <p className="text-black font-semibold">Interface language</p>
-                <p className="text-gray-400">
-                  Select the language used throughout the application.
-                </p>
+                <p className="text-black font-semibold">{t('dashboard.settings.language.title')}</p>
+                <p className="text-gray-400">{t('dashboard.settings.language.description')}</p>
               </div>
-              <FormSettingsSelect name="language" control={control} options={INTERFACE_LANGUAGES} />
+              <FormSettingsSelect
+                isMulti={true}
+                name="language"
+                control={control}
+                options={INTERFACE_LANGUAGES}
+              />
             </div>
           </div>
 
           <div className="bg-white px-6 py-5 border-x border-gray-300">
             <div className="flex items-center justify-between">
               <div className="text-base">
-                <p className="text-black font-semibold">Timezone</p>
-                <p className="text-gray-400">Used for calculating accurate report schedules.</p>
+                <p className="text-black font-semibold">{t('dashboard.settings.timezone.title')}</p>
+                <p className="text-gray-400">{t('dashboard.settings.timezone.description')}</p>
               </div>
               <FormSettingsSelect name="timezone" control={control} options={TIMEZONES} />
             </div>
@@ -62,10 +67,10 @@ const Settings = () => {
           <div className="bg-white px-6 py-5 rounded-b-md border border-gray-300 border-t-0">
             <div className="flex items-center justify-between">
               <div className="text-base">
-                <p className="text-black font-semibold">Automatic Area Calculation</p>
-                <p className="text-gray-400">
-                  Automatically calculate the exact area of boundaries.
+                <p className="text-black font-semibold">
+                  {t('dashboard.settings.autoAreaCalc.title')}
                 </p>
+                <p className="text-gray-400">{t('dashboard.settings.autoAreaCalc.description')}</p>
               </div>
               <FormSwitch name="autoAreaCalculation" control={control} />
             </div>
@@ -75,16 +80,24 @@ const Settings = () => {
 
       <div>
         <div className="flex flex-col gap-1 mb-8">
-          <h2 className="text-black font-semibold text-xl">Notifications</h2>
-          <p className="text-base text-gray-400">Control how you receive alerts.</p>
+          <h2 className="text-black font-semibold text-xl">
+            {t('dashboard.settings.notifications.title')}
+          </h2>
+          <p className="text-base text-gray-400">
+            {t('dashboard.settings.notifications.description')}
+          </p>
         </div>
 
         <div className="flex flex-col">
           <div className="bg-white px-6 py-5 rounded-t-md border border-gray-300">
             <div className="flex items-center justify-between">
               <div className="text-base">
-                <p className="text-black font-semibold">Email Updates</p>
-                <p className="text-gray-400">Receive critical system alerts via email.</p>
+                <p className="text-black font-semibold">
+                  {t('dashboard.settings.notifications.emailUpdates.title')}
+                </p>
+                <p className="text-gray-400">
+                  {t('dashboard.settings.notifications.emailUpdates.description')}
+                </p>
               </div>
               <FormSwitch name="emailUpdates" control={control} />
             </div>
@@ -93,8 +106,12 @@ const Settings = () => {
           <div className="bg-white px-6 py-5 border-x border-gray-300">
             <div className="flex items-center justify-between">
               <div className="text-base">
-                <p className="text-black font-semibold">Weekly Summary Reports</p>
-                <p className="text-gray-400">Get a comprehensive overview every Monday.</p>
+                <p className="text-black font-semibold">
+                  {t('dashboard.settings.notifications.weekSummuaryReport.title')}
+                </p>
+                <p className="text-gray-400">
+                  {t('dashboard.settings.notifications.weekSummuaryReport.description')}
+                </p>
               </div>
               <FormSwitch name="weeklySummary" control={control} />
             </div>
@@ -103,8 +120,12 @@ const Settings = () => {
           <div className="bg-white px-6 py-5 rounded-b-md border border-gray-300 border-t-0">
             <div className="flex items-center justify-between">
               <div className="text-base">
-                <p className="text-black font-semibold">Marketing & Product News</p>
-                <p className="text-gray-400">Occasional emails regarding new features.</p>
+                <p className="text-black font-semibold">
+                  {t('dashboard.settings.notifications.productNews.title')}
+                </p>
+                <p className="text-gray-400">
+                  {t('dashboard.settings.notifications.productNews.description')}
+                </p>
               </div>
               <FormSwitch name="marketingNews" control={control} />
             </div>
@@ -118,7 +139,7 @@ const Settings = () => {
           type="submit"
           className="bg-primary text-white px-6 py-2 rounded-md font-medium hover:bg-primary-dark transition-colors cursor-pointer"
         >
-          Save Changes
+          {t('dashboard.settings.saveChanges')}
         </button>
       </div>
     </form>

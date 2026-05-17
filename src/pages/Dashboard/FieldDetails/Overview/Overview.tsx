@@ -7,12 +7,15 @@ import { useDeleteField } from '@/hooks/fields/useDeleteField';
 import { ROUTES } from '@/constants/ROUTES';
 import Modal from '@/components/Dashboard/Modal';
 import AddFieldActivity from '@/components/Dashboard/AddFieldActivity';
+import { useTranslation } from 'react-i18next';
 
 type OverviewProps = {
   handleChangeTab: (index: number) => void;
 };
 
 const Overview = ({ handleChangeTab }: OverviewProps) => {
+  const { t, i18n } = useTranslation();
+  const language = i18n.language || 'en';
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState<boolean>(false);
   const [isAddActivityOpen, setIsAddActivityOpen] = useState<boolean>(false);
   const { id } = useParams();
@@ -30,10 +33,8 @@ const Overview = ({ handleChangeTab }: OverviewProps) => {
   };
   return (
     <div className="grid grid-cols-[2fr_3fr] gap-20">
-      {/* General Information */}
       <GeneralInfo fieldData={fieldData || null} />
 
-      {/* Weather/NDVI and activity Section */}
       <StatusOverview
         handleChangeTab={handleChangeTab}
         onDelete={() => setIsOpenDeleteModal(true)}
@@ -44,10 +45,14 @@ const Overview = ({ handleChangeTab }: OverviewProps) => {
         <Modal
           setOpen={setIsOpenDeleteModal}
           onConfirm={handleDeleteField}
-          title="Delete Field"
-          message="Are you sure you want to delete this field? This action cannot be undone."
-          confirmBtnText="Delete"
-          cancelBtnText="Cancel"
+          title={language === 'en' ? 'Delete Field' : 'Видалити поле'}
+          message={
+            language === 'en'
+              ? 'Are you sure you want to delete this field?'
+              : 'Ви впевнені, що хочете видалити це поле?'
+          }
+          confirmBtnText={language === 'en' ? 'Delete' : 'Видалити'}
+          cancelBtnText={language === 'en' ? 'Cancel' : 'Скасувати'}
           onCancel={() => setIsOpenDeleteModal(false)}
           isActionPending={isDeletePending}
         />

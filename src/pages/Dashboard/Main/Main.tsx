@@ -8,10 +8,11 @@ import {
   Area,
 } from 'recharts';
 import { useGetStatistics } from '@/hooks/statistics/useGetStatistics';
-import { cropOptions } from '@/constants/fields';
+import { CROP_TYPES } from '@/constants/fields';
 import { useMemo } from 'react';
 import Cards from './Cards';
 import PieChart from './PieChart';
+import { useTranslation } from 'react-i18next';
 
 const yieldData = [
   { month: 'Jan', yield: 400 },
@@ -28,6 +29,8 @@ interface CropDistItem {
 }
 
 const Main = () => {
+  const { t } = useTranslation();
+
   const { data: statisticsData, isError } = useGetStatistics();
   const {
     totalFields = 0,
@@ -40,11 +43,11 @@ const Main = () => {
     if (!statisticsData || isError) return [];
 
     return (cropAreaDistribution as CropDistItem[]).map(item => {
-      const cropInfo = cropOptions.find(crop => crop.value === item.name);
+      const cropInfo = CROP_TYPES.find(crop => crop.value === item.name);
       return {
-        name: cropInfo ? cropInfo.label : item.name,
+        name: cropInfo ? t(cropInfo.label) : item.name,
         value: item.value,
-        fill: cropInfo ? cropInfo.color : '#d1d5db',
+        fill: cropInfo ? cropInfo.hex : '#d1d5db',
       };
     });
   }, [statisticsData, isError]);
@@ -52,8 +55,8 @@ const Main = () => {
   return (
     <div className="p-8 bg-gray-50 min-h-screen">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900">Dashboard Overview</h1>
-        <p className="text-gray-500">Monitor your agricultural performance in real-time.</p>
+        <h1 className="text-3xl font-bold text-gray-900">{t('dashboard.main.title')}</h1>
+        <p className="text-gray-500">{t('dashboard.main.description')}</p>
       </div>
 
       <Cards totalArea={totalArea} totalFields={totalFields} averageArea={averageArea} />
@@ -62,7 +65,7 @@ const Main = () => {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Main Yield Chart */}
         <div className="lg:col-span-2 bg-white p-6 rounded-3xl shadow-sm border border-gray-100">
-          <h3 className="text-lg font-bold mb-6">Yield Performance (t/ha)</h3>
+          <h3 className="text-lg font-bold mb-6">{t('dashboard.main.yieldPerformance')}</h3>
           <div className="h-75 w-full">
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart data={yieldData}>

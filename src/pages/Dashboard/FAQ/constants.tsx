@@ -4,36 +4,31 @@ export const FAQDATA = [
   {
     value: 'available-trial',
     icon: <CircleQuestionMark className="text-gray-400" size={20} />,
-    question: 'Is there a free trial available?',
-    answer:
-      "Yes, you can try AgroMap for free for 7 days. If you want, we'll provide you with a free 30-minute onboarding call to get you up and running.",
+    question: 'dashboard.faq.freeTrial.question',
+    answer: 'dashboard.faq.freeTrial.answer',
   },
   {
     value: 'plan',
     icon: <RefreshCw className="text-gray-400" size={20} />,
-    question: 'Can I change my plan later?',
-    answer:
-      "Yes, you can try AgroMap for free for 7 days. If you want, we'll provide you with a free 30-minute onboarding call to get you up and running.",
+    question: 'dashboard.faq.changePlan.question',
+    answer: 'dashboard.faq.changePlan.answer',
   },
   {
     value: 'policy',
     icon: <ShieldOff className="text-gray-400" size={20} />,
-    question: 'What is your cancellation policy?',
-    answer:
-      "Yes, you can try AgroMap for free for 7 days. If you want, we'll provide you with a free 30-minute onboarding call to get you up and running.",
+    question: 'dashboard.faq.cancellationPolicy.question',
+    answer: 'dashboard.faq.cancellationPolicy.answer',
   },
   {
     value: 'email',
     icon: <Mail className="text-gray-400" size={20} />,
-    question: 'How do I change my account email?',
-    answer:
-      "Yes, you can try AgroMap for free for 7 days. If you want, we'll provide you with a free 30-minute onboarding call to get you up and running.",
+    question: 'dashboard.faq.changeEmail.question',
+    answer: 'dashboard.faq.changeEmail.answer',
   },
   {
     value: 'benefits',
     icon: <Sparkles className="text-gray-400" size={20} />,
-    question: 'What benefits do paid plans include?',
-    answer:
-      "Yes, you can try AgroMap for free for 7 days. If you want, we'll provide you with a free 30-minute onboarding call to get you up and running.",
+    question: 'dashboard.faq.paidPlansBenefits.question',
+    answer: 'dashboard.faq.paidPlansBenefits.answer',
   },
 ];

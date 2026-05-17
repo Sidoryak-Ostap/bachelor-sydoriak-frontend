@@ -1,11 +1,15 @@
-const legendStops = [
-  { label: '1.0 (High)', color: '#15803d' },
-  { label: '0.5', color: '#84cc16' },
-  { label: '0.0', color: '#facc15' },
-  { label: '-1.0 (Low)', color: '#ef4444' },
-];
+import { useTranslation } from 'react-i18next';
 
 const NDVILegend = () => {
+  const { t } = useTranslation();
+
+  const legendStops = [
+    { label: `1.0 — ${t('dashboard.fieldDetails.ndviTimeline.high')}`, color: '#15803d' },
+    { label: `0.5`, color: '#84cc16' },
+    { label: `0.0`, color: '#facc15' },
+    { label: `-1.0 — ${t('dashboard.fieldDetails.ndviTimeline.low')}`, color: '#ef4444' },
+  ];
+
   return (
     <div className="flex items-center gap-3 rounded-xl border border-white/70 bg-white/95 px-3 py-2 shadow-lg backdrop-blur-sm">
       <div

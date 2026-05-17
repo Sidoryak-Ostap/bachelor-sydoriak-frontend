@@ -5,8 +5,12 @@ import { useParams } from 'react-router';
 import Controls from './Controls';
 import Table from './Table';
 import LoadingOverlay from '@/components/LoadingOverlay';
+import { useTranslation } from 'react-i18next';
 
 const Activity = () => {
+  const { t, i18n } = useTranslation();
+  const language = i18n.language;
+
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState<boolean>(false);
   const [checkedIds, setCheckedIds] = useState<string[]>([]);
   const [activityToDelete, setActivityToDelete] = useState<string | null>(null);
@@ -38,10 +42,14 @@ const Activity = () => {
         <Modal
           setOpen={setIsOpenDeleteModal}
           onConfirm={handleDeleteActivity}
-          title="Delete Activities"
-          message={`Are you sure you want to delete these ${checkedIds.length > 1 ? 'activities' : 'activity'}? This action cannot be undone.`}
-          confirmBtnText="Delete"
-          cancelBtnText="Cancel"
+          title={language === 'en' ? 'Delete Activity' : 'Видалити активність'}
+          message={
+            language === 'en'
+              ? `Are you sure you want to delete these ${checkedIds.length > 1 ? 'activities' : 'activity'}? This action cannot be undone.`
+              : `Ви впевнені, що хочете видалити ${checkedIds.length > 1 ? 'ці активності' : 'цю активність'}? Цю дію не можна буде скасувати.`
+          }
+          confirmBtnText={language === 'en' ? 'Delete' : 'Видалити'}
+          cancelBtnText={language === 'en' ? 'Cancel' : 'Скасувати'}
           onCancel={() => setIsOpenDeleteModal(false)}
           isActionPending={false}
         />

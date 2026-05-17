@@ -1,6 +1,6 @@
 export const INTERFACE_LANGUAGES = [
-  { label: 'English', value: 'en' },
-  { label: 'Ukrainian', value: 'uk' },
+  { label: 'general.interfaceLanguages.english', value: 'en' },
+  { label: 'general.interfaceLanguages.ukrainian', value: 'uk' },
 ];
 
 export const TIMEZONES = [

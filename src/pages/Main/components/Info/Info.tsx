@@ -2,8 +2,14 @@ import { motion } from 'framer-motion';
 import { IMG } from '@/assets';
 
 import { imageVariants, textContainerVariants, listItemVariants } from './animations';
+import { useTranslation } from 'react-i18next';
 
 const Info = () => {
+  const { t } = useTranslation();
+
+  const infoItems = t('main.info.items', { returnObjects: true }) || [];
+  const itemsArray = Array.isArray(infoItems) ? infoItems : [];
+
   return (
     <div id="solutions" className="w-full bg-[#F5F5F5] py-25 overflow-hidden">
       <div className="max-w-7xl mx-auto my-0 px-5 xl:px-0">
@@ -29,20 +35,11 @@ const Info = () => {
             viewport={{ once: true, amount: 0.3 }}
             variants={textContainerVariants}
           >
-            <h2 className="text-black font-bold text-4xl mb-6">
-              Control Your Farm From <br /> Anywhere
-            </h2>
-            <p className="text-base text-gray-400 mb-6">
-              Whether you're in the tractor cab or the office, AgroMap keeps you connected to your
-              operation. Sync data across devices and collaborate with your team instantly.
-            </p>
+            <h2 className="text-black font-bold text-4xl mb-6">{t('main.info.title')}</h2>
+            <p className="text-base text-gray-400 mb-6">{t('main.info.description')}</p>
 
             <ul className="flex flex-col gap-4">
-              {[
-                'Real-time synchronization',
-                'Offline mode for remote fields',
-                'Multi-user access & permissions',
-              ].map((text, index) => (
+              {itemsArray.map((text: string, index: number) => (
                 <motion.li
                   key={index}
                   variants={listItemVariants}

@@ -11,8 +11,10 @@ import { useRef, useState, type ChangeEvent } from 'react';
 import { useUpdateProfile } from '@/hooks/profile/useUpdateProfile';
 import { ROUTES } from '@/constants/ROUTES';
 import Loader from '@/components/Loader';
+import { useTranslation } from 'react-i18next';
 
 const ProfileEdit = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const user = useAppSelector(state => state.user);
 
@@ -74,15 +76,15 @@ const ProfileEdit = () => {
         >
           <ArrowLeft className="text-gray-400" size={22} />
         </button>
-        <h2 className="font-semibold text-xl text-black">Edit Profile</h2>
+        <h2 className="font-semibold text-xl text-black">{t('dashboard.editProfile.name')}</h2>
       </div>
 
       <div className="bg-white border border-gray-200 rounded-lg p-8">
         <div className="mb-8 pb-4 border-b border-gray-200">
-          <h3 className="text-black font-semibold text-lg mb-1">Public Profile</h3>
-          <p className="text-base text-gray-400">
-            This information will be displayed on your public profile.
-          </p>
+          <h3 className="text-black font-semibold text-lg mb-1">
+            {t('dashboard.editProfile.title')}
+          </h3>
+          <p className="text-base text-gray-400">{t('dashboard.editProfile.description')}</p>
         </div>
 
         <div className="flex items-center gap-4 mb-10">
@@ -120,9 +122,11 @@ const ProfileEdit = () => {
               onClick={triggerFileInput}
               className="text-sm bg-gray-100 text-black font-medium py-2 px-4 rounded-lg border border-gray-200 cursor-pointer"
             >
-              Change Avatar
+              {t('dashboard.editProfile.changeAvatar')}
             </button>
-            <p className="text-sm text-gray-400">JPG, GIF or PNG. Max size of 5MB</p>
+            <p className="text-sm text-gray-400">
+              JPG, GIF or PNG. {t('dashboard.editProfile.maxSize5MB')}
+            </p>
           </div>
         </div>
 
@@ -130,8 +134,8 @@ const ProfileEdit = () => {
           <div className="flex items-center gap-20 mb-5">
             <div className="w-full">
               <FormInput
-                label="First Name"
-                placeholder="Enter your first name"
+                label={t('dashboard.editProfile.form.firstName')}
+                placeholder={t('dashboard.editProfile.form.firstNamePlaceholder')}
                 {...register('firstName')}
                 error={errors.firstName}
               />
@@ -139,8 +143,8 @@ const ProfileEdit = () => {
 
             <div className="w-full">
               <FormInput
-                label="Last Name"
-                placeholder="Enter your last name"
+                label={t('dashboard.editProfile.form.lastName')}
+                placeholder={t('dashboard.editProfile.form.lastNamePlaceholder')}
                 {...register('lastName')}
                 error={errors.lastName}
               />
@@ -149,26 +153,19 @@ const ProfileEdit = () => {
 
           <div className="mb-8">
             <FormInput
-              label="Bio"
-              placeholder="Enter your bio"
+              label={t('dashboard.editProfile.form.bio')}
+              placeholder={t('dashboard.editProfile.form.bioPlaceholder')}
               {...register('bio')}
               error={errors.bio}
             />
           </div>
 
           <div className=" mb-6 pb-10 border-b border-gray-200">
-            <div className="mb-8 pb-4 border-b border-gray-200">
-              <h3 className="text-black font-semibold text-lg mb-1">Public Profile</h3>
-              <p className="text-base text-gray-400">
-                This information will be displayed on your public profile.
-              </p>
-            </div>
-
             <div className="flex items-center gap-20 ">
               <div className="w-full">
                 <FormInput
-                  label="Phone Number"
-                  placeholder="Enter your phone number"
+                  label={t('dashboard.editProfile.form.phone')}
+                  placeholder={t('dashboard.editProfile.form.phonePlaceholder')}
                   {...register('phoneNumber')}
                   error={errors.phoneNumber}
                 />
@@ -176,8 +173,8 @@ const ProfileEdit = () => {
 
               <div className="w-full">
                 <FormInput
-                  label="Location"
-                  placeholder="Enter your location"
+                  label={t('dashboard.editProfile.form.location')}
+                  placeholder={t('dashboard.editProfile.form.locationPlaceholder')}
                   {...register('location')}
                   error={errors.location}
                 />
@@ -196,14 +193,14 @@ const ProfileEdit = () => {
                 onClick={() => navigate(-1)}
                 className="text-black text-base font-medium cursor-pointer"
               >
-                Cancel
+                {t('dashboard.editProfile.form.cancelBtn')}
               </button>
 
               <button
                 disabled={isPending}
                 className="bg-primary text-base font-medium text-white px-4 py-2 rounded-lg cursor-pointer"
               >
-                Save Changes
+                {t('dashboard.editProfile.form.saveBtn')}
               </button>
             </div>
           )}

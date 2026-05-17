@@ -1,7 +1,10 @@
 import { motion } from 'framer-motion';
 import { ctaVariants, itemVariants } from './animations';
+import { useTranslation } from 'react-i18next';
 
 const CTASection = () => {
+  const { t } = useTranslation();
+
   return (
     <div className="bg-white py-20 overflow-hidden">
       <div className="max-w-7xl mx-auto px-5 xl:px-0">
@@ -16,14 +19,14 @@ const CTASection = () => {
             variants={itemVariants}
             className="font-extrabold text-white text-center mb-5 text-4xl"
           >
-            Ready to Modernize Your Farm?
+            {t('main.cta.title')}
           </motion.h2>
 
           <motion.p
             variants={itemVariants}
             className="text-base text-gray-300 mb-8 text-center max-w-lg"
           >
-            Join thousands of farmers using AgroMap to make data-driven decisions today.
+            {t('main.cta.description')}
           </motion.p>
 
           <motion.button
@@ -35,7 +38,7 @@ const CTASection = () => {
             whileTap={{ scale: 0.95 }}
             className="cursor-pointer bg-white text-primary text-base font-bold rounded-xl py-3 px-8 transition-colors hover:bg-gray-100"
           >
-            Get Started for Free
+            {t('main.cta.button')}
           </motion.button>
         </motion.div>
       </div>

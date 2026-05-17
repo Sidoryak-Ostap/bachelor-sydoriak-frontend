@@ -1,3 +1,5 @@
+import { useTranslation } from 'react-i18next';
+
 type AreaDistributionProps = {
   currentDistributionData: {
     excellent: number;
@@ -8,27 +10,29 @@ type AreaDistributionProps = {
 };
 
 const AreaDistribution = ({ currentDistributionData }: AreaDistributionProps) => {
+  const { t } = useTranslation();
+
   const distribution = [
     {
-      label: 'Excellent',
+      label: t('dashboard.fieldDetails.ndviTimeline.excellent'),
       range: '0.7 - 1.0',
       percentage: currentDistributionData.excellent,
       color: 'bg-green-700',
     },
     {
-      label: 'Good',
+      label: t('dashboard.fieldDetails.ndviTimeline.good'),
       range: '0.5 - 0.7',
       percentage: currentDistributionData.good,
       color: 'bg-green-500',
     },
     {
-      label: 'Moderate',
+      label: t('dashboard.fieldDetails.ndviTimeline.moderate'),
       range: '0.3 - 0.5',
       percentage: currentDistributionData.moderate,
       color: 'bg-yellow-500',
     },
     {
-      label: 'Poor',
+      label: t('dashboard.fieldDetails.ndviTimeline.poor'),
       range: '< 0.3',
       percentage: currentDistributionData.poor,
       color: 'bg-red-500',
@@ -38,7 +42,9 @@ const AreaDistribution = ({ currentDistributionData }: AreaDistributionProps) =>
   return (
     <div className="bg-white p-6 rounded-2xl shadow-md w-full max-w-md border border-gray-50">
       <div className="flex justify-between items-center mb-8">
-        <h3 className="text-xl font-bold text-slate-800">Area Distribution</h3>
+        <h3 className="text-xl font-bold text-slate-800">
+          {t('dashboard.fieldDetails.ndviTimeline.areaDistribution')}
+        </h3>
       </div>
 
       {distribution.map((item, idx) => (
