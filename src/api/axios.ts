@@ -4,7 +4,7 @@ import axios from 'axios';
 import { store } from '@/store/store';
 export const axiosInstance = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
-  timeout: 5000,
+  timeout: 30000,
   withCredentials: true,
   headers: {
     'Content-Type': 'application/json',

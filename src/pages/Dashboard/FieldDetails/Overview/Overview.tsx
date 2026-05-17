@@ -14,7 +14,7 @@ type OverviewProps = {
 };
 
 const Overview = ({ handleChangeTab }: OverviewProps) => {
-  const { t, i18n } = useTranslation();
+  const { i18n } = useTranslation();
   const language = i18n.language || 'en';
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState<boolean>(false);
   const [isAddActivityOpen, setIsAddActivityOpen] = useState<boolean>(false);
@@ -36,6 +36,7 @@ const Overview = ({ handleChangeTab }: OverviewProps) => {
       <GeneralInfo fieldData={fieldData || null} />
 
       <StatusOverview
+        fieldData={fieldData}
         handleChangeTab={handleChangeTab}
         onDelete={() => setIsOpenDeleteModal(true)}
         onAddActivity={() => setIsAddActivityOpen(true)}
