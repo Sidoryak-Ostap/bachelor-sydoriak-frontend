@@ -13,6 +13,7 @@ import { Wheat } from 'lucide-react';
 import { useGetFieldDataReport } from '@/hooks/field-report/useGetFieldDataReport';
 import FieldAnalysisModal from '@/components/Dashboard/FieldAnalysisModal/FieldAnalysisModal';
 import type { Field } from '@/types/field';
+import { calculateYieldForecast } from '@/utils/yield';
 
 type StatusOverviewProps = {
   fieldData: Field | undefined;
@@ -162,7 +163,7 @@ const StatusOverview = ({
             </div>
           )}
 
-          <div>
+          <div className="flex items-center gap-4">
             <button
               onClick={() => loadFieldDataReport()}
               disabled={isFieldDataReportPending}
@@ -180,6 +181,27 @@ const StatusOverview = ({
                 </>
               )}
             </button>
+          </div>
+
+          <div className="mt-6 overflow-hidden rounded-xl border border-emerald-100 bg-gradient-to-br from-emerald-50/40 to-white p-5 shadow-sm transition-all hover:shadow-md">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2.5">
+                <div>
+                  <h4 className="text-sm font-semibold text-slate-700">Прогноз врожайності</h4>
+                </div>
+              </div>
+
+              <span className="inline-flex items-center rounded-full bg-amber-50 px-2.5 py-0.5 text-xs font-medium text-amber-800 ring-1 ring-inset ring-amber-600/10">
+                Ранній
+              </span>
+            </div>
+
+            <div className="mt-4 flex items-baseline gap-1.5">
+              <span className="text-3xl font-bold tracking-tight text-slate-900">
+                {calculateYieldForecast(currentNDVI).toFixed(2)}
+              </span>
+              <span className="text-sm font-medium text-slate-500">т/га</span>
+            </div>
           </div>
         </div>
       </div>
