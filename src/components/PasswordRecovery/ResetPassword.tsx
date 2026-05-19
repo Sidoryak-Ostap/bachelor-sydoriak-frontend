@@ -6,6 +6,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useAppSelector } from '../../store/store';
 import Loader from '../Loader/Loader';
 import { useResetPassoword } from '@/hooks/passowrd/useResetPassword';
+import { useTranslation } from 'react-i18next';
 
 interface ResetPasswordProps {
   onNext: () => void;
@@ -30,6 +31,7 @@ const schema = yup.object().shape({
 });
 
 const ResetPassword = ({ onNext }: ResetPasswordProps) => {
+  const { t } = useTranslation();
   const email = useAppSelector(state => state.resetPassword.email);
 
   const {
@@ -49,16 +51,18 @@ const ResetPassword = ({ onNext }: ResetPasswordProps) => {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="flex flex-col items-center justify-center max-w-[375px] w-full mx-auto my-0"
+      className="flex flex-col items-center justify-center max-w-87.5 w-full mx-auto my-0"
     >
       <div className="px-3.5 py-2.5 rounded-xl bg-[#F4F4F4] mb-4">
         <img src={IMG.moreImg} alt="dots" className="w-8 h-8" />
       </div>
 
       <div className="mb-6">
-        <h2 className="font-bold text-4xl text-black text-center mb-4">Create new password</h2>
+        <h2 className="font-bold text-4xl text-black text-center mb-4">
+          {t('resetPassword.enterNewPassword.title')}
+        </h2>
         <p className="text-[#6C6C6C] text-base text-center">
-          Please choose a password that has not been used before. Must be at least 8 characters
+          {t('resetPassword.enterNewPassword.description')}
         </p>
       </div>
 
@@ -67,13 +71,13 @@ const ResetPassword = ({ onNext }: ResetPasswordProps) => {
           {...register('newPassword')}
           error={errors.newPassword}
           type="password"
-          placeholder="Enter new password"
+          placeholder={t('resetPassword.enterNewPassword.newPasswordPlaceholder')}
         />
         <FormInput
           {...register('confirmPassword')}
           error={errors.confirmPassword}
           type="password"
-          placeholder="Confirm new password"
+          placeholder={t('resetPassword.enterNewPassword.confirmPasswordPlaceholder')}
         />
       </div>
 
@@ -84,7 +88,7 @@ const ResetPassword = ({ onNext }: ResetPasswordProps) => {
           className="cursor-pointer font-medium w-full text-center bg-[#1A5E52] py-2.5 px-3 rounded-lg"
           type="submit"
         >
-          Reset Password
+          {t('resetPassword.enterNewPassword.actBtn')}
         </button>
       )}
     </form>
