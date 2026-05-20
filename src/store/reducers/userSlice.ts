@@ -42,7 +42,7 @@ const initialState: IUserState = {
     avatarUrl: null,
   },
   settings: {
-    language: 'en',
+    language: 'uk',
     timezone: 'UTC',
     autoAreaCalculation: true,
     emailUpdates: false,

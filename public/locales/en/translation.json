@@ -422,6 +422,85 @@
     }
   },
 
+  "auth": {
+    "login": {
+      "other": {
+        "title": "Welcome back to AgroMap",
+        "description": "Enter your email and password to access your dashboard and manage your farm.",
+        "actBtn": "Sign Up"
+      },
+      "title": "Sign in to AgroMap",
+      "google": "or use google account",
+      "form": {
+        "email": "Email",
+        "password": "Password",
+        "forgotPassword": "Forgot password?",
+        "actBtn": "Sign In"
+      }
+    },
+    "signup": {
+      "other": {
+        "title": "Join AgroMap today",
+        "description": "Create your account to start managing your farm",
+        "actBtn": "Sign In"
+      },
+      "title": "Create your AgroMap account",
+      "google": "or sign up with google account",
+      "form": {
+        "email": "Email",
+        "password": "Password",
+        "confirmPassword": "Confirm Password",
+        "actBtn": "Sign Up"
+      }
+    }
+  },
+
+  "resetPassword": {
+    "steps": [
+      {
+        "title": "Reset your password",
+        "description": "We’ll send your a 4-digit code."
+      },
+      {
+        "title": "Enter confirmation code",
+        "description": "We sent a code to your email."
+      },
+      {
+        "title": "Create a new password",
+        "description": "Must be at least 8 characters."
+      },
+      {
+        "title": "Password reset successful",
+        "description": "You can now log in with your new password."
+      }
+    ],
+    "enterEmail": {
+      "title": "Reset your password",
+      "description": "Forgot your password? Please enter your email and we’ll send you a 4-digit code.",
+      "placeholder": "Enter your email",
+      "actBtn": "Get a 4-digit code"
+    },
+    "enterCode": {
+      "title": "Enter confirmation code",
+      "description": "We sent a code to your email address",
+      "actBtn": "Continue",
+      "didntReceive": "Didn't receive the code?",
+      "resend": "Resend code"
+    },
+    "enterNewPassword": {
+      "title": "Create a new password",
+      "description": "Please choose a password that has not been used before. Must be at least 8 characters",
+      "newPasswordPlaceholder": "Enter your new password",
+      "confirmPasswordPlaceholder": "Confirm new password",
+      "actBtn": "Reset Password"
+    },
+    "success": {
+      "title": "Password reset successful",
+      "description": "Your password has been successfully reset. Click below to log in magically.",
+      "actBtn": "Log in"
+    }
+  },
+
   "general": {
     "cropOptions": {
       "wheat": "Wheat",

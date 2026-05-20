@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 
 function App() {
   const { language } = useAppSelector(state => state.user.settings);
+
   const { i18n } = useTranslation();
   useAuthInit();
 

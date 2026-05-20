@@ -8,6 +8,7 @@ import { setResetPasswordEmaiil } from '../../store/reducers/resetPasswordSlice'
 
 import Loader from '../Loader/Loader';
 import { useSendResetCode } from '@/hooks/passowrd/useSendResetCode';
+import { useTranslation } from 'react-i18next';
 
 interface EnterEmailProps {
   onNext: () => void;
@@ -20,6 +21,7 @@ const schema = yup
   .required();
 
 const EnterEmail = ({ onNext }: EnterEmailProps) => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
 
   const {
@@ -40,16 +42,18 @@ const EnterEmail = ({ onNext }: EnterEmailProps) => {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="flex flex-col items-center justify-center max-w-[375px] w-full mx-auto my-0"
+      className="flex flex-col items-center justify-center max-w-93.75 w-full mx-auto my-0"
     >
       <div className="px-3.5 py-2.5 rounded-xl bg-[#F4F4F4] mb-4">
         <img src={IMG.padlockImg} alt="padlock" className="w-8 h-8" />
       </div>
 
       <div className="mb-10">
-        <h2 className="font-bold text-4xl text-black text-center mb-4">Reset your password</h2>
+        <h2 className="font-bold text-4xl text-black text-center mb-4">
+          {t('resetPassword.enterEmail.title')}
+        </h2>
         <p className="text-[#6C6C6C] text-base font-semibold text-center">
-          Forgot your password? Please enter your <br /> email and we’ll send you a 4-digit code.
+          {t('resetPassword.enterEmail.description')}
         </p>
       </div>
 
@@ -57,7 +61,7 @@ const EnterEmail = ({ onNext }: EnterEmailProps) => {
         {...register('email')}
         error={errors.email}
         type="email"
-        placeholder="Enter your email"
+        placeholder={t('resetPassword.enterEmail.placeholder')}
       />
 
       {isPending ? (
@@ -69,7 +73,7 @@ const EnterEmail = ({ onNext }: EnterEmailProps) => {
           className="mt-6 cursor-pointer font-medium w-full text-center bg-[#1A5E52] py-2.5 px-3 rounded-lg"
           type="submit"
         >
-          Get a 4-digit code
+          {t('resetPassword.enterEmail.actBtn')}
         </button>
       )}
     </form>

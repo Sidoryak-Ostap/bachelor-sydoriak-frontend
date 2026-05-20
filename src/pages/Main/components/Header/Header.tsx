@@ -5,6 +5,7 @@ import { useAppSelector } from '../../../../store/store';
 import BurgerMenu from '../BurgerMenu';
 import { motion, type Variant } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
+import { LngSwitch } from '@/components/LngSwitch';
 
 const Header = () => {
   const { t } = useTranslation();
@@ -52,6 +53,7 @@ const Header = () => {
           </ul>
 
           <div className="hidden items-center gap-4 lg:flex">
+            <LngSwitch />
             {!isAuthorized && (
               <MotionLink
                 whileHover={buttonHover}

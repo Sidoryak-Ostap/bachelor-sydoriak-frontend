@@ -5,6 +5,7 @@ import type { Field } from '@/types/field';
 import { Link } from 'react-router';
 import { ROUTES } from '@/constants/ROUTES';
 import { useTranslation } from 'react-i18next';
+import { CROP_TYPES, SOIL_TYPES } from '@/constants/fields';
 
 type TableProps = {
   data: Field[];
@@ -13,9 +14,14 @@ type TableProps = {
 };
 
 const Row = (rowItem: any) => {
-  const { i18n } = useTranslation();
+  const { i18n, t } = useTranslation();
   const language = i18n.language;
   const { name, area, address, soilType, cropType } = rowItem;
+
+  console.log(soilType, cropType);
+
+  const soilTypeTranslated = SOIL_TYPES.find(crop => crop.value === soilType);
+  const cropTypeTranslated = CROP_TYPES.find(crop => crop.value === cropType);
 
   return (
     <div className="bg-white border-b border-gray-300 px-5 py-2 last:border-b-0 hover:bg-gray-50">
@@ -29,8 +35,8 @@ const Row = (rowItem: any) => {
 
         <p className="text-left truncate">{address}</p>
 
-        <p className="text-left">{soilType}</p>
-        <p className="text-left">{cropType}</p>
+        <p className="text-left">{t(soilTypeTranslated?.label || '') || soilType}</p>
+        <p className="text-left">{t(cropTypeTranslated?.label || '') || cropType}</p>
 
         <div className="flex items-center justify-end gap-2">
           <Link

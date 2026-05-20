@@ -3,6 +3,7 @@ import { ROUTES } from '@/constants/ROUTES';
 import type { Field } from '@/types/field';
 import { useNavigate } from 'react-router';
 import { useTranslation } from 'react-i18next';
+import { CROP_TYPES, SOIL_TYPES } from '@/constants/fields';
 
 type GeneralInfoProps = {
   fieldData: Field | null;
@@ -10,7 +11,11 @@ type GeneralInfoProps = {
 
 const GeneralInfo = ({ fieldData }: GeneralInfoProps) => {
   const navigate = useNavigate();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const { language } = i18n;
+
+  const soilTypeTranslated = SOIL_TYPES.find(soil => soil.value === fieldData?.soilType);
+  const cropTypeTranslated = CROP_TYPES.find(crop => crop.value === fieldData?.cropType);
 
   return (
     <div>
@@ -42,7 +47,9 @@ const GeneralInfo = ({ fieldData }: GeneralInfoProps) => {
             {t('dashboard.fieldDetails.overview.generalInfo.size')}
           </p>
           <div className="flex-1 bg-white border border-slate-200 rounded-md px-4 py-2.5 shadow-sm">
-            <p className="text-[17px] text-slate-900">{fieldData?.area} ha</p>
+            <p className="text-[17px] text-slate-900">
+              {fieldData?.area} {language === 'en' ? 'ha' : 'га'}
+            </p>
           </div>
         </li>
 
@@ -61,7 +68,9 @@ const GeneralInfo = ({ fieldData }: GeneralInfoProps) => {
             {t('dashboard.fieldDetails.overview.generalInfo.soilType')}
           </p>
           <div className="flex-1 bg-white border border-slate-200 rounded-md px-4 py-2.5 shadow-sm">
-            <p className="text-[17px] text-slate-900">{fieldData?.soilType}</p>
+            <p className="text-[17px] text-slate-900">
+              {soilTypeTranslated ? t(soilTypeTranslated.label) : fieldData?.soilType}
+            </p>
           </div>
         </li>
 
@@ -71,7 +80,9 @@ const GeneralInfo = ({ fieldData }: GeneralInfoProps) => {
             {t('dashboard.fieldDetails.overview.generalInfo.cropType')}
           </p>
           <div className="flex-1 bg-white border border-slate-200 rounded-md px-4 py-2.5 shadow-sm">
-            <p className="text-[17px] text-slate-900">{fieldData?.cropType}</p>
+            <p className="text-[17px] text-slate-900">
+              {cropTypeTranslated ? t(cropTypeTranslated.label) : fieldData?.cropType}
+            </p>
           </div>
         </li>
       </ul>

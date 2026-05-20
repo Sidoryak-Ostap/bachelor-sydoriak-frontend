@@ -17,7 +17,7 @@ const Cards = ({ totalFields, totalArea, averageArea }: CardsProps) => {
     return [
       {
         label: t('dashboard.main.totalArea'),
-        val: `${totalArea} ${language === 'uk' ? 'га' : 'ha'}`,
+        val: `${totalArea.toFixed(2)} ${language === 'uk' ? 'га' : 'ha'}`,
         icon: Ruler,
         color: 'text-blue-600',
         bg: 'bg-blue-50',
