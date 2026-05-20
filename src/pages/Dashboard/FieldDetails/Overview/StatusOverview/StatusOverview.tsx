@@ -36,7 +36,7 @@ const StatusOverview = ({
   const { data: fieldActivitiesData } = useGetFieldActivities(fieldId || '');
 
   const { data: currentFieldWeatherData, isError: isCurrentWeatherError } =
-    useGetCurrentFieldWeather(fieldId || '');
+    useGetCurrentFieldWeather(fieldId || '', language as 'en' | 'uk');
   const { data: fieldIndicesData, isError: isFieldIndicesError } = useGetFieldIndices(
     fieldId || ''
   );
@@ -79,6 +79,8 @@ const StatusOverview = ({
     mutate: loadFieldDataReport,
   } = useGetFieldDataReport(fieldId || '');
 
+  console.log(currentFieldWeatherData?.current?.icon);
+
   return (
     <div className="flex flex-col gap-8">
       <div className="bg-white shadow-md p-6 flex items-start justify-between gap-10 rounded-2xl">
@@ -92,7 +94,9 @@ const StatusOverview = ({
               {currentFieldWeatherData?.current.temp.toFixed(1)}
               °C
             </p>
-            <CloudSnow size={100} className="text-blue-400" />
+            <img
+              src={`https://openweathermap.org/payload/api/media/file/${currentFieldWeatherData?.current?.icon}.png`}
+            />
           </div>
 
           <div className="flex flex-col gap-3 text-sm text-slate-500 font-medium">
