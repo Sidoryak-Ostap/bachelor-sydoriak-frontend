@@ -51,7 +51,7 @@ export const CROP_TYPES = [
 
 export const SOIL_TYPES = [
   { value: 'loam', label: 'general.soilOptions.loam' },
-  { value: 'sand', label: 'general.soilOptions.sand' },
+  { value: 'sandy', label: 'general.soilOptions.sand' },
   { value: 'clay', label: 'general.soilOptions.clay' },
   { value: 'silt', label: 'general.soilOptions.silt' },
   { value: 'peat', label: 'general.soilOptions.peat' },

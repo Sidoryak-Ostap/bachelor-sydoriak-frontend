@@ -136,7 +136,7 @@
       "totalFields": "Total Fields",
       "averageArea": "Average Area",
       "averageNDVI": "Average NDVI",
-      "yieldPerformance": "Yield Performance (t/ha)"
+      "yieldPerformance": "NDVI Performance Over Time"
     },
     "breadcrumbs": {
       "profile": {

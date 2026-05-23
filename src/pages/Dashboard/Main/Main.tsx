@@ -14,15 +14,17 @@ import Cards from './Cards';
 import PieChart from './PieChart';
 import { useTranslation } from 'react-i18next';
 
-const yieldData = [
-  { month: 'Jan', yield: 400 },
-  { month: 'Feb', yield: 300 },
-  { month: 'Mar', yield: 600 },
-  { month: 'Apr', yield: 800 },
-  { month: 'May', yield: 700 },
-  { month: 'Jun', yield: 900 },
+const ndviData = [
+  // Квітень
+  { date: '01.04', ndvi: 0.42 },
+  { date: '08.04', ndvi: 0.44 },
+  { date: '15.04', ndvi: 0.64 },
+  { date: '22.04', ndvi: 0.68 },
+  { date: '29.04', ndvi: 0.69 },
+  // Травень
+  { date: '06.05', ndvi: 0.72 },
+  { date: '13.05', ndvi: 0.71 },
 ];
-
 interface CropDistItem {
   name: string;
   value: number;
@@ -68,7 +70,7 @@ const Main = () => {
           <h3 className="text-lg font-bold mb-6">{t('dashboard.main.yieldPerformance')}</h3>
           <div className="h-75 w-full">
             <ResponsiveContainer width="100%" height="100%">
-              <AreaChart data={yieldData}>
+              <AreaChart data={ndviData}>
                 <defs>
                   <linearGradient id="colorYield" x1="0" y1="0" x2="0" y2="1">
                     <stop offset="5%" stopColor="#10b981" stopOpacity={0.1} />
@@ -77,7 +79,7 @@ const Main = () => {
                 </defs>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f3f4f6" />
                 <XAxis
-                  dataKey="month"
+                  dataKey="date"
                   axisLine={false}
                   tickLine={false}
                   tick={{ fill: '#9ca3af', fontSize: 12 }}
@@ -92,7 +94,7 @@ const Main = () => {
                 />
                 <Area
                   type="monotone"
-                  dataKey="yield"
+                  dataKey="ndvi"
                   stroke="#10b981"
                   strokeWidth={3}
                   fillOpacity={1}
