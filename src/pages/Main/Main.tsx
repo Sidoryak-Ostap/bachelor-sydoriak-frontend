@@ -12,7 +12,7 @@ const Main = () => {
     <div>
       <Header />
       <Intro />
-      <Stats />
+      {/* <Stats /> */}
       <Features />
       <Info />
       <Pricing />

@@ -3,13 +3,19 @@ import { CircleCheckBig } from 'lucide-react';
 import { titleVariants, containerVariants, cardVariants } from './animations';
 import { type SubscriptionPlan, SubscriptionPlanName } from '@/constants/subscriptionOptions';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router';
+import { ROUTES } from '@/constants/ROUTES';
 
 const Pricing = () => {
   const { t } = useTranslation();
   const { language } = useTranslation().i18n;
 
+  const navigate = useNavigate();
+
   const plansItems = t('main.plans.items', { returnObjects: true }) || [];
   const plansArray = Array.isArray(plansItems) ? plansItems : [];
+
+  const navigateToPricing = () => navigate(ROUTES.dashboard.pricing);
 
   return (
     <div id="pricing" className="bg-white py-25 overflow-hidden">
@@ -59,6 +65,7 @@ const Pricing = () => {
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 className="mt-auto bg-primary text-white font-bold text-base py-3 w-full rounded-lg cursor-pointer"
+                onClick={navigateToPricing}
               >
                 {plan.button}
               </motion.button>

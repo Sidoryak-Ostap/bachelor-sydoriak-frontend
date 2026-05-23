@@ -5,7 +5,7 @@ import padlockImg from './images/icons/padlock.png';
 import tickImg from './images/icons/tick.png';
 import moreImg from './images/icons/more.png';
 import dividerImg from './images/icons/divider.svg';
-import uiImg from './images/intro/ui.svg';
+import uiImg from './images/intro/app-interface.png';
 import fieldImg from './images/intro/field.svg';
 import circleTickImg from './images/icons/circle-tick.svg';
 import avatarImg from './images/icons/avatar.svg';
