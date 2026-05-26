@@ -6,7 +6,7 @@ export const formatDate = (date: string | Date, locale: string = 'en') => {
   const localeParam = locale === 'en' ? 'en-US' : 'uk-UA';
 
   return new Date(date).toLocaleDateString(localeParam, {
-    month: 'short',
+    month: 'long',
     day: 'numeric',
     year: 'numeric',
   });

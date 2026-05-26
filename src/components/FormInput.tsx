@@ -15,7 +15,18 @@ type FormInputProps = {
 
 const FormInput = forwardRef<HTMLInputElement, FormInputProps>(
   (
-    { label, name, type = 'text', placeholder, icon, error, labelStyles, inputStyles, ...rest },
+    {
+      label,
+      name,
+      type = 'text',
+      placeholder,
+      icon,
+      error,
+      labelStyles,
+      inputStyles,
+      role,
+      ...rest
+    },
     ref
   ) => {
     return (
