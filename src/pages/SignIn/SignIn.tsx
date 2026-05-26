@@ -14,7 +14,7 @@ import { useAuthInit } from '@/hooks/auth/useAuthInit';
 import { useTranslation } from 'react-i18next';
 
 const SignIn = () => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   useAuthInit();
 
@@ -90,6 +90,7 @@ const SignIn = () => {
             <Loader />
           ) : (
             <button
+              role="login-btn"
               disabled={isPending}
               type="submit"
               className="px-16 py-2 border-2 bg-[#1A5E52] rounded-full cursor-pointer hover:scale-105  transition-transform duration-200 hover:bg-[#1c6a5c]"
