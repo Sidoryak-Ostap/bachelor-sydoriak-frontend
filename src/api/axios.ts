@@ -40,13 +40,13 @@ axiosInstance.interceptors.response.use(
           { withCredentials: true }
         );
 
-        const { access_token, user } = response.data;
+        const { accessToken, user } = response.data;
 
-        localStorage.setItem('accessToken', access_token);
+        localStorage.setItem('accessToken', accessToken);
 
-        store.dispatch(setUser({ token: access_token, user }));
+        store.dispatch(setUser({ token: accessToken, ...user }));
 
-        originalRequest.headers['Authorization'] = `Bearer ${access_token}`;
+        originalRequest.headers['Authorization'] = `Bearer ${accessToken}`;
         return axiosInstance(originalRequest);
       } catch (refreshError) {
         localStorage.removeItem('accessToken');

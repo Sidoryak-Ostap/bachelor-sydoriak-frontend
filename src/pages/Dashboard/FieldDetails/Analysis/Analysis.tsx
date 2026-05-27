@@ -19,7 +19,8 @@ import { useTranslation } from 'react-i18next';
 const INDICES = ['ndvi', 'ndmi', 'savi', 'evi'];
 
 const Analysis = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const language = i18n.language;
 
   const { id: fieldId } = useParams<{ id: string }>();
   const [activeIndex, setActiveIndex] = useState<string>(INDICES[0]);
@@ -145,7 +146,6 @@ const Analysis = () => {
         <RangePicker activeRange={activeRange} onChange={range => setActiveRange(range)} />
       </div>
 
-      {/* Main Yield Chart */}
       <div className="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 mt-10">
         <h3 className="text-lg font-bold mb-6">{activeIndex.toUpperCase()} </h3>
         <div className="h-75 w-full">
@@ -171,6 +171,7 @@ const Analysis = () => {
                 axisLine={false}
                 tickLine={false}
                 tick={{ fill: '#9ca3af', fontSize: 12 }}
+                tickFormatter={value => formatDate(value, language)}
               />
               <YAxis axisLine={false} tickLine={false} tick={{ fill: '#9ca3af', fontSize: 12 }} />
               <Tooltip
@@ -180,7 +181,6 @@ const Analysis = () => {
                   boxShadow: '0 10px 15px -3px rgba(0,0,0,0.1)',
                 }}
               />
-              formatter=
               <Area
                 type="monotone"
                 dataKey={activeIndex}
