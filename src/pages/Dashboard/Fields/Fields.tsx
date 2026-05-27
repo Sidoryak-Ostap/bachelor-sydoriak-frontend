@@ -40,9 +40,6 @@ const Fields = () => {
       soil => soil.value.toLowerCase() === field.soilType.toLowerCase()
     );
 
-    console.log('field soilType:', field.soilType);
-    console.log('matched soil type:', soilTypeMatched);
-
     return (
       field.name.toLowerCase().includes(query) ||
       field.address.toLowerCase().includes(query) ||

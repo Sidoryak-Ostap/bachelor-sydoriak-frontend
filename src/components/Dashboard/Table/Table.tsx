@@ -18,8 +18,6 @@ const Row = (rowItem: any) => {
   const language = i18n.language;
   const { name, area, address, soilType, cropType } = rowItem;
 
-  console.log(soilType, cropType);
-
   const soilTypeTranslated = SOIL_TYPES.find(crop => crop.value === soilType);
   const cropTypeTranslated = CROP_TYPES.find(crop => crop.value === cropType);
 

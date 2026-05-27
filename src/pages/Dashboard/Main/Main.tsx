@@ -31,8 +31,6 @@ const Main = () => {
     cropAreaDistribution = [] as CropDistItem[],
   } = statisticsData || {};
 
-  console.log('Statistics Data:', statisticsData);
-
   const cropDistribution = useMemo(() => {
     if (!statisticsData || isError) return [];
 
