@@ -6,6 +6,15 @@ export type StatisticsData = {
   totalFields: number;
   totalArea: number;
   averageArea: number;
+  meanNDVI: number;
+  lastIndices: {
+    date: string;
+    ndvi: {
+      mean: number;
+      min: number;
+      max: number;
+    };
+  }[];
   cropTypeDistribution: { [cropType: string]: number };
   cropAreaDistribution: { [cropType: string]: number };
 };
