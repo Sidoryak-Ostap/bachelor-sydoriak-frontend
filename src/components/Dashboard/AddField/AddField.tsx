@@ -2,21 +2,26 @@ import FormInput from '@/components/FormInput';
 import FormSelect from '@/components/FormSelect';
 import { CROP_TYPES, SOIL_TYPES } from '@/constants/fields';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { X } from 'lucide-react';
-import { useForm } from 'react-hook-form';
+import { CalendarIcon, X } from 'lucide-react';
+import { Controller, useForm } from 'react-hook-form';
 import { addFieldSchema } from './schema';
 import { useDispatch } from 'react-redux';
 import { setFieldInfo } from '@/store/reducers/createFieldSlice';
 import { useNavigate } from 'react-router';
 import { ROUTES } from '@/constants/ROUTES';
 import { useTranslation } from 'react-i18next';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Calendar } from '@/components/ui/calendar';
+import { uk, enUS } from 'date-fns/locale';
+import { format } from 'date-fns';
 
 type AddFieldProps = {
   setOpen: (open: boolean) => void;
 };
 
 const AddField = ({ setOpen }: AddFieldProps) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const language = i18n.language;
 
   const {
     register,
@@ -30,8 +35,9 @@ const AddField = ({ setOpen }: AddFieldProps) => {
     area: number;
     cropType: string;
     soilType: string;
+    seedingDate: Date | undefined;
   }>({
-    resolver: yupResolver(addFieldSchema),
+    resolver: yupResolver(addFieldSchema) as any,
   });
 
   const dispatch = useDispatch();
@@ -108,6 +114,40 @@ const AddField = ({ setOpen }: AddFieldProps) => {
             {...register('soilType')}
             error={errors.soilType}
             placeholder={t('dashboard.fields.addField.dialog.soilType')}
+          />
+
+          <Controller
+            control={control}
+            name="seedingDate"
+            render={({ field }) => (
+              <Popover>
+                <PopoverTrigger asChild>
+                  <button
+                    type="button"
+                    className={`cursor-pointer flex items-center justify-between gap-2 bg-[#EAF0EF] rounded-[10px] py-2 px-4 w-full border ${
+                      errors.seedingDate ? 'border-red-500' : 'border-transparent'
+                    } transition-colors duration-200`}
+                  >
+                    {field.value ? (
+                      format(field.value, 'PPP')
+                    ) : (
+                      <span className="text-gray-500">
+                        {t('dashboard.fieldDetails.activity.dialog.pickDate')}
+                      </span>
+                    )}
+                    <CalendarIcon size={18} className="text-gray-500" />
+                  </button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <Calendar
+                    locale={language === 'uk' ? uk : enUS}
+                    mode="single"
+                    selected={field.value}
+                    onSelect={field.onChange}
+                  />
+                </PopoverContent>
+              </Popover>
+            )}
           />
 
           <div className="flex items-center justify-between gap-5 mt-10">

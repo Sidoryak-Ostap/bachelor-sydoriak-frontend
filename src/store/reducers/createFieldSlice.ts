@@ -8,6 +8,7 @@ interface CreateFieldState {
     area: number;
     cropType: string;
     soilType: string;
+    seedingDate?: Date;
   };
 
   isDrawing: boolean;
@@ -38,6 +39,7 @@ const createFieldSlice = createSlice({
       state.data.area = area;
       state.data.cropType = cropType;
       state.data.soilType = soilType;
+      state.data.seedingDate = action.payload.seedingDate || null;
       state.isDrawing = true;
     },
 
