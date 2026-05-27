@@ -38,3 +38,23 @@ export const deleteField = async (fieldId: string) => {
     throw new Error(getErrorMessage(error));
   }
 };
+
+type PredictYieldResponse = {
+  success: boolean;
+  predicted_yield: number;
+  unit: string;
+  meta: {
+    status: string;
+    confidence: number;
+    message: string;
+  };
+};
+
+export const predictYield = async (fieldId: string): Promise<PredictYieldResponse> => {
+  try {
+    const response = await axiosInstance.post(API_ROUTES.FIELDS.PREDICT_YIELD(fieldId));
+    return response.data;
+  } catch (error: unknown) {
+    throw new Error(getErrorMessage(error));
+  }
+};

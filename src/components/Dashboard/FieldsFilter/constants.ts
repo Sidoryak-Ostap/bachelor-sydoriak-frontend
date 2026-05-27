@@ -18,3 +18,18 @@ export const SOIL_TYPES = [
   { value: 'chalk', secondValue: 'крейда', label: 'general.soilOptions.chalk' },
   { value: 'gravel', secondValue: 'гравій', label: 'general.soilOptions.gravel' },
 ];
+
+export const FORECAST_STATUS_LABELS: Record<string, { en: string; uk: string }> = {
+  final: {
+    en: 'Final forecast',
+    uk: 'Фінальний прогноз',
+  },
+  mid_preliminary: {
+    en: 'Mid-season forecast',
+    uk: 'Прогноз середини сезону',
+  },
+  early_preliminary: {
+    en: 'Early forecast',
+    uk: 'Ранній прогноз',
+  },
+};
