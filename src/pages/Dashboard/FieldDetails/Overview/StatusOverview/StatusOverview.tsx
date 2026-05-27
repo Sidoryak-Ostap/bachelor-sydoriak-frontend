@@ -4,7 +4,7 @@ import { useGetCurrentFieldWeather } from '@/hooks/weather/useGetCurrentFieldWea
 import { capitalizeString } from '@/utils/capitalize';
 import { formatDate } from '@/utils/format';
 import { getNDVIColor } from '@/utils/ndvicolor';
-import { ArrowDown, ArrowUp, CloudSnow, Leaf, Loader2, Plus, Sprout, Trash2 } from 'lucide-react';
+import { ArrowDown, ArrowUp, Leaf, Loader2, Plus, Sprout, Trash2 } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router';
@@ -13,7 +13,8 @@ import { Wheat } from 'lucide-react';
 import { useGetFieldDataReport } from '@/hooks/field-report/useGetFieldDataReport';
 import FieldAnalysisModal from '@/components/Dashboard/FieldAnalysisModal/FieldAnalysisModal';
 import type { Field } from '@/types/field';
-import { calculateYieldForecast } from '@/utils/yield';
+import { usePredictYield } from '@/hooks/fields/usePredictYield';
+import { FORECAST_STATUS_LABELS } from '@/components/Dashboard/FieldsFilter/constants';
 
 type StatusOverviewProps = {
   fieldData: Field | undefined;
@@ -40,6 +41,8 @@ const StatusOverview = ({
   const { data: fieldIndicesData, isError: isFieldIndicesError } = useGetFieldIndices(
     fieldId || ''
   );
+
+  const { predictYieldData } = usePredictYield(fieldId || '');
 
   useEffect(() => {
     if (isCurrentWeatherError) {
@@ -79,7 +82,9 @@ const StatusOverview = ({
     mutate: loadFieldDataReport,
   } = useGetFieldDataReport(fieldId || '');
 
-  console.log(currentFieldWeatherData?.current?.icon);
+  useEffect(() => {
+    console.log('Predict Yield Data:', predictYieldData);
+  }, [predictYieldData]);
 
   return (
     <div className="flex flex-col gap-8">
@@ -187,22 +192,28 @@ const StatusOverview = ({
             </button>
           </div>
 
-          <div className="mt-6 overflow-hidden rounded-xl border border-emerald-100 bg-gradient-to-br from-emerald-50/40 to-white p-5 shadow-sm transition-all hover:shadow-md">
+          <div className="mt-6 overflow-hidden rounded-xl border border-emerald-100 bg-linear-to-br from-emerald-50/40 to-white p-5 shadow-sm transition-all hover:shadow-md">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2.5">
                 <div>
-                  <h4 className="text-sm font-semibold text-slate-700">Прогноз врожайності</h4>
+                  <h4 className="text-sm font-semibold text-slate-700">
+                    {language === 'en' ? 'Yield Forecast' : 'Прогноз врожайності'}
+                  </h4>
                 </div>
               </div>
 
               <span className="inline-flex items-center rounded-full bg-amber-50 px-2.5 py-0.5 text-xs font-medium text-amber-800 ring-1 ring-inset ring-amber-600/10">
-                Ранній
+                {predictYieldData
+                  ? FORECAST_STATUS_LABELS[predictYieldData?.meta?.status]?.[
+                      language as 'en' | 'uk'
+                    ]
+                  : 'N/A'}{' '}
               </span>
             </div>
 
             <div className="mt-4 flex items-baseline gap-1.5">
               <span className="text-3xl font-bold tracking-tight text-slate-900">
-                {calculateYieldForecast(currentNDVI).toFixed(2)}
+                {predictYieldData ? predictYieldData?.predicted_yield?.toFixed(2) : 'N/A'}
               </span>
               <span className="text-sm font-medium text-slate-500">т/га</span>
             </div>
