@@ -18,9 +18,9 @@ const GoogleButton = ({ authType = 'login' }: { authType?: 'login' | 'signup' })
           access_token: tokenResponse.access_token,
         });
 
-        const { user, access_token } = res.data;
+        const { user, accessToken } = res.data;
 
-        localStorage.setItem('accessToken', access_token);
+        localStorage.setItem('accessToken', accessToken);
 
         dispatch(
           setUser({
