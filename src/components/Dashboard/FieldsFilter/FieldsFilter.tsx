@@ -1,33 +1,46 @@
-import { useState } from 'react';
+import { useState, type Dispatch, type SetStateAction } from 'react';
 import { Slider } from '@/components/ui/slider';
 import { CROP_TYPES, SOIL_TYPES } from './constants';
 import { useTranslation } from 'react-i18next';
+import type { FieldsFilterType } from '@/pages/Dashboard/Fields/Fields';
 
 type FieldsFilterProps = {
   setOpen: (open: boolean) => void;
+  filters: FieldsFilterType;
+  setFilters: Dispatch<SetStateAction<FieldsFilterType>>;
 };
 
-const FieldsFilter = ({ setOpen }: FieldsFilterProps) => {
+const FieldsFilter = ({ setOpen, filters, setFilters }: FieldsFilterProps) => {
   const { t, i18n } = useTranslation();
   const language = i18n.language;
-  const [selectedCrops, setSelectedCrops] = useState<string[]>([]);
-  const [selectedSoil, setSelectedSoil] = useState<string[]>([]);
-  const [sizeRange, setSizeRange] = useState<[number, number]>([25, 100]);
 
-  const handleToggleCrop = (crop: string) => {
-    setSelectedCrops(prev =>
-      prev.includes(crop) ? prev.filter(c => c !== crop) : [...prev, crop]
-    );
-  };
-
-  const handleToogleSoil = (soil: string) => {
-    setSelectedSoil(prev => (prev.includes(soil) ? prev.filter(s => s !== soil) : [...prev, soil]));
-  };
+  const [localFilters, setLocalFilters] = useState<FieldsFilterType>(filters);
 
   const handleClearAll = () => {
-    setSelectedCrops([]);
-    setSelectedSoil([]);
-    setSizeRange([0, 50]);
+    setLocalFilters({
+      crops: [],
+      soils: [],
+      sizeRange: [0, 100],
+    });
+  };
+
+  const handleToggleSoil = (soil: string) => {
+    setLocalFilters(prev => ({
+      ...prev,
+      soils: prev.soils.includes(soil) ? prev.soils.filter(s => s !== soil) : [...prev.soils, soil],
+    }));
+  };
+
+  const handleToggleCrops = (crop: string) => {
+    setLocalFilters(prev => ({
+      ...prev,
+      crops: prev.crops.includes(crop) ? prev.crops.filter(c => c !== crop) : [...prev.crops, crop],
+    }));
+  };
+
+  const handleApply = () => {
+    setFilters(localFilters);
+    setOpen(false);
   };
 
   return (
@@ -56,11 +69,11 @@ const FieldsFilter = ({ setOpen }: FieldsFilterProps) => {
 
           <div className="grid grid-cols-4 gap-2">
             {CROP_TYPES.map(crop => {
-              const isSelected = selectedCrops.includes(crop.value);
+              const isSelected = localFilters.crops.includes(crop.value);
 
               return (
                 <button
-                  onClick={() => handleToggleCrop(crop.value)}
+                  onClick={() => handleToggleCrops(crop.value)}
                   key={crop.value}
                   className={`border rounded-lg py-2 text-sm font-medium transition-colors cursor-pointer 
                       ${
@@ -81,19 +94,21 @@ const FieldsFilter = ({ setOpen }: FieldsFilterProps) => {
             {t('dashboard.fields.filters.size')}
           </h3>
           <Slider
-            onValueChange={value => setSizeRange([value[0], value[1]])}
+            onValueChange={value =>
+              setLocalFilters(prev => ({ ...prev, sizeRange: [value[0], value[1]] }))
+            }
             defaultValue={[25, 100]}
-            value={sizeRange}
+            value={localFilters.sizeRange}
             max={500}
             step={5}
             className="w-full text-primary mb-2"
           />
           <div className="flex items-center justify-between">
             <p className="text-base text-gray-400">
-              {sizeRange[0]} {language === 'en' ? 'ha' : 'га'}
+              {localFilters.sizeRange[0]} {language === 'en' ? 'ha' : 'га'}
             </p>
             <p className="text-base text-gray-400">
-              {sizeRange[1]} {language === 'en' ? 'ha' : 'га'}
+              {localFilters.sizeRange[1]} {language === 'en' ? 'ha' : 'га'}
             </p>
           </div>
         </div>
@@ -105,11 +120,11 @@ const FieldsFilter = ({ setOpen }: FieldsFilterProps) => {
 
           <div className="grid grid-cols-4 gap-2">
             {SOIL_TYPES.map(soil => {
-              const isSelected = selectedSoil.includes(soil.value);
+              const isSelected = localFilters.soils.includes(soil.value);
 
               return (
                 <button
-                  onClick={() => handleToogleSoil(soil.value)}
+                  onClick={() => handleToggleSoil(soil.value)}
                   key={soil.value}
                   className={`border rounded-lg py-2 text-sm font-medium transition-colors cursor-pointer 
                       ${
@@ -132,7 +147,10 @@ const FieldsFilter = ({ setOpen }: FieldsFilterProps) => {
           >
             {t('dashboard.fields.filters.cancel')}
           </button>
-          <button className="py-2 px-5.5 text-sm bg-primary border border-primary text-white font-bold rounded-lg w-full  cursor-pointer hover:bg-primary-dark">
+          <button
+            onClick={handleApply}
+            className="py-2 px-5.5 text-sm bg-primary border border-primary text-white font-bold rounded-lg w-full  cursor-pointer hover:bg-primary-dark"
+          >
             {t('dashboard.fields.filters.apply')}
           </button>
         </div>

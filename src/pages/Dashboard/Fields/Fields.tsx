@@ -1,5 +1,6 @@
 import AddField from '@/components/Dashboard/AddField';
 import FieldsFilter from '@/components/Dashboard/FieldsFilter';
+import { CROP_TYPES, SOIL_TYPES } from '@/components/Dashboard/FieldsFilter/constants';
 import Table from '@/components/Dashboard/Table';
 import { useGetFields } from '@/hooks/fields/useGetFields';
 import type { Field } from '@/types/field';
@@ -8,9 +9,20 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 
+export type FieldsFilterType = {
+  crops: string[];
+  soils: string[];
+  sizeRange: [number, number];
+};
+
 const Fields = () => {
   const { t, i18n } = useTranslation();
   const language = i18n.language;
+  const [filters, setFilters] = useState<FieldsFilterType>({
+    crops: [],
+    soils: [],
+    sizeRange: [0, 100],
+  });
 
   const [showFilter, setShowFilter] = useState<boolean>(false);
   const [addField, setAddField] = useState<boolean>(false);
@@ -20,12 +32,32 @@ const Fields = () => {
 
   const searchedFields = fieldsData?.filter((field: Field) => {
     const query = searchQuery.toLowerCase();
+
+    const cropTypeMatched = CROP_TYPES.find(
+      crop => crop.value.toLowerCase() === field.cropType.toLowerCase()
+    );
+    const soilTypeMatched = SOIL_TYPES.find(
+      soil => soil.value.toLowerCase() === field.soilType.toLowerCase()
+    );
+
+    console.log('field soilType:', field.soilType);
+    console.log('matched soil type:', soilTypeMatched);
+
     return (
       field.name.toLowerCase().includes(query) ||
       field.address.toLowerCase().includes(query) ||
-      field.cropType.toLowerCase().includes(query) ||
-      field.soilType.toLowerCase().includes(query)
+      cropTypeMatched?.secondValue.toLowerCase().includes(query) ||
+      soilTypeMatched?.secondValue.toLowerCase().includes(query) ||
+      cropTypeMatched?.value.toLowerCase().includes(query) ||
+      soilTypeMatched?.value.toLowerCase().includes(query)
     );
+  });
+
+  const displayData = (searchQuery.length > 0 ? searchedFields : fieldsData)?.filter(field => {
+    const matchesCrop = filters.crops.length === 0 || filters.crops.includes(field.cropType);
+    const matchesSoil = filters.soils.length === 0 || filters.soils.includes(field.soilType);
+    const matchesSize = field.area >= filters.sizeRange[0] && field.area <= filters.sizeRange[1];
+    return matchesCrop && matchesSoil && matchesSize;
   });
 
   useEffect(() => {
@@ -73,13 +105,11 @@ const Fields = () => {
           {searchQuery.length > 0 ? searchedFields?.length : fieldsData?.length || 0}{' '}
           {language === 'en' ? 'Fields' : 'Полів'}
         </h3>
-        <Table
-          isPending={isPending}
-          maxRows={6}
-          data={searchQuery.length > 0 ? searchedFields || [] : fieldsData || []}
-        />
+        <Table isPending={isPending} maxRows={6} data={displayData || []} />
       </div>
-      {showFilter && <FieldsFilter setOpen={setShowFilter} />}
+      {showFilter && (
+        <FieldsFilter filters={filters} setOpen={setShowFilter} setFilters={setFilters} />
+      )}
       {addField && <AddField setOpen={setAddField} />}
     </div>
   );

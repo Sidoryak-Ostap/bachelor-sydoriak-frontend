@@ -14,17 +14,6 @@ import Cards from './Cards';
 import PieChart from './PieChart';
 import { useTranslation } from 'react-i18next';
 
-const ndviData = [
-  // Квітень
-  { date: '01.04', ndvi: 0.42 },
-  { date: '08.04', ndvi: 0.44 },
-  { date: '15.04', ndvi: 0.64 },
-  { date: '22.04', ndvi: 0.68 },
-  { date: '29.04', ndvi: 0.69 },
-  // Травень
-  { date: '06.05', ndvi: 0.72 },
-  { date: '13.05', ndvi: 0.71 },
-];
 interface CropDistItem {
   name: string;
   value: number;
@@ -38,8 +27,11 @@ const Main = () => {
     totalFields = 0,
     totalArea = 0,
     averageArea = 0,
+    meanNDVI = 0,
     cropAreaDistribution = [] as CropDistItem[],
   } = statisticsData || {};
+
+  console.log('Statistics Data:', statisticsData);
 
   const cropDistribution = useMemo(() => {
     if (!statisticsData || isError) return [];
@@ -54,6 +46,14 @@ const Main = () => {
     });
   }, [statisticsData, isError]);
 
+  const NDVIChartData = useMemo(() => {
+    if (!statisticsData || isError) return [];
+    return statisticsData.lastIndices.map(index => ({
+      date: new Date(index.date).toLocaleDateString(),
+      ndvi: index?.ndvi?.mean?.toFixed(2),
+    }));
+  }, [statisticsData, isError]);
+
   return (
     <div className="p-8 bg-gray-50 min-h-screen">
       <div className="mb-8">
@@ -61,16 +61,19 @@ const Main = () => {
         <p className="text-gray-500">{t('dashboard.main.description')}</p>
       </div>
 
-      <Cards totalArea={totalArea} totalFields={totalFields} averageArea={averageArea} />
+      <Cards
+        totalArea={totalArea}
+        totalFields={totalFields}
+        averageArea={averageArea}
+        meanNdvi={meanNDVI}
+      />
 
-      {/* 3. Charts Section */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Main Yield Chart */}
         <div className="lg:col-span-2 bg-white p-6 rounded-3xl shadow-sm border border-gray-100">
           <h3 className="text-lg font-bold mb-6">{t('dashboard.main.yieldPerformance')}</h3>
           <div className="h-75 w-full">
             <ResponsiveContainer width="100%" height="100%">
-              <AreaChart data={ndviData}>
+              <AreaChart data={NDVIChartData || []}>
                 <defs>
                   <linearGradient id="colorYield" x1="0" y1="0" x2="0" y2="1">
                     <stop offset="5%" stopColor="#10b981" stopOpacity={0.1} />
@@ -105,7 +108,6 @@ const Main = () => {
           </div>
         </div>
 
-        {/* Distribution Pie Chart */}
         <PieChart cropDistribution={cropDistribution} />
       </div>
     </div>

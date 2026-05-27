@@ -7,9 +7,10 @@ type CardsProps = {
   totalFields: number;
   totalArea: number;
   averageArea: number;
+  meanNdvi: number;
 };
 
-const Cards = ({ totalFields, totalArea, averageArea }: CardsProps) => {
+const Cards = ({ totalFields, totalArea, averageArea, meanNdvi }: CardsProps) => {
   const { t, i18n } = useTranslation();
   const language = i18n.language;
 
@@ -17,28 +18,28 @@ const Cards = ({ totalFields, totalArea, averageArea }: CardsProps) => {
     return [
       {
         label: t('dashboard.main.totalArea'),
-        val: `${totalArea.toFixed(2)} ${language === 'uk' ? 'га' : 'ha'}`,
+        val: `${totalArea?.toFixed(2) || '0'} ${language === 'uk' ? 'га' : 'ha'}`,
         icon: Ruler,
         color: 'text-blue-600',
         bg: 'bg-blue-50',
       },
       {
         label: t('dashboard.main.totalFields'),
-        val: totalFields.toString(),
+        val: totalFields?.toString() || '0',
         icon: Sprout,
         color: 'text-green-600',
         bg: 'bg-green-50',
       },
       {
         label: t('dashboard.main.averageArea'),
-        val: `${averageArea.toFixed(2)} ${language === 'uk' ? 'га' : 'ha'}`,
+        val: `${averageArea?.toFixed(2) || '0'} ${language === 'uk' ? 'га' : 'ha'}`,
         icon: TrendingUp,
         color: 'text-yellow-600',
         bg: 'bg-yellow-50',
       },
       {
         label: t('dashboard.main.averageNDVI'),
-        val: `0.68`,
+        val: meanNdvi?.toFixed(2) || '0',
         icon: Leaf,
         color: 'text-green-600',
         bg: 'bg-green-50',
