@@ -5,9 +5,8 @@ import { useForm, Controller } from 'react-hook-form'; // 1. Import Controller
 import { addActivitySchema } from './schema';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Calendar } from '@/components/ui/calendar';
-import { format } from 'date-fns/format';
 import { uk, enUS } from 'date-fns/locale';
-import { capitalizeFirstLetter } from '@/utils/format';
+import { capitalizeFirstLetter, formatDate } from '@/utils/format';
 import { useCreateFieldActivity } from '@/hooks/field-activity/useCreateFieldActivity';
 import { useTranslation } from 'react-i18next';
 
@@ -39,6 +38,8 @@ const AddFieldActivity = ({ setOpen, fieldId }: AddFieldProps) => {
       ...data,
       fieldId,
     };
+
+    console.log('Submitting activity with payload:', payload);
 
     mutate(payload);
     setOpen(false);
@@ -82,7 +83,7 @@ const AddFieldActivity = ({ setOpen, fieldId }: AddFieldProps) => {
                     } transition-colors duration-200`}
                   >
                     {field.value ? (
-                      format(field.value, 'PPP')
+                      formatDate(field.value, language)
                     ) : (
                       <span className="text-gray-500">
                         {t('dashboard.fieldDetails.activity.dialog.pickDate')}

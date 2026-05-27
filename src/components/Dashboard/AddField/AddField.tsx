@@ -13,7 +13,7 @@ import { useTranslation } from 'react-i18next';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Calendar } from '@/components/ui/calendar';
 import { uk, enUS } from 'date-fns/locale';
-import { format } from 'date-fns';
+import { formatDate } from '@/utils/format';
 
 type AddFieldProps = {
   setOpen: (open: boolean) => void;
@@ -129,7 +129,7 @@ const AddField = ({ setOpen }: AddFieldProps) => {
                     } transition-colors duration-200`}
                   >
                     {field.value ? (
-                      format(field.value, 'PPP')
+                      formatDate(field.value, language)
                     ) : (
                       <span className="text-gray-500">
                         {t('dashboard.fieldDetails.activity.dialog.pickDate')}
