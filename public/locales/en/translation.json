@@ -356,6 +356,7 @@
           "fieldName": "Field Name",
           "cropType": "Crop Type",
           "soilType": "Soil Type",
+          "seedingDate": "Seeding Date",
           "area": "Area (ha)",
           "image": "Field Image",
           "viewOnMap": "View on Map"

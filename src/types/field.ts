@@ -7,6 +7,7 @@ export type CreateFieldPayload = {
   area: number;
   cropType: string;
   soilType: string;
+  seedingDate?: Date | null;
   boundary: {
     type: 'Polygon';
     coordinates: number[][][];

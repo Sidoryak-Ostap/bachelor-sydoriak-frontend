@@ -62,7 +62,6 @@ const GeneralInfo = ({ fieldData }: GeneralInfoProps) => {
           </div>
         </li>
 
-        {/* Soil Type */}
         <li className="flex items-center">
           <p className="w-32 text-[17px] font-medium text-slate-500 shrink-0">
             {t('dashboard.fieldDetails.overview.generalInfo.soilType')}
@@ -74,7 +73,6 @@ const GeneralInfo = ({ fieldData }: GeneralInfoProps) => {
           </div>
         </li>
 
-        {/* Crop Type */}
         <li className="flex items-center">
           <p className="w-32 text-[17px] font-medium text-slate-500 shrink-0">
             {t('dashboard.fieldDetails.overview.generalInfo.cropType')}
@@ -85,6 +83,25 @@ const GeneralInfo = ({ fieldData }: GeneralInfoProps) => {
             </p>
           </div>
         </li>
+
+        {fieldData?.seedingDate && (
+          <li className="flex items-center">
+            <p className="w-32 text-[17px] font-medium text-slate-500 shrink-0">
+              {t('dashboard.fieldDetails.overview.generalInfo.seedingDate')}
+            </p>
+            <div className="flex-1 bg-white border border-slate-200 rounded-md px-4 py-2.5 shadow-sm">
+              <p className="text-[17px] text-slate-900">
+                {fieldData?.seedingDate
+                  ? new Date(fieldData.seedingDate).toLocaleDateString(language, {
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric',
+                    })
+                  : t('dashboard.fieldDetails.overview.generalInfo.notSpecified')}
+              </p>
+            </div>
+          </li>
+        )}
       </ul>
 
       <div>
