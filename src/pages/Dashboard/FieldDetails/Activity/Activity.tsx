@@ -8,7 +8,7 @@ import LoadingOverlay from '@/components/LoadingOverlay';
 import { useTranslation } from 'react-i18next';
 
 const Activity = () => {
-  const { t, i18n } = useTranslation();
+  const { i18n } = useTranslation();
   const language = i18n.language;
 
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState<boolean>(false);

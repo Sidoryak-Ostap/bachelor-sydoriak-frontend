@@ -12,11 +12,11 @@ export const useLogout = () => {
     mutationFn: logOut,
     onSuccess: () => {
       dispatch(logout());
-      navigate(ROUTES.login, { replace: true });
+      navigate(ROUTES.main, { replace: true });
     },
     onError: () => {
       dispatch(logout());
-      navigate(ROUTES.login, { replace: true });
+      navigate(ROUTES.main, { replace: true });
     },
   });
 };

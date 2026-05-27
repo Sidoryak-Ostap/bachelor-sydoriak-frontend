@@ -25,21 +25,6 @@ const Controls = ({ fieldId }: ControlsProps) => {
             onChange={e => setSearchQuery(e.target.value)}
           />
         </div>
-
-        <button className="cursor-pointer font-medium bg-white border border-gray-200 rounded-sm py-2.5 px-3 flex items-center justify-center gap-1 text-sm text-black hover:bg-gray-100 transition-colors duration-200">
-          <Funnel size={16} />
-          {t('dashboard.fieldDetails.activity.type')}
-        </button>
-
-        <button className="cursor-pointer font-medium bg-white border border-gray-200 rounded-sm py-2.5 px-3 flex items-center justify-center gap-1 text-sm text-black hover:bg-gray-100 transition-colors duration-200">
-          <Calendar size={16} />
-          {t('dashboard.fieldDetails.activity.dateRange')}
-        </button>
-
-        <button className="cursor-pointer font-medium bg-white border border-gray-200 rounded-sm py-2.5 px-3 flex items-center justify-center gap-1 text-sm text-black hover:bg-gray-100 transition-colors duration-200">
-          <Download size={16} />
-          {t('dashboard.fieldDetails.activity.export')}
-        </button>
       </div>
 
       <button
