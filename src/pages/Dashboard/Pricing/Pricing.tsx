@@ -25,7 +25,7 @@ const Pricing = () => {
       return;
     }
 
-    mutate(plan);
+    mutate({ plan, interval: isAnnual ? 'yearly' : 'monthly' });
   };
 
   return (

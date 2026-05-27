@@ -27,10 +27,11 @@ export const getSubscription = async (): Promise<Subscription> => {
 };
 
 export const createSubscription = async (
-  plan: 'basic' | 'pro' | 'starter'
+  plan: 'basic' | 'pro' | 'starter',
+  interval?: 'monthly' | 'yearly'
 ): Promise<CreateSubscriptionResponse> => {
   try {
-    const response = await axiosInstance.post(API_ROUTES.SUBSCRIPTION.CREATE, { plan });
+    const response = await axiosInstance.post(API_ROUTES.SUBSCRIPTION.CREATE, { plan, interval });
     return response.data;
   } catch (error: unknown) {
     throw new Error(getErrorMessage(error));

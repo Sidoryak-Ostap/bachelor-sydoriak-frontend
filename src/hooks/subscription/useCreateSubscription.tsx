@@ -10,7 +10,13 @@ export const useCreateSubscription = () => {
 
   return useMutation({
     mutationKey: ['createSubscription'],
-    mutationFn: (plan: 'basic' | 'pro' | 'starter') => createSubscription(plan),
+    mutationFn: ({
+      plan,
+      interval,
+    }: {
+      plan: 'basic' | 'pro' | 'starter';
+      interval?: 'monthly' | 'yearly';
+    }) => createSubscription(plan, interval),
     onSuccess: async data => {
       window.location.href = data.pageUrl;
       try {

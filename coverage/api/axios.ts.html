@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">34.78% </span>
+                <span class="strong">47.82% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>8/23</span>
+                <span class='fraction'>11/23</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">33.33% </span>
+                <span class="strong">66.66% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>2/6</span>
+                <span class='fraction'>4/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50% </span>
+                <span class="strong">75% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>2/4</span>
+                <span class='fraction'>3/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">34.78% </span>
+                <span class="strong">47.82% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>8/23</span>
+                <span class='fraction'>11/23</span>
             </div>
         
             
@@ -153,6 +153,22 @@
 <span class="cline-any cline-yes">11x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -160,27 +176,11 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { logout, setUser } from '@/store/reducers/userSlice';
@@ -212,10 +212,10 @@ axiosInstance.interceptors.request.use(
 &nbsp;
 axiosInstance.interceptors.response.use(
   response =&gt; response,
-<span class="fstat-no" title="function not covered" >  async e</span>rror =&gt; {
-    const originalRequest = <span class="cstat-no" title="statement not covered" >error.config;</span>
+  async error =&gt; {
+    const originalRequest = error.config;
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    if (error.response?.status === 401 &amp;&amp; !originalRequest._retry) {</span>
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (error.response?.status === 401 &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >!originalRequest._retry) {</span>
 <span class="cstat-no" title="statement not covered" >      originalRequest._retry = true;</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >      try {</span>
@@ -240,7 +240,7 @@ axiosInstance.interceptors.response.use(
       }
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    return Promise.reject(error);</span>
+    return Promise.reject(error);
   }
 );
 &nbsp;</pre></td></tr></table></pre>
@@ -250,7 +250,7 @@ axiosInstance.interceptors.response.use(
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-05-26T00:46:02.994Z
+                at 2026-05-26T17:29:11.379Z
             </div>
         <script src="../prettify.js"></script>
         <script>
