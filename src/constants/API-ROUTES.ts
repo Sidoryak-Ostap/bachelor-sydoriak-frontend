@@ -13,6 +13,7 @@ export const API_ROUTES = {
     GET_FIELDS: '/fields',
     GET_FIELD_BY_ID: (fieldId: string) => `/fields/field/${fieldId}`,
     DELETE_FIELD: (fieldId: string) => `/fields/field/${fieldId}`,
+    PREDICT_YIELD: (fieldId: string) => `/yield-prediction/predict/${fieldId}`,
   },
 
   INDICES: {
@@ -27,6 +28,9 @@ export const API_ROUTES = {
     CREATE_ACTIVITY: '/field-activity',
     GET_FIELD_ACTIVITIES: (fieldId: string) => `/field-activity/${fieldId}`,
     DELETE_ACTIVITY: `/field-activity`,
+  },
+  FIELD_REPORT: {
+    GET: (fieldId: string) => `/ai-analysis-report/${fieldId}`,
   },
   PROFILE: {
     UPDATE: '/user/profile',

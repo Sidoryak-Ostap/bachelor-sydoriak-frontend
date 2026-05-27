@@ -1,0 +1,541 @@
+{
+  "main": {
+    "header": {
+      "navlinks": {
+        "features": "Features",
+        "solutions": "Solutions",
+        "pricing": "Pricing",
+        "resources": "Resources"
+      },
+      "buttons": {
+        "login": "Log In",
+        "dashboard": "Dashboard",
+        "signup": "Get Started"
+      }
+    },
+    "hero": {
+      "badge": "✨ THE #1 FARM MANAGEMENT PLATFORM",
+      "title": "Select The Best Plan For Your Needs",
+      "description": "Actually, let's start with optimized insights. Upgrade AgroMap today to unlock smarter insights and control over every acre of your land.",
+      "buttons": {
+        "getStarted": "start free trial"
+      }
+    },
+    "counter": {
+      "items": [
+        {
+          "value": "100K+",
+          "label": "Active Farmers"
+        },
+        {
+          "value": "2.5M",
+          "label": "Acres Mapped"
+        },
+        {
+          "value": "25%",
+          "label": "Yield Increase"
+        },
+        {
+          "value": "4.9/5",
+          "label": "User Rating"
+        }
+      ]
+    },
+    "info": {
+      "title": "Control Your Farm From Anywhere",
+      "description": "Whether you're in the tractor cab or the office, AgroMap keeps you connected to your operation. Sync data across devices and collaborate with your team instantly.",
+      "items": [
+        "Real-time synchronization",
+        "Offline mode for remote fields",
+        "Multi-user access & permissions"
+      ]
+    },
+    "features": {
+      "suptitle": "Capabilities",
+      "title": "Everything You Need to Grow",
+      "items": [
+        {
+          "iconName": "Map",
+          "title": "Precision Mapping",
+          "description": "Visualize your fields with satellite imagery. Mark boundaries, track soil health, and monitor crop progress in real-time."
+        },
+        {
+          "iconName": "TrendingUp",
+          "title": "Profitability Analysis",
+          "description": "Understand your inputs versus outputs. Our AI-driven insights help you make cost-effective decisions for every season."
+        },
+        {
+          "iconName": "FileText",
+          "title": "Automated Reports",
+          "description": "Generate detailed reports for stakeholders instantly. From yield predictions to resource usage, get the data you need."
+        }
+      ]
+    },
+    "plans": {
+      "title": "Simple, Transparent Pricing",
+
+      "items": [
+        {
+          "nameKey": "Starter",
+          "name": "Starter",
+          "regularPrice": "Free",
+          "pricePerYear": "Free",
+          "description": "For those just getting started",
+          "features": [
+            "Manage up to 10 fields.",
+            "Access to NDVI only.",
+            "3 months of data history."
+          ],
+          "button": "Start 30-day Free Trial"
+        },
+        {
+          "nameKey": "Basic",
+          "name": "Basic",
+          "regularPrice": "8.99",
+          "pricePerYear": "95.88",
+          "description": "For those looking to grow",
+          "features": [
+            "Manage up to 50 fields.",
+            "Access to NDVI, EVI, NDMI and EVI",
+            "24 months of data history."
+          ],
+          "button": "Subscribe Now"
+        },
+        {
+          "nameKey": "Pro",
+          "name": "Pro",
+          "regularPrice": "18.99",
+          "pricePerYear": "199.99",
+          "description": "For those who want it all",
+          "features": [
+            "Access to all indices.",
+            "Local 7-day hyper-local weather forecasts.",
+            "Unlimited access to data history.",
+            "Yield prediction."
+          ],
+          "button": "Subscribe Now"
+        }
+      ]
+    },
+    "cta": {
+      "title": "Ready to Modernize Your Farm?",
+      "description": "Join thousands of farmers using AgroMap to make data-driven decisions today.",
+      "button": "Start Your Free Trial"
+    },
+    "footer": {
+      "company": "AgroMap Inc.",
+      "rights": "All rights reserved."
+    }
+  },
+
+  "dashboard": {
+    "main": {
+      "title": "Dashboard",
+      "description": "Monitor your agricultural performance",
+      "totalArea": "Total Area",
+      "totalFields": "Total Fields",
+      "averageArea": "Average Area",
+      "averageNDVI": "Average NDVI",
+      "yieldPerformance": "NDVI Performance Over Time"
+    },
+    "breadcrumbs": {
+      "profile": {
+        "title": "My Profile",
+        "description": "View your personal information and account statistics."
+      },
+      "profileEdit": {
+        "title": "Edit Profile",
+        "description": "Update your personal details, password, and account preferences."
+      },
+      "fields": {
+        "title": "Field Management",
+        "description": "Simplify processes and build trust through traceability."
+      },
+      "map": {
+        "title": "Interactive Map",
+        "description": "Visualize your fields and manage geographical boundaries in real-time."
+      },
+      "settings": {
+        "title": "Settings",
+        "description": "Manage your account settings and preferences."
+      },
+      "pricing": {
+        "title": "Pricing Plans",
+        "description": "Choose the best plan for your agricultural needs and scale your business."
+      },
+      "faq": {
+        "title": "Frequently Asked Questions",
+        "description": "Find answers to common questions about AgroMap features and services."
+      },
+      "dashboard": {
+        "title": "Dashboard",
+        "description": "Get a comprehensive overview of your agricultural operations, including field status, crop health, and recent activities."
+      }
+    },
+    "sidebar": {
+      "account": {
+        "title": "Personal Account"
+      },
+      "upgrade": {
+        "title": "Upgrade Plan",
+        "description": "Upgrade AgroMap today to unlock smarter insights and control",
+        "button": "Upgrade Your Plan"
+      },
+      "nav": {
+        "title": "Menu",
+        "dashboard": "Dashboard",
+        "map": "Map",
+        "fields": "Fields",
+        "pricing": "Pricing",
+        "profitability": "Profitability"
+      },
+      "preferences": {
+        "title": "Preferences",
+        "settings": "Settings",
+        "help": "Help Center"
+      }
+    },
+    "fields": {
+      "title": "Field Management",
+      "description": "Simplify processes and build trust through traceability",
+      "filters": {
+        "clearAll": "Clear All",
+        "title": "Filters",
+        "subtitle": "Fields Filter",
+        "cropType": "Crop Type",
+        "size": "Size (ha)",
+        "soilType": "Soil Type",
+        "cancel": "Cancel",
+        "apply": "Apply"
+      },
+      "addField": {
+        "btnName": "Add Field",
+        "dialog": {
+          "title": "Add Field",
+          "name": "Name",
+          "owner": "Owner",
+          "address": "Address",
+          "area": "Area",
+          "cropType": "Crop Type",
+          "soilType": "Soil Type",
+          "saveBtn": "Next",
+          "cancelBtn": "Cancel"
+        }
+      },
+      "table": {
+        "name": "Name",
+        "address": "Address",
+        "area": "Area",
+        "cropType": "Crop Type",
+        "soilType": "Soil Type"
+      }
+    },
+    "map": {
+      "title": "My fields",
+      "total": "Total"
+    },
+    "faq": {
+      "title": "Frequently asked questions",
+      "description": "These are the most commonly asked questions about AgroMap. Can't find what you're looking for? Chat our friendly team",
+      "freeTrial": {
+        "question": "Is there a free trial available?",
+        "answer": "Yes, you can try AgroMap for free for 31 days. If you want, we'll provide you with a free 30-minute onboarding call to get you up and running."
+      },
+      "changePlan": {
+        "question": "Can I change my plan later?",
+        "answer": "Absolutely! You can upgrade or downgrade your plan at any time from your account settings. We offer flexible options to fit your evolving needs."
+      },
+      "cancellationPolicy": {
+        "question": "What is your cancellation policy?",
+        "answer": "You can cancel your subscription at any time through your account settings. If you cancel during the free trial, you won't be charged. For paid plans, you'll have access to the features until the end of your billing cycle."
+      },
+      "changeEmail": {
+        "question": "Can I change my email address?",
+        "answer": "Yes, you can update your email address in your account settings. Just go to the 'Profile' section and click on 'Edit Profile' to make the changes."
+      },
+      "paidPlansBenefits": {
+        "question": "What are the benefits of paid plans?",
+        "answer": "Paid plans offer enhanced features such as access to additional indices, local hyper-local weather forecasts, unlimited data history, and yield prediction. These features provide deeper insights and greater control over your agricultural operations."
+      }
+    },
+    "settings": {
+      "title": "General Preferences",
+      "description": "Manage your account settings and preferences",
+      "language": {
+        "title": "Interface Language",
+        "description": "Select the language used throughout the application."
+      },
+      "timezone": {
+        "title": "Timezone",
+        "description": "Used for calculating accurate report schedules."
+      },
+      "autoAreaCalc": {
+        "title": "Automatic Area Calculation",
+        "description": "Enable automatic area calculation for new fields added to the system."
+      },
+      "notifications": {
+        "title": "Notifications",
+        "description": "Receive updates on field health, weather alerts, and system announcements.",
+        "emailUpdates": {
+          "title": "Email Updates",
+          "description": "Get important updates and insights delivered to your inbox."
+        },
+        "weekSummuaryReport": {
+          "title": "Weekly Summary Report",
+          "description": "Receive a comprehensive summary of your fields' performance every week."
+        },
+        "productNews": {
+          "title": "Product News & Tips",
+          "description": "Stay informed about new features, tips, and best practices to maximize your use of AgroMap."
+        }
+      },
+
+      "saveChanges": "Save Changes"
+    },
+    "profile": {
+      "title": "Profile",
+      "description": "Manage your personal details, farm information, and AgroMap plan in one clean view.",
+      "editProfileBtn": "Edit Profile",
+      "totalFields": "Total Fields",
+      "memberSince": "Member Since",
+      "cropsThisSeason": "Crops This Season",
+      "contactDetails": {
+        "title": "Contact Details",
+        "description": "Basic information used across your farm reports",
+        "email": "Email",
+        "phone": "Phone",
+        "location": "Location",
+        "farmSize": "Farm Size"
+      },
+      "plan": {
+        "title": "Plan",
+        "description": "Your current AgroMap subscription plan",
+        "nextPaymentDate": "Next Payment Date",
+        "planAvailableUntil": "Plan Available Until",
+        "cancelPlan": "Cancel Subscription"
+      }
+    },
+    "editProfile": {
+      "name": "Edit Profile",
+      "title": "Public Profile",
+      "description": "This information will be displayed on your public profile.",
+      "changeAvatar": "Change Avatar",
+      "maxSize5MB": "Max size 5MB",
+      "form": {
+        "firstName": "First Name",
+        "firstNamePlaceholder": "Enter your first name",
+        "lastName": "Last Name",
+        "lastNamePlaceholder": "Enter your last name",
+        "bio": "Bio",
+        "bioPlaceholder": "Enter your bio",
+        "email": "Email",
+        "emailPlaceholder": "Enter your email",
+        "phone": "Phone Number",
+        "phonePlaceholder": "Enter your phone number",
+        "location": "Location",
+        "locationPlaceholder": "Enter your location",
+        "cancelBtn": "Cancel",
+        "saveBtn": "Save Changes"
+      }
+    },
+    "fieldDetails": {
+      "title": "Field Details",
+      "description": "View and edit detailed information about your field, including crop type, soil type, and area.",
+      "tabs": {
+        "overview": "Overview",
+        "activity": "Activity",
+        "ndviTimeline": "NDVI Timeline",
+        "analysis": "Analysis"
+      },
+      "overview": {
+        "generalInfo": {
+          "title": "General Information",
+          "owner": "Owner",
+          "size": "Size",
+          "address": "Address",
+          "fieldName": "Field Name",
+          "cropType": "Crop Type",
+          "soilType": "Soil Type",
+          "seedingDate": "Seeding Date",
+          "area": "Area (ha)",
+          "image": "Field Image",
+          "viewOnMap": "View on Map"
+        },
+        "statusInfo": {
+          "weather": {
+            "title": "Current Weather",
+            "humidity": "Humidity",
+            "windSpeed": "Wind",
+            "precipitation": "Precipitation"
+          },
+          "ndviIndex": {
+            "title": "NDVI Index",
+            "lastUpdate": "Last NDVI Update:"
+          },
+          "recentActivity": {
+            "title": "Recent Activity",
+            "noActivity": "No recent activity for this field."
+          },
+          "buttons": {
+            "viewAllActivity": "View All Activity",
+            "addNewActivity": "Add New Activity",
+            "deleteField": "Delete"
+          }
+        }
+      },
+      "activity": {
+        "addNewActivityBtn": "Add New Activity",
+        "search": "Search",
+        "type": "Type",
+        "dateRange": "Date Range",
+        "export": "Export",
+        "date": "Date",
+        "description": "Description",
+        "dialog": {
+          "title": "Log new activity",
+          "description": "Description",
+          "pickDate": "Pick a date",
+          "cancelBtn": "Cancel",
+          "addBtn": "Add"
+        }
+      },
+      "ndviTimeline": {
+        "title": "NDVI Timeline",
+        "description": "Visualize the NDVI changes over time for this field.",
+        "meanNdvi": "Mean NDVI",
+        "capturedOn": "Captured on",
+        "image": "Image",
+        "high": "High",
+        "low": "Low",
+        "areaDistribution": "Area Distribution",
+        "excellent": "Excellent",
+        "good": "Good",
+        "poor": "Poor",
+        "moderate": "Moderate",
+        "of": "of"
+      },
+      "analysis": {
+        "mean": "Mean",
+        "max": "Max Value",
+        "min": "Min Value",
+        "all": "All"
+      }
+    }
+  },
+
+  "auth": {
+    "login": {
+      "other": {
+        "title": "Welcome back to AgroMap",
+        "description": "Enter your email and password to access your dashboard and manage your farm.",
+        "actBtn": "Sign Up"
+      },
+      "title": "Sign in to AgroMap",
+      "google": "or use google account",
+      "form": {
+        "email": "Email",
+        "password": "Password",
+        "forgotPassword": "Forgot password?",
+        "actBtn": "Sign In"
+      }
+    },
+    "signup": {
+      "other": {
+        "title": "Join AgroMap today",
+        "description": "Create your account to start managing your farm",
+        "actBtn": "Sign In"
+      },
+      "title": "Create your AgroMap account",
+      "google": "or sign up with google account",
+      "form": {
+        "email": "Email",
+        "password": "Password",
+        "confirmPassword": "Confirm Password",
+        "actBtn": "Sign Up"
+      }
+    }
+  },
+
+  "resetPassword": {
+    "steps": [
+      {
+        "title": "Reset your password",
+        "description": "We’ll send your a 4-digit code."
+      },
+      {
+        "title": "Enter confirmation code",
+        "description": "We sent a code to your email."
+      },
+      {
+        "title": "Create a new password",
+        "description": "Must be at least 8 characters."
+      },
+      {
+        "title": "Password reset successful",
+        "description": "You can now log in with your new password."
+      }
+    ],
+    "enterEmail": {
+      "title": "Reset your password",
+      "description": "Forgot your password? Please enter your email and we’ll send you a 4-digit code.",
+      "placeholder": "Enter your email",
+      "actBtn": "Get a 4-digit code"
+    },
+    "enterCode": {
+      "title": "Enter confirmation code",
+      "description": "We sent a code to your email address",
+      "actBtn": "Continue",
+      "didntReceive": "Didn't receive the code?",
+      "resend": "Resend code"
+    },
+    "enterNewPassword": {
+      "title": "Create a new password",
+      "description": "Please choose a password that has not been used before. Must be at least 8 characters",
+      "newPasswordPlaceholder": "Enter your new password",
+      "confirmPasswordPlaceholder": "Confirm new password",
+      "actBtn": "Reset Password"
+    },
+    "success": {
+      "title": "Password reset successful",
+      "description": "Your password has been successfully reset. Click below to log in magically.",
+      "actBtn": "Log in"
+    }
+  },
+
+  "general": {
+    "cropOptions": {
+      "wheat": "Wheat",
+      "corn": "Corn",
+      "soyBeans": "Soybeans",
+      "rapeseed": "Rapeseed",
+      "rye": "Rye",
+      "barley": "Barley",
+      "sunflower": "Sunflower",
+      "oats": "Oats"
+    },
+    "soilOptions": {
+      "loam": "Loam",
+      "clay": "Clay",
+      "sand": "Sand",
+      "silt": "Silt",
+      "chalk": "Chalk",
+      "gravel": "Gravel",
+      "peat": "Peat"
+    },
+    "interfaceLanguages": {
+      "english": "English",
+      "ukrainian": "Ukrainian"
+    },
+    "plans": {
+      "starter": "Starter",
+      "basic": "Basic",
+      "pro": "Pro"
+    },
+    "profileNav": {
+      "profile": "Profile",
+      "settings": "Settings",
+      "pricing": "Pricing",
+      "exit": "Exit"
+    }
+  }
+}

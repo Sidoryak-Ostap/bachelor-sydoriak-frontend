@@ -8,21 +8,24 @@ import {
   Area,
   AreaChart,
   CartesianGrid,
-  ReferenceLine,
   ResponsiveContainer,
   Tooltip,
   XAxis,
   YAxis,
 } from 'recharts';
 import RangePicker, { type Range } from './components/RangePicker';
+import { useTranslation } from 'react-i18next';
 
 const INDICES = ['ndvi', 'ndmi', 'savi', 'evi'];
 
 const Analysis = () => {
+  const { t, i18n } = useTranslation();
+  const language = i18n.language;
+
   const { id: fieldId } = useParams<{ id: string }>();
   const [activeIndex, setActiveIndex] = useState<string>(INDICES[0]);
   const [activePoint, setActivePoint] = useState<FieldIndice | null>(null);
-  const [activeRange, setActiveRange] = useState<Range>('1M');
+  const [activeRange, setActiveRange] = useState<Range>({ value: '1M', label: '1M,' });
 
   const { data: fieldIndices, error, isError } = useGetFieldIndices(fieldId || '');
 
@@ -99,7 +102,7 @@ const Analysis = () => {
         <div className="flex items-stretch gap-4 w-full">
           <div className="bg-white px-4 py-4 rounded-lg border-2 border-gray-200 flex flex-col gap-3 max-w-50 w-full ">
             <p className="text-sm text-gray-400 font-semibold uppercase">
-              mean {activeIndex.toLowerCase()}
+              {t('dashboard.fieldDetails.analysis.mean')} {activeIndex.toLowerCase()}
             </p>
             <p className="text-2xl text-black font-bold">
               {currentData && currentData[activeIndex as keyof FieldIndice]
@@ -118,7 +121,9 @@ const Analysis = () => {
           </div>
 
           <div className="bg-white px-4 py-4 rounded-lg border-2 border-gray-200 flex flex-col gap-3 max-w-50 w-full">
-            <p className="text-sm text-gray-400 font-semibold uppercase">Max value</p>
+            <p className="text-sm text-gray-400 font-semibold uppercase">
+              {t('dashboard.fieldDetails.analysis.max')}
+            </p>
             <p className="text-2xl text-black font-bold">
               {currentData && currentData[activeIndex as keyof FieldIndice]
                 ? (currentData[activeIndex as keyof FieldIndice] as any).max.toFixed(2)
@@ -127,7 +132,9 @@ const Analysis = () => {
           </div>
 
           <div className="bg-white px-4 py-4 rounded-lg border-2 border-gray-200 flex flex-col gap-3 max-w-50 w-full">
-            <p className="text-sm text-gray-400 font-semibold uppercase">min value</p>
+            <p className="text-sm text-gray-400 font-semibold uppercase">
+              {t('dashboard.fieldDetails.analysis.min')}
+            </p>
             <p className="text-2xl text-black font-bold">
               {currentData && currentData[activeIndex as keyof FieldIndice]
                 ? (currentData[activeIndex as keyof FieldIndice] as any).min.toFixed(2)
@@ -139,7 +146,6 @@ const Analysis = () => {
         <RangePicker activeRange={activeRange} onChange={range => setActiveRange(range)} />
       </div>
 
-      {/* Main Yield Chart */}
       <div className="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 mt-10">
         <h3 className="text-lg font-bold mb-6">{activeIndex.toUpperCase()} </h3>
         <div className="h-75 w-full">
@@ -165,6 +171,7 @@ const Analysis = () => {
                 axisLine={false}
                 tickLine={false}
                 tick={{ fill: '#9ca3af', fontSize: 12 }}
+                tickFormatter={value => formatDate(value, language)}
               />
               <YAxis axisLine={false} tickLine={false} tick={{ fill: '#9ca3af', fontSize: 12 }} />
               <Tooltip

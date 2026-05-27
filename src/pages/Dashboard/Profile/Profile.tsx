@@ -6,6 +6,9 @@ import { useGetStatistics } from '@/hooks/statistics/useGetStatistics';
 import { useMemo } from 'react';
 import { formatDate } from '@/utils/format';
 import { useCancelSubscription } from '@/hooks/subscription/userCancelSubscription';
+import { useTranslation } from 'react-i18next';
+import { CROP_TYPES } from '@/constants/fields';
+import { SUBSCRIPTION_PLANS } from '@/constants/subscriptionOptions';
 
 interface CropDistItem {
   name: string;
@@ -13,6 +16,9 @@ interface CropDistItem {
 }
 
 const Profile = () => {
+  const { t, i18n } = useTranslation();
+  const language = i18n.language;
+
   const user = useAppSelector(state => state.user);
   const { plan, price, nextPaymentDate, subscriptionId, status } = useAppSelector(
     state => state.subscription
@@ -40,24 +46,25 @@ const Profile = () => {
 
   const crops = useMemo(() => {
     if (!statisticsData || isError) return [];
-    return (cropAreaDistribution as CropDistItem[]).map(item => item.name);
+    const cropNames = (cropAreaDistribution as CropDistItem[]).map(item => item.name);
+    return CROP_TYPES.filter(crop => cropNames.includes(crop.value)).map(crop => t(crop.label));
   }, [statisticsData, isError]);
+
+  const currentPlan = SUBSCRIPTION_PLANS.find(p => p.value.toLowerCase() === plan);
 
   return (
     <div className="pb-10 pt-5 px-5">
       <div className="flex items-center justify-between mb-8">
         <div className="flex flex-col gap-1">
-          <h2 className="text-black font-semibold text-xl">Profile</h2>
-          <p className="text-base text-gray-400">
-            Manage your personal details, farm information, and AgroMap plan in one clean view.
-          </p>
+          <h2 className="text-black font-semibold text-xl">{t('dashboard.profile.title')}</h2>
+          <p className="text-base text-gray-400">{t('dashboard.profile.description')}</p>
         </div>
 
         <Link
           to={ROUTES.dashboard.profileEdit}
           className="bg-primary text-white px-4 py-2 rounded-lg text-base font-medium cursor-pointer"
         >
-          Edit profile
+          {t('dashboard.profile.editProfileBtn')}
         </Link>
       </div>
 
@@ -75,26 +82,27 @@ const Profile = () => {
             <p className="font-semibold text-xl text-black">
               {user.profile.firstName} {user.profile.lastName}
             </p>
-            <div className="text-gray-400 text-base">{user.profile.bio}</div>
-            <div className="text-gray-400 text-base">Member since 2019 • 4,250 acres managed</div>
+            <div className="text-gray-400 text-base">{t('dashboard.profile.memberSince')} 2026</div>
           </div>
         </div>
 
         <div className="flex items-center gap-3">
           <div className="px-4 py-5 rounded-lg bg-gray-100 w-full">
-            <p className="text-gray-400 text-base w-full">Total fields</p>
+            <p className="text-gray-400 text-base w-full">{t('dashboard.profile.totalFields')}</p>
             <p className="text-black font-medium text-lg w-full">{totalFields}</p>
           </div>
 
           <div className="px-4 py-5 rounded-lg bg-gray-100 w-full">
-            <p className="text-gray-400 text-base w-full">Crops this season</p>
+            <p className="text-gray-400 text-base w-full">
+              {t('dashboard.profile.cropsThisSeason')}
+            </p>
             <p className="text-black font-medium text-lg w-full">{crops.join(' · ')}</p>
           </div>
 
           <div className="px-4 py-5 rounded-lg bg-gray-100 w-full">
-            <p className="text-gray-400 text-base w-full">Plan</p>
+            <p className="text-gray-400 text-base w-full">{t('dashboard.profile.plan.title')}</p>
             <p className="text-black font-medium text-lg w-full">
-              {plan ? plan.charAt(0).toUpperCase() + plan.slice(1) : 'Starter'}
+              {currentPlan?.label ? t(currentPlan?.label) : t(SUBSCRIPTION_PLANS[0].label)}
             </p>
           </div>
         </div>
@@ -103,31 +111,44 @@ const Profile = () => {
       <div className="flex items-start gap-5">
         <div className="bg-white border border-gray-200 rounded-lg p-5 w-full">
           <div className="mb-3">
-            <h3 className="text-black font-semibold text-lg">Contact details</h3>
+            <h3 className="text-black font-semibold text-lg">
+              {t('dashboard.profile.contactDetails.title')}
+            </h3>
             <p className="text-base text-gray-400">
-              Basic information used across your farm reports
+              {t('dashboard.profile.contactDetails.description')}
             </p>
           </div>
 
           <div className="flex flex-col gap-2">
             <div>
-              <h4 className="text-black font-medium text-lg mb-0.5">Email</h4>
+              <h4 className="text-black font-medium text-lg mb-0.5">
+                {t('dashboard.profile.contactDetails.email')}
+              </h4>
               <p className="text-gray-400 text-base">{user.email}</p>
             </div>
 
             <div>
-              <h4 className="text-black font-medium text-lg mb-0.5">Phone</h4>
+              <h4 className="text-black font-medium text-lg mb-0.5">
+                {t('dashboard.profile.contactDetails.phone')}
+              </h4>
               <p className="text-gray-400 text-base">{user.profile.phoneNumber}</p>
             </div>
 
             <div>
-              <h4 className="text-black font-medium text-lg mb-0.5">Location</h4>
+              <h4 className="text-black font-medium text-lg mb-0.5">
+                {t('dashboard.profile.contactDetails.location')}
+              </h4>
               <p className="text-gray-400 text-base">{user.profile.location}</p>
             </div>
 
             <div>
-              <h4 className="text-black font-medium text-lg mb-0.5">Farm size</h4>
-              <p className="text-gray-400 text-base">{totalArea} ha · Mixed crops</p>
+              <h4 className="text-black font-medium text-lg mb-0.5">
+                {t('dashboard.profile.contactDetails.farmSize')}
+              </h4>
+              <p className="text-gray-400 text-base">
+                {totalArea} {language === 'en' ? 'ha' : 'га'}{' '}
+                {language === 'en' ? ' · Mixed crops' : ' · Змішані культури'}
+              </p>
             </div>
           </div>
         </div>
@@ -136,56 +157,62 @@ const Profile = () => {
           <div className="bg-white border border-gray-200 rounded-lg p-5">
             <div className="flex items-center justify-between mb-3">
               <div>
-                <h3 className="text-black font-medium text-lg">Plan</h3>
-                <p className="text-base text-gray-400">Your current AgroMap subscription</p>
+                <h3 className="text-black font-medium text-lg">
+                  {t('dashboard.profile.plan.title')}
+                </h3>
+                <p className="text-base text-gray-400">{t('dashboard.profile.plan.description')}</p>
               </div>
 
               <p className="bg-gray-100 text-gray-500 px-4 py-2 font-medium rounded-lg text-base">
-                {plan ? plan.charAt(0).toUpperCase() + plan.slice(1) : 'Starter'}
+                {currentPlan?.label ? t(currentPlan?.label) : t(SUBSCRIPTION_PLANS[0].label)}
               </p>
             </div>
 
             <div className="flex items-center justify-between mb-3">
               <div>
                 <h3 className="text-black font-medium text-lg">
-                  AgroMap {plan.charAt(0).toUpperCase() + plan.slice(1)}
+                  AgroMap{' '}
+                  {currentPlan?.label ? t(currentPlan?.label) : t(SUBSCRIPTION_PLANS[0].label)}
                 </h3>
-                <p className="text-base text-gray-400">
-                  Up to 10,000 acres · Unlimited team members
-                </p>
               </div>
 
               <div className="flex flex-col items-end">
-                <h3 className="text-black font-medium text-lg">UAH {price?.toFixed(2) || 0}</h3>
-                <p className="text-base text-gray-400">per month</p>
+                <h3 className="text-black font-medium text-lg">
+                  $
+                  {typeof currentPlan?.price === 'number'
+                    ? currentPlan?.price.toFixed(2)
+                    : currentPlan?.price}
+                </h3>
+                <p className="text-base text-gray-400">
+                  {language === 'en' ? 'per month' : 'на місяць'}
+                </p>
               </div>
             </div>
 
             {isActiveSubscription && (
               <div className="flex flex-col gap-4">
                 <div>
-                  <h3 className="text-black font-medium text-lg">Next payment date</h3>
-                  <p className="text-base text-gray-400">{formatDate(nextPaymentDate)}</p>
-                </div>
-
-                <div>
-                  <h3 className="text-black font-medium text-lg">Subscription ID</h3>
-                  <p className="text-base text-gray-400">{subscriptionId}</p>
+                  <h3 className="text-black font-medium text-lg">
+                    {t('dashboard.profile.plan.nextPaymentDate')}
+                  </h3>
+                  <p className="text-base text-gray-400">{formatDate(nextPaymentDate, language)}</p>
                 </div>
 
                 <button
                   onClick={handleCancelSubscription}
                   className="mt-5 text-md bg-red-600 rounded-xl px-4 py-3 text-white font-medium self-start cursor-pointer hover:bg-red-700 transition-colors duration-300"
                 >
-                  Cancel Subscription
+                  {t('dashboard.profile.plan.cancelPlan')}
                 </button>
               </div>
             )}
 
             {!isActiveSubscription && subscriptionAvailableTill && (
               <div>
-                <h3 className="text-black font-medium text-lg">Plan available until</h3>
-                <p className="text-base text-gray-400">{formatDate(nextPaymentDate)}</p>
+                <h3 className="text-black font-medium text-lg">
+                  {t('dashboard.profile.plan.planAvailableUntil')}
+                </h3>
+                <p className="text-base text-gray-400">{formatDate(nextPaymentDate, language)}</p>
               </div>
             )}
           </div>

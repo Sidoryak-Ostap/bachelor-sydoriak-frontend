@@ -11,8 +11,11 @@ import { useAuth } from '../../hooks/auth/useAuth';
 import Loader from '../../components/Loader/Loader';
 import GoogleButton from '../../components/GoogleButton';
 import { useAuthInit } from '@/hooks/auth/useAuthInit';
+import { useTranslation } from 'react-i18next';
 
 const SignIn = () => {
+  const { t } = useTranslation();
+
   useAuthInit();
 
   const {
@@ -33,18 +36,20 @@ const SignIn = () => {
 
   return (
     <div className="w-full h-screen flex justify-between text-white">
-      <div className="h-full w-1/3 bg-gradient-to-br from-[#1A5E52] to-[#36C4AB]">
+      <div className="h-full w-1/3 bg-linear-to-br from-[#1A5E52] to-[#36C4AB]">
         <div className="flex flex-col justify-center items-center h-full">
-          <h2 className="text-[38px] font-bold mb-7">Hello, Friend!</h2>
-          <p className="text-[20px] text-center max-w-[280px] mb-25">
-            Enter your personal details and start journey with us
+          <h2 className="text-[38px] max-w-80 text-center font-bold mb-7">
+            {t('auth.login.other.title')}
+          </h2>
+          <p className="text-[20px] text-center max-w-100 mb-25">
+            {t('auth.login.other.description')}
           </p>
 
           <NavLink
             className="text-white text-[22px] font-bold px-16 py-2 border-2 border-white rounded-full cursor-pointer"
             to={ROUTES.signup}
           >
-            Sign Up
+            {t('auth.login.other.actBtn')}
           </NavLink>
         </div>
       </div>
@@ -54,15 +59,15 @@ const SignIn = () => {
           onSubmit={handleSubmit(onSubmit)}
           className="flex flex-col items-center justify-center"
         >
-          <h2 className="text-[#1A5E52] text-[44px] font-bold">Sign in to AgroMap</h2>
+          <h2 className="text-[#1A5E52] text-[44px] font-bold">{t('auth.login.title')}</h2>
           <GoogleButton authType="login" />
-          <p className="text-lg text-[#B0B0B0] mt-2 mb-5">or use your email account:</p>
-          <div className="flex flex-col justify-center items-center max-w-[350px] w-full gap-2.5 mb-6">
+          <p className="text-lg text-[#B0B0B0] mt-2 mb-5">{t('auth.login.google')}</p>
+          <div className="flex flex-col justify-center items-center max-w-87.5 w-full gap-2.5 mb-6">
             <FormInput
               {...register('email')}
               error={errors.email}
               type="email"
-              placeholder="Email"
+              placeholder={t('auth.login.form.email')}
               icon={<img className="w-7 h-7" src={IMG.emailImg} />}
             />
 
@@ -70,14 +75,14 @@ const SignIn = () => {
               {...register('password')}
               error={errors.password}
               type="password"
-              placeholder="Password"
+              placeholder={t('auth.login.form.password')}
               icon={<img className="w-7 h-7" src={IMG.lockedImg} />}
             />
           </div>
 
           <div className="mb-6">
             <p className="text-black text-[18px]">
-              <NavLink to={ROUTES.resetPassword}>Forgot your password?</NavLink>
+              <NavLink to={ROUTES.resetPassword}>{t('auth.login.form.forgotPassword')}</NavLink>
             </p>
             <div className="bg-[#B5CBC7] h-0.5" />
           </div>
@@ -85,11 +90,12 @@ const SignIn = () => {
             <Loader />
           ) : (
             <button
+              role="login-btn"
               disabled={isPending}
               type="submit"
               className="px-16 py-2 border-2 bg-[#1A5E52] rounded-full cursor-pointer hover:scale-105  transition-transform duration-200 hover:bg-[#1c6a5c]"
             >
-              <p className="text-white text-[22px] font-bold">Sign In</p>
+              <p className="text-white text-[22px] font-bold">{t('auth.login.form.actBtn')}</p>
             </button>
           )}
         </form>

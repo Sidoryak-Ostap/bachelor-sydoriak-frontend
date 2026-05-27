@@ -25,6 +25,12 @@ export type FieldImage = {
   date: string;
   cloudinaryUrl: string;
   indexType: 'NDVI' | 'EVI' | 'NDWI' | 'SAVI';
+  distribution: {
+    excellent: number;
+    good: number;
+    moderate: number;
+    poor: number;
+  };
   bbox: {
     sentinelBbbox: [number, number, number, number];
     mapboxCoords: number[][];

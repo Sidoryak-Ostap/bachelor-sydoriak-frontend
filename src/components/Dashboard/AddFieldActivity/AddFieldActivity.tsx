@@ -5,9 +5,10 @@ import { useForm, Controller } from 'react-hook-form'; // 1. Import Controller
 import { addActivitySchema } from './schema';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Calendar } from '@/components/ui/calendar';
-import { format } from 'date-fns/format';
-import { capitalizeFirstLetter } from '@/utils/format';
+import { uk, enUS } from 'date-fns/locale';
+import { capitalizeFirstLetter, formatDate } from '@/utils/format';
 import { useCreateFieldActivity } from '@/hooks/field-activity/useCreateFieldActivity';
+import { useTranslation } from 'react-i18next';
 
 type AddFieldProps = {
   setOpen: (open: boolean) => void;
@@ -15,6 +16,9 @@ type AddFieldProps = {
 };
 
 const AddFieldActivity = ({ setOpen, fieldId }: AddFieldProps) => {
+  const { t, i18n } = useTranslation();
+  const language = i18n.language;
+
   const {
     register,
     handleSubmit,
@@ -35,6 +39,8 @@ const AddFieldActivity = ({ setOpen, fieldId }: AddFieldProps) => {
       fieldId,
     };
 
+    console.log('Submitting activity with payload:', payload);
+
     mutate(payload);
     setOpen(false);
   };
@@ -49,7 +55,9 @@ const AddFieldActivity = ({ setOpen, fieldId }: AddFieldProps) => {
         className="bg-white py-6 px-4.5 border border-gray-400 rounded-lg w-100"
       >
         <div className="flex items-center justify-between mb-5">
-          <h2 className="text-base font-bold text-black text-center">Log New Activity</h2>
+          <h2 className="text-base font-bold text-black text-center">
+            {t('dashboard.fieldDetails.activity.dialog.title')}
+          </h2>
           <X onClick={() => setOpen(false)} className="cursor-pointer" />
         </div>
 
@@ -59,7 +67,7 @@ const AddFieldActivity = ({ setOpen, fieldId }: AddFieldProps) => {
             {...register('description')}
             error={errors.description}
             type="text"
-            placeholder="Description"
+            placeholder={t('dashboard.fieldDetails.activity.dialog.description')}
           />
 
           <Controller
@@ -75,15 +83,22 @@ const AddFieldActivity = ({ setOpen, fieldId }: AddFieldProps) => {
                     } transition-colors duration-200`}
                   >
                     {field.value ? (
-                      format(field.value, 'PPP')
+                      formatDate(field.value, language)
                     ) : (
-                      <span className="text-gray-500">Pick a date</span>
+                      <span className="text-gray-500">
+                        {t('dashboard.fieldDetails.activity.dialog.pickDate')}
+                      </span>
                     )}
                     <CalendarIcon size={18} className="text-gray-500" />
                   </button>
                 </PopoverTrigger>
                 <PopoverContent className="w-auto p-0" align="start">
-                  <Calendar mode="single" selected={field.value} onSelect={field.onChange} />
+                  <Calendar
+                    locale={language === 'uk' ? uk : enUS}
+                    mode="single"
+                    selected={field.value}
+                    onSelect={field.onChange}
+                  />
                 </PopoverContent>
               </Popover>
             )}
@@ -101,13 +116,13 @@ const AddFieldActivity = ({ setOpen, fieldId }: AddFieldProps) => {
               onClick={() => setOpen(false)}
               className="py-2 px-5.5 text-sm bg-gray-100 border border-gray-400 font-bold rounded-lg w-full cursor-pointer hover:bg-gray-200"
             >
-              Cancel
+              {t('dashboard.fieldDetails.activity.dialog.cancelBtn')}
             </button>
             <button
               type="submit"
               className="py-2 px-5.5 text-sm bg-primary border border-primary text-white font-bold rounded-lg w-full cursor-pointer hover:bg-primary-dark"
             >
-              Add
+              {t('dashboard.fieldDetails.activity.dialog.addBtn')}
             </button>
           </div>
         </form>

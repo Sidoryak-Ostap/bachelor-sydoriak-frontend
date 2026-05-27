@@ -1,38 +1,48 @@
 export interface PageMetadata {
-  title: string;
-  description: string;
+  titleKey: string;
+  descriptionKey: string;
   pathname: string;
 }
 
 export const NAVIGATION_METADATA: PageMetadata[] = [
   {
-    pathname: '/pricing',
-    title: 'Pricing Plans',
-    description: 'Choose the best plan for your agricultural needs and scale your business.',
+    pathname: '/dashboard/pricing',
+    titleKey: 'dashboard.breadcrumbs.pricing.title',
+    descriptionKey: 'dashboard.breadcrumbs.pricing.description',
   },
   {
-    pathname: '/faq',
-    title: 'Frequently Asked Questions',
-    description: 'Find answers to common questions about AgroMap features and services.',
+    pathname: '/dashboard/faq',
+    titleKey: 'dashboard.breadcrumbs.faq.title',
+    descriptionKey: 'dashboard.breadcrumbs.faq.description',
   },
   {
-    pathname: '/profile',
-    title: 'My Profile',
-    description: 'View your personal information and account statistics.',
+    pathname: '/dashboard/profile',
+    titleKey: 'dashboard.breadcrumbs.profile.title',
+    descriptionKey: 'dashboard.breadcrumbs.profile.description',
   },
   {
-    pathname: '/profile/edit',
-    title: 'Edit Profile',
-    description: 'Update your personal details, password, and account preferences.',
+    pathname: '/dashboard/profile/edit',
+    titleKey: 'dashboard.breadcrumbs.profileEdit.title',
+    descriptionKey: 'dashboard.breadcrumbs.profileEdit.description',
   },
   {
-    pathname: '/fields',
-    title: 'Field Management',
-    description: 'Simplify processes and build trust through traceability.',
+    pathname: '/dashboard/fields',
+    titleKey: 'dashboard.breadcrumbs.fields.title',
+    descriptionKey: 'dashboard.breadcrumbs.fields.description',
   },
   {
-    pathname: '/map',
-    title: 'Interactive Map',
-    description: 'Visualize your fields and manage geographical boundaries in real-time.',
+    pathname: '/dashboard/map',
+    titleKey: 'dashboard.breadcrumbs.map.title',
+    descriptionKey: 'dashboard.breadcrumbs.map.description',
+  },
+  {
+    pathname: '/dashboard/settings',
+    titleKey: 'dashboard.breadcrumbs.settings.title',
+    descriptionKey: 'dashboard.breadcrumbs.settings.description',
+  },
+  {
+    pathname: '/dashboard',
+    titleKey: 'dashboard.breadcrumbs.dashboard.title',
+    descriptionKey: 'dashboard.breadcrumbs.dashboard.description',
   },
 ];

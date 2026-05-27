@@ -7,4 +7,5 @@ export const addFieldSchema = yup.object().shape({
   area: yup.number().required('Size is required'),
   cropType: yup.string().required('Crop type is required'),
   soilType: yup.string().required('Soil type is required'),
+  seedingDate: yup.date().nullable().optional(),
 });

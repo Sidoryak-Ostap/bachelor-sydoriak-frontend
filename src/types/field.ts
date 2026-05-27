@@ -1,3 +1,5 @@
+import type { FieldReportResponse } from '@/services/field-report';
+
 export type CreateFieldPayload = {
   name: string;
   address: string;
@@ -5,6 +7,7 @@ export type CreateFieldPayload = {
   area: number;
   cropType: string;
   soilType: string;
+  seedingDate?: Date | null;
   boundary: {
     type: 'Polygon';
     coordinates: number[][][];
@@ -16,4 +19,5 @@ export type Field = {
   userId: string;
   createdAt: string;
   previewUrl: string;
+  interpretation: FieldReportResponse | null;
 } & CreateFieldPayload;

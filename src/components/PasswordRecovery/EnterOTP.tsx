@@ -7,6 +7,7 @@ import { useAppSelector } from '../../store/store';
 import Loader from '../Loader/Loader';
 import { useVerifyResetCode } from '@/hooks/passowrd/useVerifyResetCode';
 import { useSendResetCode } from '@/hooks/passowrd/useSendResetCode';
+import { useTranslation } from 'react-i18next';
 
 interface EnterOTPProps {
   onNext: () => void;
@@ -27,6 +28,7 @@ const schema = yup.object({
 });
 
 const EnterOTP = ({ onNext }: EnterOTPProps) => {
+  const { t } = useTranslation();
   const [isResend, setIsResend] = useState<boolean>(false);
 
   const {
@@ -85,7 +87,7 @@ const EnterOTP = ({ onNext }: EnterOTPProps) => {
 
   return (
     <form
-      className="flex flex-col items-center justify-center max-w-[375px] w-full mx-auto my-0"
+      className="flex flex-col items-center justify-center max-w-93.75 w-full mx-auto my-0"
       onSubmit={handleSubmit(onSubmit)}
     >
       <div className="px-3.5 py-2.5 rounded-xl bg-[#F4F4F4] mb-4">
@@ -93,9 +95,11 @@ const EnterOTP = ({ onNext }: EnterOTPProps) => {
       </div>
 
       <div className="mb-6">
-        <h2 className="font-bold text-4xl text-black text-center mb-4">Enter confirmation code</h2>
+        <h2 className="font-bold text-4xl text-black text-center mb-4">
+          {t('resetPassword.enterCode.title')}
+        </h2>
         <p className="text-[#6C6C6C] text-base text-center">
-          We sent a code to <span className="text-black font-semibold">youremail@example.com</span>
+          {t('resetPassword.enterCode.description')}
         </p>
       </div>
 
@@ -150,14 +154,14 @@ const EnterOTP = ({ onNext }: EnterOTPProps) => {
           className="mb-4 cursor-pointer font-medium w-full text-center bg-[#1A5E52] py-2.5 px-3 rounded-lg"
           type="submit"
         >
-          Continue
+          {t('resetPassword.enterCode.actBtn')}
         </button>
       )}
 
       <p className="text-[#6C6C6C] ">
-        Didn’t receive the email?{' '}
+        {t('resetPassword.enterCode.didntReceive')}{' '}
         <span onClick={resendOTP} className="font-bold text-[#1A5E52] cursor-pointer">
-          Click to resend
+          {t('resetPassword.enterCode.resend')}
         </span>
       </p>
     </form>

@@ -7,12 +7,16 @@ import clsx from 'clsx';
 import { useDispatch } from 'react-redux';
 import { changeField, setNdviActive } from '@/store/reducers/fieldMapSlice';
 import { useAppSelector } from '@/store/store';
+import { useTranslation } from 'react-i18next';
 
 type FieldsBarProps = {
   fields: Field[];
 };
 
 const FieldsBar = ({ fields }: FieldsBarProps) => {
+  const { t, i18n } = useTranslation();
+  const language = i18n.language || 'en';
+
   const dispatch = useDispatch();
   const isNDVIVisible = useAppSelector(state => state.fieldMap.isNdviActive);
   const [isOpen, setIsOpen] = useState(true);
@@ -51,9 +55,11 @@ const FieldsBar = ({ fields }: FieldsBarProps) => {
       >
         <div className="w-full min-h-full px-5 py-6 flex flex-col">
           <div className="top-0 pb-4 mb-4 flex items-baseline justify-between z-10">
-            <h2 className="text-xl font-bold text-gray-800 whitespace-nowrap">My Fields</h2>
+            <h2 className="text-xl font-bold text-gray-800 whitespace-nowrap">
+              {t('dashboard.map.title')}
+            </h2>
             <span className="text-xs font-medium px-2 py-1 bg-blue-50 text-blue-600 rounded-full">
-              {fields.length} Total
+              {fields.length} {t('dashboard.map.total')}
             </span>
           </div>
 
@@ -63,7 +69,9 @@ const FieldsBar = ({ fields }: FieldsBarProps) => {
                 <Sprout size={32} className="text-gray-300" />
               </div>
               <p className="text-gray-500 text-sm text-center font-medium max-w-45">
-                No fields found. Start by adding a new field!
+                {language === 'uk'
+                  ? 'Поля не знайдено. Почніть з додавання нового поля!'
+                  : 'No fields found. Start by adding a new field!'}
               </p>
             </div>
           ) : (
@@ -97,7 +105,7 @@ const FieldsBar = ({ fields }: FieldsBarProps) => {
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-semibold text-gray-900 truncate">{field.name}</p>
                       <p className="text-xs text-gray-500 flex items-center gap-1">
-                        {field.area} ha
+                        {field.area} {language === 'uk' ? 'га' : 'ha'}
                       </p>
                     </div>
 

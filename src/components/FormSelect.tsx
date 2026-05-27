@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Controller } from 'react-hook-form';
 import { ChevronDown, Check } from 'lucide-react';
 import { capitalizeFirstLetter } from '../utils/format';
+import { useTranslation } from 'react-i18next';
 
 type Option = {
   label: string;
@@ -15,10 +16,20 @@ type FormSelectProps = {
   placeholder?: string;
   control: any;
   error?: any;
+  isMulti?: boolean;
 };
 
-const FormSelect = ({ label, name, options, placeholder, control, error }: FormSelectProps) => {
+const FormSelect = ({
+  label,
+  name,
+  options,
+  placeholder,
+  control,
+  error,
+  isMulti = false,
+}: FormSelectProps) => {
   const [isOpen, setIsOpen] = useState(false);
+  const { t } = useTranslation();
 
   return (
     <div className="w-full">
@@ -43,7 +54,11 @@ const FormSelect = ({ label, name, options, placeholder, control, error }: FormS
                 }`}
               >
                 <span className={`truncate ${!selectedOption ? 'text-gray-500' : 'text-black'}`}>
-                  {selectedOption ? selectedOption.label : placeholder}
+                  {selectedOption
+                    ? isMulti
+                      ? t(selectedOption.label)
+                      : selectedOption.label
+                    : placeholder}
                 </span>
                 <ChevronDown
                   size={20}
@@ -68,7 +83,7 @@ const FormSelect = ({ label, name, options, placeholder, control, error }: FormS
                             : 'text-gray-700 hover:bg-gray-50'
                         }`}
                       >
-                        <span className="truncate">{option.label}</span>
+                        <span className="truncate">{isMulti ? t(option.label) : option.label}</span>
                         {isSelected && <Check size={16} className="text-primary" />}
                       </li>
                     );

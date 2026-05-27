@@ -4,7 +4,7 @@ import axios from 'axios';
 import { store } from '@/store/store';
 export const axiosInstance = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
-  timeout: 5000,
+  timeout: 30000,
   withCredentials: true,
   headers: {
     'Content-Type': 'application/json',
@@ -35,18 +35,18 @@ axiosInstance.interceptors.response.use(
 
       try {
         const response = await axios.post(
-          `${import.meta.env.VITE_API_BASE_URL}/auth/refresh`,
+          `${import.meta.env.VITE_API_URL}/auth/refresh`,
           {},
           { withCredentials: true }
         );
 
-        const { access_token, user } = response.data;
+        const { accessToken, user } = response.data;
 
-        localStorage.setItem('accessToken', access_token);
+        localStorage.setItem('accessToken', accessToken);
 
-        store.dispatch(setUser({ token: access_token, user }));
+        store.dispatch(setUser({ token: accessToken, ...user }));
 
-        originalRequest.headers['Authorization'] = `Bearer ${access_token}`;
+        originalRequest.headers['Authorization'] = `Bearer ${accessToken}`;
         return axiosInstance(originalRequest);
       } catch (refreshError) {
         localStorage.removeItem('accessToken');

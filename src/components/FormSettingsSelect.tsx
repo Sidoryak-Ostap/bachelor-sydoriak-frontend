@@ -7,6 +7,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { cn } from '@/lib/utils';
+import { useTranslation } from 'react-i18next';
 
 interface SelectOption {
   label: string;
@@ -19,6 +20,7 @@ interface FormSelectProps<T extends FieldValues> {
   options: SelectOption[];
   placeholder?: string;
   className?: string;
+  isMulti?: boolean;
 }
 
 const FormSettingsSelect = <T extends FieldValues>({
@@ -27,7 +29,9 @@ const FormSettingsSelect = <T extends FieldValues>({
   options,
   placeholder = 'Select an option',
   className = 'w-60',
+  isMulti = false,
 }: FormSelectProps<T>) => {
+  const { t } = useTranslation();
   return (
     <Controller
       name={name}
@@ -35,13 +39,12 @@ const FormSettingsSelect = <T extends FieldValues>({
       render={({ field }) => (
         <Select onValueChange={field.onChange} value={field.value}>
           <SelectTrigger className={cn('text-md h-12', className)}>
-            {' '}
             <SelectValue placeholder={placeholder} />
           </SelectTrigger>
           <SelectContent>
             {options.map(option => (
               <SelectItem key={option.value} value={option.value}>
-                {option.label}
+                {isMulti ? t(option.label) : option.label}
               </SelectItem>
             ))}
           </SelectContent>

@@ -4,8 +4,11 @@ import { ROUTES } from '../../../../constants/ROUTES';
 import { useAppSelector } from '../../../../store/store';
 import BurgerMenu from '../BurgerMenu';
 import { motion, type Variant } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
+import { LngSwitch } from '@/components/LngSwitch';
 
 const Header = () => {
+  const { t } = useTranslation();
   const { isAuthorized } = useAppSelector(state => state.user);
   const navigate = useNavigate();
 
@@ -36,20 +39,21 @@ const Header = () => {
 
           <ul className="hidden gap-8 text-base font-medium mt-1 lg:flex">
             <li>
-              <a href="#features">Features</a>
+              <a href="#features">{t('main.header.navlinks.features')}</a>
             </li>
             <li>
-              <a href="#solutions">Solutions</a>
+              <a href="#solutions">{t('main.header.navlinks.solutions')}</a>
             </li>
             <li>
-              <a href="#pricing">Pricing</a>
+              <a href="#pricing">{t('main.header.navlinks.pricing')}</a>
             </li>
             <li>
-              <a href="#resources">Resources</a>
+              <a href="#resources">{t('main.header.navlinks.resources')}</a>
             </li>
           </ul>
 
           <div className="hidden items-center gap-4 lg:flex">
+            <LngSwitch />
             {!isAuthorized && (
               <MotionLink
                 whileHover={buttonHover}
@@ -57,7 +61,7 @@ const Header = () => {
                 className="text-primary text-base font-medium border-primary border-3 rounded-xl px-8 py-2 flex items-center justify-center"
                 to={ROUTES.login}
               >
-                Log in
+                {t('main.header.buttons.login')}
               </MotionLink>
             )}
 
@@ -67,7 +71,7 @@ const Header = () => {
               onClick={onGetStartedClick}
               className="cursor-pointer text-white bg-primary text-base font-medium rounded-xl px-8 py-2 flex items-center justify-center border-3 border-transparent"
             >
-              {isAuthorized ? 'Dashboard' : 'Get Started'}
+              {isAuthorized ? t('main.header.buttons.dashboard') : t('main.header.buttons.signup')}
             </motion.button>
           </div>
 

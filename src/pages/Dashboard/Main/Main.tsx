@@ -8,19 +8,11 @@ import {
   Area,
 } from 'recharts';
 import { useGetStatistics } from '@/hooks/statistics/useGetStatistics';
-import { cropOptions } from '@/constants/fields';
+import { CROP_TYPES } from '@/constants/fields';
 import { useMemo } from 'react';
 import Cards from './Cards';
 import PieChart from './PieChart';
-
-const yieldData = [
-  { month: 'Jan', yield: 400 },
-  { month: 'Feb', yield: 300 },
-  { month: 'Mar', yield: 600 },
-  { month: 'Apr', yield: 800 },
-  { month: 'May', yield: 700 },
-  { month: 'Jun', yield: 900 },
-];
+import { useTranslation } from 'react-i18next';
 
 interface CropDistItem {
   name: string;
@@ -28,11 +20,14 @@ interface CropDistItem {
 }
 
 const Main = () => {
+  const { t } = useTranslation();
+
   const { data: statisticsData, isError } = useGetStatistics();
   const {
     totalFields = 0,
     totalArea = 0,
     averageArea = 0,
+    meanNDVI = 0,
     cropAreaDistribution = [] as CropDistItem[],
   } = statisticsData || {};
 
@@ -40,32 +35,43 @@ const Main = () => {
     if (!statisticsData || isError) return [];
 
     return (cropAreaDistribution as CropDistItem[]).map(item => {
-      const cropInfo = cropOptions.find(crop => crop.value === item.name);
+      const cropInfo = CROP_TYPES.find(crop => crop.value === item.name);
       return {
-        name: cropInfo ? cropInfo.label : item.name,
+        name: cropInfo ? t(cropInfo.label) : item.name,
         value: item.value,
-        fill: cropInfo ? cropInfo.color : '#d1d5db',
+        fill: cropInfo ? cropInfo.hex : '#d1d5db',
       };
     });
+  }, [statisticsData, isError]);
+
+  const NDVIChartData = useMemo(() => {
+    if (!statisticsData || isError) return [];
+    return statisticsData.lastIndices.map(index => ({
+      date: new Date(index.date).toLocaleDateString(),
+      ndvi: index?.ndvi?.mean?.toFixed(2),
+    }));
   }, [statisticsData, isError]);
 
   return (
     <div className="p-8 bg-gray-50 min-h-screen">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900">Dashboard Overview</h1>
-        <p className="text-gray-500">Monitor your agricultural performance in real-time.</p>
+        <h1 className="text-3xl font-bold text-gray-900">{t('dashboard.main.title')}</h1>
+        <p className="text-gray-500">{t('dashboard.main.description')}</p>
       </div>
 
-      <Cards totalArea={totalArea} totalFields={totalFields} averageArea={averageArea} />
+      <Cards
+        totalArea={totalArea}
+        totalFields={totalFields}
+        averageArea={averageArea}
+        meanNdvi={meanNDVI}
+      />
 
-      {/* 3. Charts Section */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Main Yield Chart */}
         <div className="lg:col-span-2 bg-white p-6 rounded-3xl shadow-sm border border-gray-100">
-          <h3 className="text-lg font-bold mb-6">Yield Performance (t/ha)</h3>
+          <h3 className="text-lg font-bold mb-6">{t('dashboard.main.yieldPerformance')}</h3>
           <div className="h-75 w-full">
             <ResponsiveContainer width="100%" height="100%">
-              <AreaChart data={yieldData}>
+              <AreaChart data={NDVIChartData || []}>
                 <defs>
                   <linearGradient id="colorYield" x1="0" y1="0" x2="0" y2="1">
                     <stop offset="5%" stopColor="#10b981" stopOpacity={0.1} />
@@ -74,7 +80,7 @@ const Main = () => {
                 </defs>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f3f4f6" />
                 <XAxis
-                  dataKey="month"
+                  dataKey="date"
                   axisLine={false}
                   tickLine={false}
                   tick={{ fill: '#9ca3af', fontSize: 12 }}
@@ -89,7 +95,7 @@ const Main = () => {
                 />
                 <Area
                   type="monotone"
-                  dataKey="yield"
+                  dataKey="ndvi"
                   stroke="#10b981"
                   strokeWidth={3}
                   fillOpacity={1}
@@ -100,7 +106,6 @@ const Main = () => {
           </div>
         </div>
 
-        {/* Distribution Pie Chart */}
         <PieChart cropDistribution={cropDistribution} />
       </div>
     </div>

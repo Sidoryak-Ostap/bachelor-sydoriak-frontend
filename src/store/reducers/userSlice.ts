@@ -42,7 +42,7 @@ const initialState: IUserState = {
     avatarUrl: null,
   },
   settings: {
-    language: 'en',
+    language: 'uk',
     timezone: 'UTC',
     autoAreaCalculation: true,
     emailUpdates: false,
@@ -86,7 +86,7 @@ export const userSlice = createSlice({
       state.profile.bio = null;
       state.profile.phoneNumber = null;
       state.profile.avatarUrl = null;
-      state.settings.language = 'en';
+      // state.settings.language = 'uk';
       state.settings.timezone = 'UTC';
       state.settings.autoAreaCalculation = true;
       state.settings.emailUpdates = false;

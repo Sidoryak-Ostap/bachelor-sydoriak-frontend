@@ -1,40 +1,45 @@
 import { useMemo } from 'react';
 import { Sprout, Ruler, TrendingUp, Leaf } from 'lucide-react';
 import StatCard from '@/components/Dashboard/StatCard';
+import { useTranslation } from 'react-i18next';
 
 type CardsProps = {
   totalFields: number;
   totalArea: number;
   averageArea: number;
+  meanNdvi: number;
 };
 
-const Cards = ({ totalFields, totalArea, averageArea }: CardsProps) => {
+const Cards = ({ totalFields, totalArea, averageArea, meanNdvi }: CardsProps) => {
+  const { t, i18n } = useTranslation();
+  const language = i18n.language;
+
   const statCards = useMemo(() => {
     return [
       {
-        label: 'Total Area',
-        val: `${totalArea} ha`,
+        label: t('dashboard.main.totalArea'),
+        val: `${totalArea?.toFixed(2) || '0'} ${language === 'uk' ? 'га' : 'ha'}`,
         icon: Ruler,
         color: 'text-blue-600',
         bg: 'bg-blue-50',
       },
       {
-        label: 'Total Fields',
-        val: totalFields.toString(),
+        label: t('dashboard.main.totalFields'),
+        val: totalFields?.toString() || '0',
         icon: Sprout,
         color: 'text-green-600',
         bg: 'bg-green-50',
       },
       {
-        label: 'Average Area',
-        val: `${averageArea.toFixed(2)} ha`,
+        label: t('dashboard.main.averageArea'),
+        val: `${averageArea?.toFixed(2) || '0'} ${language === 'uk' ? 'га' : 'ha'}`,
         icon: TrendingUp,
         color: 'text-yellow-600',
         bg: 'bg-yellow-50',
       },
       {
-        label: 'Average NDVI',
-        val: `0.68`,
+        label: t('dashboard.main.averageNDVI'),
+        val: meanNdvi?.toFixed(2) || '0',
         icon: Leaf,
         color: 'text-green-600',
         bg: 'bg-green-50',

@@ -10,6 +10,8 @@ type CurrentFieldWeather = {
     wind_speed: number;
     pressure: number;
     rain?: number;
+    icon: string;
+    clouds: number;
   };
   daily: [
     {
@@ -40,9 +42,16 @@ type CurrentFieldWeather = {
   ];
 };
 
-export const getCurrentFieldWeather = async (fieldId: string): Promise<CurrentFieldWeather> => {
+export const getCurrentFieldWeather = async (
+  fieldId: string,
+  language: 'en' | 'uk'
+): Promise<CurrentFieldWeather> => {
   try {
-    const response = await axiosInstance.get(API_ROUTES.WEATHER.GET_CURRENT_WEATHER(fieldId));
+    const response = await axiosInstance.get(API_ROUTES.WEATHER.GET_CURRENT_WEATHER(fieldId), {
+      params: {
+        lang: language,
+      },
+    });
     return response.data;
   } catch (error) {
     throw new Error(getErrorMessage(error));
